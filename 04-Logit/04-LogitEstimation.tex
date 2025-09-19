@@ -1,0 +1,180 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Consider our model from before:
+
+\bigskip{}
+
+\begin{align}
+    u_{i1}-u_{i2}&=(\beta_1-\beta_2)X_i+\gamma (Z_1-Z_2)
+\end{align}
+
+\bigskip{}
+
+\onslide<2->{
+We observe $X_i$, $Z_1$, and $Z_2$
+}
+
+\bigskip{}
+
+\onslide<3->{
+We also observe the choice that was made, $d_i$
+}
+
+\bigskip{}
+
+\onslide<4->{
+We can mathematically express this choice in two different ways:
+
+\begin{itemize}
+    \item[]
+    \item $d_i$ is integer-valued, $d_i \in \{1,\ldots,J\}$; ($J=2$ in this case)
+    \item[]
+    \item $d_{ij}$ is binary, $d_{ij} \equiv 1[d_i = j]$
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\onslide<1->{
+Assuming $\epsilon_1,\epsilon_2 \overset{iid}{\sim} T1EV$ gives the likelihood of choosing 1 and 2:
+
+\begin{align*}
+P_{i1}&=\frac{\exp(u_{i1}-u_{i2})}{1+\exp(u_{i1}-u_{i2})}\\
+P_{i2}&=\frac{1}{1+\exp(u_{i1}-u_{i2})}
+\end{align*}
+
+}
+
+\onslide<2->{
+
+Note: if $\epsilon_1,\epsilon_2 \overset{iid}{\sim} T1EV$ then $\tilde{\epsilon}_1 \sim \text{Logistic}$
+
+\bigskip{}
+
+where $\tilde{\epsilon}_1 \equiv \epsilon_1-\epsilon_2$
+
+}
+
+\bigskip{}
+
+\onslide<3->{
+We can view the event $d_i = j$ as a weighted coin flip
+
+\bigskip{}
+
+This gives us a random variable that follows the Bernoulli distribution
+}
+
+\end{frame}
+
+\begin{frame}
+
+Supposing our sample is of size $N$, the likelihood function is:
+
+\only<1>{
+\begin{align*}
+\mathcal{L}\left(X,Z,d;\beta,\gamma\right)=\prod_{i=1}^N P_{i1}^{d_{i1}} P_{i2}^{d_{i2}}
+\end{align*}
+}
+
+\only<2>{
+\begin{align*}
+\mathcal{L}\left(X,Z,d;\beta,\gamma\right)&=\prod_{i=1}^N P_{i1}^{d_{i1}} P_{i2}^{d_{i2}}\\
+&\\
+&=\prod_{i=1}^N P_{i1}^{d_{i1}}\left[1-P_{i1}\right]^{(1-d_{i1})}
+\end{align*}
+}
+
+\only<3>{
+\begin{align*}
+\mathcal{L}\left(X,Z,d;\beta,\gamma\right)&=\prod_{i=1}^N P_{i1}^{d_{i1}} P_{i2}^{d_{i2}}\\
+&\\
+&=\prod_{i=1}^N P_{i1}^{d_{i1}}\left[1-P_{i1}\right]^{(1-d_{i1})}\\
+&\\
+&=\prod_{i=1}^N \left(\frac{\exp((\beta_1-\beta_2)X_i+\gamma (Z_1-Z_2))}{1+\exp((\beta_1-\beta_2)X_i+\gamma (Z_1-Z_2))}\right)^{d_{i1}}\times\\
+&\quad\quad\,\,\,\,\,\left(\frac{1}{1+\exp((\beta_1-\beta_2)X_i+\gamma (Z_1-Z_2))}\right)^{(1-d_{i1})}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+For many reasons, it's better to maximize the log likelihood function
+
+\bigskip{}
+
+Taking the log gives:
+
+\only<1>{
+\begin{align*}
+\ell\left(X,Z,d;\beta,\gamma\right)&=\sum_{i=1}^N d_{i1}\log P_{i1} + (1-d_{i1}) \log \left(1-P_{i1}\right)
+\end{align*}
+}
+
+\only<2->{
+\begin{align*}
+\ell\left(X,Z,d;\beta,\gamma\right)&=\sum_{i=1}^N d_{i1}\log P_{i1} + (1-d_{i1}) \log \left(1-P_{i1}\right)\\
+&\\
+&=\sum_{i=1}^N \sum_{j=1}^2 d_{ij}\log P_{ij}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Expanding the log likelihood:
+
+\only<1>{
+\begin{align*}
+\ell\left(X,Z,d;\beta,\gamma\right)&=\sum_{i=1}^N \left\{d_{i1}\left[\log \left(\exp (u_{i1}-u_{i2})\right)-\log\left(1 + \exp(u_{i1}-u_{i2})\right)\right]\right.+\\
+&\quad\quad\quad \left.(1-d_{i1}) \left[\log \left(1\right)-\log \left(1 + \exp (u_{i1}-u_{i2})\right)\right]\right\}
+\end{align*}
+}
+
+\only<2>{
+\begin{align*}
+\ell\left(X,Z,d;\beta,\gamma\right)&=\sum_{i=1}^N \left\{d_{i1}\left[\textcolor{purple}{\log} \left(\textcolor{purple}{\exp} (u_{i1}-u_{i2})\right)-\textcolor{teal}{\log\left(1 + \exp(u_{i1}-u_{i2})\right)}\right]\right.+\\
+&\quad\quad\quad \left.(1-d_{i1}) \left[\textcolor{brown}{\log \left(1\right)}-\textcolor{teal}{\log \left(1 + \exp (u_{i1}-u_{i2})\right)}\right]\right\}\\
+&\\
+&=\sum_{i=1}^N \left\{d_{i1} \left[u_{i1}-u_{i2}\right]-\log\left(1+\exp(u_{i1}-u_{i2})\right)\right\}
+\end{align*}
+}
+
+\only<3>{
+\begin{align*}
+\ell\left(X,Z,d;\beta,\gamma\right)&=\sum_{i=1}^N \left\{d_{i1}\left[\log \left(\exp (u_{i1}-u_{i2})\right)-\log\left(1 + \exp(u_{i1}-u_{i2})\right)\right]\right.+\\
+&\quad\quad\quad \left.(1-d_{i1}) \left[\log \left(1\right)-\log \left(1 + \exp (u_{i1}-u_{i2})\right)\right]\right\}
+&\\
+&=\sum_{i=1}^N \left\{d_{i1} \left[u_{i1}-u_{i2}\right]-\log\left(1+\exp(u_{i1}-u_{i2})\right)\right\}
+&\\
+&=\sum_{i=1}^N \left\{d_{i1} \left[(\beta_1-\beta_2)X_i+\gamma (Z_1-Z_2)\right]\right.-\\
+&\quad\quad\quad\left.\log\left(1+\exp((\beta_1-\beta_2)X_i+\gamma (Z_1-Z_2))\right)\right\}
+\end{align*}
+}
+
+\onslide<3->{
+We can then estimate $(\beta_1-\beta_2)$ and $\gamma$ using any nonlinear optimizer
+}
+
+
+\end{frame}
+
+
+\end{document}

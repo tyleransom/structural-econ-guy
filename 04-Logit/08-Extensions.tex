@@ -1,0 +1,108 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Goodness-of-fit typically measured by likelihood ratio index
+
+\bigskip{}
+
+Also commonly called \textbf{McFadden's Pseudo $R^2$}
+
+\bigskip{}
+
+$$\rho = 1 - \frac{LL(\hat{\beta})}{LL(0)}$$
+
+\bigskip{}
+
+\onslide<2->{
+\bigskip{}
+Range: $\rho \in [0, 1]$
+\begin{itemize}
+\item[]
+\item $\rho = 0$: estimated model no better than no model
+\item[]
+\item $\rho = 1$: perfect prediction of all choices
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Unlike regression $R^2$, $\rho$ has no intuitive interpretation between 0 and 1 (i.e. ``pseudo'')
+
+\bigskip{}
+
+\onslide<2->{
+$\rho$ represents the percentage increase in log-likelihood above zero parameters:
+
+$$\rho = \frac{LL(0) - LL(\hat{\beta})}{LL(0)}$$
+}
+
+\bigskip{}
+
+\onslide<3->{
+Valid comparisons require:
+\begin{itemize}
+\item Same dataset
+\item Same choice alternatives
+\item Same $LL(0)$ baseline
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<4->{
+$\uparrow\rho\Rightarrow$ better fit, but unclear meaning of specific values (0.2--0.4 is ``excellent fit'')
+}
+
+\end{frame}
+
+
+\begin{frame}
+
+Another common goodness-of-fit metric is the percent correctly predicted (``accuracy'')
+
+\bigskip{}
+
+This statistic predicts the alternative with highest probability for each individual
+
+\bigskip{}
+
+\onslide<2->{
+\textbf{Key Problems:}
+\begin{itemize}
+\item[]
+\item Contradicts the meaning of choice probabilities
+\item[]
+\item Depends on arbitrary threshold choice (typically 0.5)
+\item[]
+\item Performs poorly with imbalanced choice sets
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<3->{
+Choice probabilities represent expected shares across many repetitions, not individual predictions
+
+\bigskip{}
+
+This approach gives inaccurate market shares and implies perfect information
+}
+
+\end{frame}
+
+
+
+
+\end{document}

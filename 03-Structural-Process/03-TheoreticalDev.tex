@@ -1,0 +1,111 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+
+\begin{document}
+
+
+\begin{frame}\frametitle{}
+Mincer earnings function
+
+\begin{align}
+\log(w_{i}) =& \beta_0 + \beta_1 s_{i} + \beta_2 x_{i} + \beta_3 x^2_{i} + \varepsilon_{i}
+\label{eq:basicmincer}
+\end{align}
+
+\end{frame}
+
+
+
+\begin{frame}\frametitle{}
+Now that we are modeling people's choices, we need to quantify preferences
+
+\begin{align}
+u_1\left(z,c,\eta_1\right) & = f\left(z,c,\eta_1\right) \nonumber \\
+u_2\left(w\left(s,x\right),k,\eta_2\right) & = g\left(w\left(s,x\right),k,\eta_2\right)
+\label{eq:utils}
+\end{align}
+
+\begin{itemize}
+    \item<2-> $z$ is family background
+    \item[]<2->
+    \item<2-> $c$ is schooling costs
+    \item[]<2->
+    \item<2-> $k$ is number of kids in adult household
+    \item[]<2->
+    \item<2-> $\eta_t$ are unobservable preferences [similar to $\varepsilon$ in equation \eqref{eq:basicmincer}]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{}
+And since we are working with a dynamic model, we need to write down the lifetime utility function---with discount factor $\delta \in [0,1)$:
+
+\begin{align}
+V & = u_1\left(z,c,\eta_1\right) + \delta u_2\left(w\left(s,x\right),k,\eta_2\right)
+\label{eq:PDV}
+\end{align}
+
+\begin{itemize}
+    \item<2-> Equations \eqref{eq:basicmincer}--\eqref{eq:PDV} define our model
+    \item[]<2->
+    \item<2-> This model is still \textbf{laughably unrealistic}, but at least we have something
+    \item[]<2->
+    \item<2-> A number of questions remain, but we'll ignore these for now
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{}
+
+Once we've written down the model, it's helpful to classify the different model objects:
+\bigskip{}
+
+
+\begin{columns}<2->
+\begin{column}{0.5\textwidth}
+\textbf{Exogenous variables}
+\begin{itemize}
+    \item family background $(z)$
+    \item schooling costs $(c)$
+    \item children in household $(k)$
+\end{itemize}
+
+\textbf{Endogenous variables}
+\begin{itemize}
+    \item schooling $(s)$
+    \item period-2 work decision
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\bigskip{}
+\bigskip{}
+
+\textbf{Outcome variable}
+\begin{itemize}
+    \item hourly wages $(w)$
+\end{itemize}
+
+\textbf{Unobservables}
+\begin{itemize}
+    \item log wages $(\varepsilon)$
+    \item preferences $(\eta_t)$
+\end{itemize}
+
+\textbf{Model parameters}
+\begin{itemize}
+    \item returns to human capital $(\beta)$
+    \item discount factor $(\delta)$
+    \item other parameters implied by $f(\cdot)$ and $g(\cdot)$
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\end{document}

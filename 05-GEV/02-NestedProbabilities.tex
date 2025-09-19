@@ -1,0 +1,114 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{frame}
+
+We want errors for the red bus and blue bus to be correlated.
+
+\bigskip{}
+
+\textcolor{navy}{Nested logit} allows a nest-specific error:
+
+\begin{align*}
+U_{i,\text{RB}} &= u_{i,\text{RB}} + \nu_{i,\text{Bus}} + \lambda \epsilon_{i,\text{RB}} \\
+U_{i,\text{BB}} &= u_{i,\text{BB}} + \nu_{i,\text{Bus}} + \lambda \epsilon_{i,\text{BB}} \\
+U_{i,\text{C}}  &= u_{i,\text{C}\phantom{C}}  + \nu_{i,\text{Car}} + \lambda \epsilon_{i,\text{C}}
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+where
+\begin{itemize}
+    \item[]
+    \item $\nu_{ik} + \lambda \epsilon_{ij}$ is distributed T1EV (but not i.i.d.!)
+    \item $\epsilon_{ij} \overset{\text{iid}}{\sim}$ T1EV
+    \item $\nu_{ik} \sim C(\lambda)$: conjugate distribution to T1EV, from Cardell (1997)
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+Other considerations:
+
+\begin{itemize}
+   \item[]<2->
+   \item<2-> Within the bus nest: conditional IIA (adding Yellow would maintain ``bus IIA'')
+   \item[]<3->
+   \item<3-> Within any nest: errors correlated through $\nu_{ik}$'s (allows for ``cannibalization'')
+   \item[]<4->
+   \item<4-> IIA between nests (e.g. Car vs. any type of Bus)
+   \item[]<5->
+   \item<5-> But no IIA between cross-nest pairs (e.g. Car vs. Red Bus)
+   \item[]<6->
+   \item<6-> i.e., a 50/50 car/blue bus setting would predict 50/25/25 if red bus introduced
+   \item[]<7->
+   \item[]<7-> (standard multinomial logit would predict 33.3/33.3/33.3)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+Choice probabilities are the key object:
+
+\begin{align*}
+P_{i,\text{C}} &= \frac{\exp(u_{i,\text{C}})}{\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda}+\exp(u_{i,\text{C}})} \\
+\\
+P_{i,\text{RB}} &= \frac{\exp(u_{i,\text{RB}}/\lambda)\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda-1}}{\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda}+\exp(u_{i,\text{C}})}
+\end{align*}
+}
+
+\bigskip{}
+
+\onslide<2->{
+Can factor $P_{i,\text{RB}}$ as:
+}
+
+\onslide<3->{
+\begin{align*}
+P_{i,\text{RB}} &= 
+\underbrace{\frac{\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda}}{\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda}+\exp(u_{i,\text{C}})}}_{\Pr(\text{Bus})}
+\times
+\underbrace{\frac{\exp(u_{i,\text{RB}}/\lambda)}{\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)}}_{\Pr(\text{RB}|\text{Bus})}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+At the top level, nest probabilities take a logit form:
+
+\bigskip{}
+
+\begin{align*}
+P(\text{Bus}) &= 
+\frac{\big(\sum_{j\in \text{Bus}} \exp(u_{ij}/\lambda)\big)^{\lambda}}
+{\big(\sum_{j\in \text{Bus}} \exp(u_{ij}/\lambda)\big)^{\lambda} + \exp(u_{i,\text{C}})} \\
+\\
+P(\text{Car}) &= 
+\frac{\exp(u_{i,\text{C}})}
+{\big(\sum_{j\in \text{Bus}} \exp(u_{ij}/\lambda)\big)^{\lambda} + \exp(u_{i,\text{C}})}
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Note: $\lambda = 1 \Rightarrow$ Multinomial Logit (no correlation); $\lambda\rightarrow 0 \Rightarrow$ Perfect correlation
+}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,235 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+The log likelihood for nested logit can be written as:
+
+\bigskip{}
+
+\begin{align*}
+\ell&=\sum_{i=1}^N\sum_{j=1}^{J}d_{ij}\log(P_{ij})
+\end{align*}
+
+\bigskip{}
+
+\only<2>{
+Decomposing into the nesting structure:
+
+\begin{align*}
+\ell &= \sum_{i=1}^N\left[d_{iC}\log(P_{iC})+\sum_{j\in J_B}d_{ij}\log(P_{iB}P_{ij|B})\right]
+\end{align*}
+}
+
+\only<3>{
+Decomposing into the nesting structure:
+
+\begin{align*}
+\ell &= \sum_{i=1}^N\left[d_{iC}\log(P_{iC})+\sum_{j\in J_B}d_{ij}\log(P_{iB}P_{ij|B})\right]\\
+&\\
+&=\sum_{i=1}^N\left[d_{iC}\log(P_{iC})+\sum_{j\in J_B}d_{ij}\left\{\log(P_{iB})+\log(P_{ij|B})\right\}\right]
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Expanding the likelihood function from the previous slide:
+
+\begin{align*}
+\ell&=\sum_{i=1}^N\Bigg[d_{iC}\log(P_{iC})+(d_{iBB}+d_{iRB})\log(P_{iB})+\sum_{j\in J_B}d_{ij}\log(P_{ij|B})\Bigg]
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Key insight: The likelihood decomposes into separate components that can be estimated sequentially
+}
+
+\end{frame}
+
+\begin{frame}
+
+For sequential estimation, decompose utility as:
+
+\bigskip{}
+
+\begin{align*}
+u_{iRB}&=u_{iB}+u_{iRB|B}
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+With normalizations:
+\begin{align*}
+u_{iC} &= 0\\
+u_{iBB|B} &= 0
+\end{align*}
+}
+
+\onslide<3->{
+We estimate parameters $(\beta_{B},\beta_{RB}, \gamma,\lambda)$ where $\gamma$ corresponds to alternative-specific variables ($Z$'s)
+}
+
+\end{frame}
+
+\begin{frame}
+
+The normalizations imply:
+
+\begin{align*}
+u_{iC}&=0\\
+u_{iBB}&=\beta_{B}X_{i}+\gamma (Z_{BB}-Z_{C})\\
+u_{iRB}&=(\beta_{B}+\beta_{RB})X_{i}+\gamma (Z_{RB}-Z_{C})
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Stage 1: Estimate $\beta_{RB}$ and $\gamma$ using only observations that chose bus ($N_B$):
+
+\begin{align*}
+\ell_1&=\sum_{i=1}^{N_B}\left\{ d_{iRB}\left[\frac{u_{iRB|B}}{\lambda}\right]-\log\left(1+\exp\left(\frac{u_{iRB|B}}{\lambda}\right)\right)\right\}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Define the inclusive value $I_{iB}$:
+
+\begin{align*}
+I_{iB}&=\log\left(1+\exp\left(\frac{u_{iRB|B}}{\lambda}\right)\right)
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+This allows us to rewrite the nest probability term as:
+
+\begin{align*}
+\left[\exp\left(\frac{u_{iBB}}{\lambda}\right)+\exp\left(\frac{u_{iRB}}{\lambda}\right)\right]^{\lambda}&=
+\exp\left(\frac{u_{iBB}}{\lambda}\right)\left[1+\exp\left(\frac{u_{iRB|B}}{\lambda}\right)\right]^{\lambda}\\
+&=\exp\left(\frac{u_{iBB}}{\lambda}+\lambda I_{iB}\right)
+\end{align*}
+}
+
+\onslide<3->{
+Note: $\lambda I_{iB}$ represents the expected utility associated with the bus nest
+}
+
+\end{frame}
+
+\begin{frame}
+
+Stage 2: Estimate $\beta_B$ and $\lambda$ using the inclusive value from Stage 1:
+
+\begin{align*}
+\ell_2&=\sum_i\left\{ d_{iB}\left[\frac{u_{iBB}}{\lambda}+\lambda I_{iB}\right]-\log\left(1+\exp\left(\frac{u_{iBB}}{\lambda}+\lambda I_{iB}\right)\right)\right\}
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+This sequential estimation works because the log likelihood is additively separable:
+
+\begin{align*}
+\log(P_{iB}(\beta_{B},\beta_{RB},\gamma,\lambda))&+\log(P_{iRB|B}(\beta_{RB},\gamma))
+\end{align*}
+}
+
+\onslide<3->{
+Parameters $\beta_{RB}$ and $\gamma$ are identified using only within-nest variation
+
+\bigskip{}
+Then we treat them as given when estimating between-nest parameters $\beta_B$ and $\lambda$
+}
+
+\end{frame}
+
+
+\begin{frame}
+
+Instead of sequential estimation, can estimate all parameters simultaneously (FIML):
+
+\begin{align*}
+\ell(\beta_B, \beta_{RB}, \gamma, \lambda) &= \sum_{i=1}^N\sum_{j=1}^{J}d_{ij}\log(P_{ij})
+\end{align*}
+
+\onslide<2->{
+Where the choice probabilities are:
+\begin{align*}
+P_{ij} &= \Pr(\text{nest}) \times \Pr(j|\text{nest})
+\end{align*}
+}
+
+\onslide<3->{
+e.g.
+\begin{align*}
+P_{i,\text{RB}} &= 
+\underbrace{\frac{\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda}}{\big[\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)\big]^{\lambda}+\exp(u_{i,\text{C}})}}_{\Pr(\text{Bus})}
+\times
+\underbrace{\frac{\exp(u_{i,\text{RB}}/\lambda)}{\exp(u_{i,\text{RB}}/\lambda)+\exp(u_{i,\text{BB}}/\lambda)}}_{\Pr(\text{RB}|\text{Bus})}
+\end{align*}
+}
+\end{frame}
+
+\begin{frame}
+\onslide<1->{
+Advantages of FIML:
+\begin{itemize}
+\item[]
+\item Asymptotically efficient (achieves Cram\'{e}r-Rao lower bound)
+\item[]
+\item Provides correct standard errors in one step
+\item[]
+\item Allows for joint hypothesis testing across stages
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<2->{
+Disadvantages of FIML:
+\begin{itemize}
+\item[]
+\item Computationally more demanding
+\item[]
+\item Less stable convergence (especially for $\lambda$ near boundary)
+\item[]
+\item Requires good starting values
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Further considerations:
+
+\begin{itemize}
+\item[]<1->
+\item<1-> Log-likelihood function is not globally concave
+\item[]<2->
+\item<2-> Common parameters across submodels estimated separately in sequential approach
+\item[]<3->
+\item<3-> FIML automatically enforces equality constraints
+\item[]<4->
+\item<4-> Must satisfy $0 < \lambda_k \leq 1$ for model to be consistent with utility maximization
+\end{itemize}
+
+
+\end{frame}
+
+\end{document}

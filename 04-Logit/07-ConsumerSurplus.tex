@@ -1,0 +1,106 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\begin{document}
+
+\begin{frame}
+Expected utility for individual $i$ choosing the best alternative:
+\bigskip{}
+\begin{align*}
+V_i &= \mathbb{E}\max_{j}(u_{ij}+\epsilon_{ij})
+\end{align*}
+\bigskip{}
+\onslide<2->{
+For multinomial logit, this has a closed form:
+\begin{align*}
+V_i &= \log\left(\sum_{j=1}^J\exp(u_{ij})\right) + C
+\end{align*}
+where $C$ is Euler's constant ($\approx 0.57721$)
+}
+\end{frame}
+
+\begin{frame}
+Alternative expression for expected utility:
+\only<1>{
+\begin{align*}
+V_i &= \log\left(\sum_{j=1}^J\frac{\exp(u_{iJ})\exp(u_{ij})}{\exp(u_{iJ})}\right) + C
+\end{align*}
+}
+\only<2>{
+\begin{align*}
+V_i &= \log\left(\sum_{j=1}^J\frac{\exp(u_{iJ})\exp(u_{ij})}{\exp(u_{iJ})}\right) + C\\
+&\\
+&= \log\left(\sum_{j=1}^J\exp(u_{ij}-u_{iJ})\right) + u_{iJ} + C
+\end{align*}
+}
+\only<3->{
+\begin{align*}
+V_i &= \log\left(\sum_{j=1}^J\frac{\exp(u_{iJ})\exp(u_{ij})}{\exp(u_{iJ})}\right) + C\\
+&\\
+&= \log\left(\sum_{j=1}^J\exp(u_{ij}-u_{iJ})\right) + u_{iJ} + C\\
+&\\
+&= \log\left(1+\sum_{j=1}^{J-1}\exp(u_{ij}-u_{iJ})\right) + u_{iJ} + C
+\end{align*}
+}
+\bigskip{}
+\onslide<4->{
+This representation becomes useful for dynamic discrete choice models
+}
+\end{frame}
+
+\begin{frame}
+Consumer surplus measures utility in dollar terms
+\bigskip{}
+
+\onslide<1->{
+Suppose utility is: $u_{ij} = \beta_j X_i + \gamma Z_j - \delta p_j$
+\bigskip{}
+
+The price coefficient $\delta$ provides utils-to-dollars conversion
+}
+\bigskip{}
+
+\onslide<2->{
+Expected consumer surplus becomes:
+\begin{align*}
+E(CS_i) &= \frac{1}{\delta} \mathbb{E}\max_j(u_{ij} + \epsilon_{ij})
+\end{align*}
+}
+
+\onslide<3->{
+Under logit assumptions:
+\begin{align*}
+E(CS_i) &= \frac{1}{\delta}\log\left(\sum_{j=1}^J \exp(u_{ij})\right) + C
+\end{align*}
+}
+\end{frame}
+
+
+
+\begin{frame}
+How to compute the change in consumer surplus from policy analysis?
+\bigskip{}
+
+Calculate $E(CS_i)$ before and after the change:
+\onslide<2->{
+\begin{align*}
+\Delta E(CS_i) &= \frac{1}{\delta}\left[\log\left(\sum_{j=1}^{J_1} \exp\left(u_{ij}^1\right)\right) - \log\left(\sum_{j=1}^{J_0} \exp\left(u_{ij}^0\right)\right)\right]
+\end{align*}
+where superscripts 0 and 1 refer to before and after
+}
+
+\begin{itemize}
+    \item[]
+    \item<3-> Euler's constant $C$ cancels out in the difference
+    \item[]
+    \item<3-> Number of alternatives $J$ can change (e.g., new transport mode added)
+\end{itemize}
+
+
+\end{frame}
+
+\end{document}

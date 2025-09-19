@@ -1,0 +1,63 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+
+\begin{document}
+
+
+
+\begin{frame}
+
+Most structural models require \textit{nonlinear estimation}
+
+\begin{itemize}
+\item[]
+\item e.g. MLE, GMM or their simulated counterparts
+\item[]
+\item In nonlinear optimization, starting values are crucial
+\item[]
+\item Initializing at random starting values is likely to give poor results
+\end{itemize}
+
+    
+\end{frame}
+
+
+
+
+\begin{frame}
+It's important to start simple
+
+\begin{itemize}
+\item[]
+\item Try to calibrate values of all intercept parameters $(\beta_0,\alpha_0,\gamma_0)$
+\item[]
+\item See if you can get them to match avg. log wages, avg. schooling rate
+\item[]
+\item Then add more parameters and compare with more moments of the data
+\item[]
+\item This helps with starting values as well as verifying estimation performance
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+Other tips:
+
+\begin{itemize}
+\item[]
+\item Estimate a model that only has intercepts in each equation
+\item[]
+\item Verify estimates are identical across computing software products (e.g. Julia, R)
+\item[]
+\item Look at code from similar papers that have been published
+\end{itemize}
+
+
+\end{frame}
+
+\end{document}

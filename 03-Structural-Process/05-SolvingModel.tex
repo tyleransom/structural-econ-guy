@@ -1,0 +1,102 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+
+\begin{document}
+
+
+
+\begin{frame}\frametitle{}
+Lifetime utility function:
+
+\begin{align*}
+V & = u_1\left(z,c,\eta_1\right) + \delta u_2\left(w\left(s,x\right),k,\eta_2\right)
+\label{eq:PDV}
+\end{align*}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+
+
+
+\begin{align*}
+\varepsilon &\sim \text{Normal}, \quad \eta_k \sim \text{Logistic} \\
+& \\
+u_{i1} &= \alpha_0 + \alpha_1 \text{parent\_college} + \alpha_2 \text{efc} + \eta_1 \\
+& \\
+u_{i2} &= \gamma_0 + \gamma_1 \mathbb{E} \log w_i + \gamma_2 \text{numkids} + \eta_2 \\
+& \\
+\log(w_{i}) &= \beta_0 + \beta_1 s_{i} + \beta_2 x_{i} + \beta_3 x^2_{i} + \varepsilon_{i}
+\end{align*}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+$i$ chooses schooling $s_i \in \{0,1\}$ to maximize lifetime utility:
+
+\begin{align*}
+\max_{s_i} V_i(s_i) &= u_{i1} + \delta \cdot u_{i2}(s_i)
+\end{align*}
+where
+\begin{align*}
+u_{i1} &= \alpha_0 + \alpha_1 \text{parent\_college}_i + \alpha_2 \text{efc}_i + \eta_{i1} \\
+&\\
+u_{i2}(s_i) &= \gamma_0 + \gamma_1 \mathbb{E}[\log w_i | s_i] + \gamma_2 \text{numkids}_i + \eta_{i2}
+\end{align*}
+
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Expected log wage depends on first-period schooling choice:
+
+\begin{align*}
+\mathbb{E}[\log w_i | s_i = 0] &= \beta_0 + 0\phantom{_1}    + \beta_2 (\text{age}_i - 18) + \beta_3 (\text{age}_i - 18)^2 \\
+&\\
+\mathbb{E}[\log w_i | s_i = 1] &= \beta_0 + \beta_1 + \beta_2 (\text{age}_i - 22) + \beta_3 (\text{age}_i - 22)^2
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+Solving the model means finding the optimal schooling decision in period 1
+\bigskip{}
+\bigskip{}
+\bigskip{}
+
+$i$ chooses college if:
+$$V_i(1) > V_i(0)$$
+
+\bigskip{}
+\bigskip{}
+\bigskip{}
+
+This doesn't have a closed-form solution because it depends on the $\eta_{i1}$ and $\eta_{i2}$ errors
+
+\bigskip{}
+\bigskip{}
+\bigskip{}
+
+But we can express optimal decisions probabilistically
+
+\end{frame}
+
+
+
+\end{document}

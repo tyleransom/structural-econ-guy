@@ -1,0 +1,72 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+
+\begin{document}
+
+\begin{frame}
+
+We model your utility from restaurant $j$ as:
+
+\begin{align}
+    U_{ij} &= u_{ij} + \epsilon_{ij}
+\end{align}
+where:
+\begin{itemize}
+\item[]<2->
+\item<2-> $u_{ij}$ captures \textbf{observable factors}: price, distance, cuisine type, Yelp rating
+\item[]<2->
+\item<3-> $\epsilon_{ij}$ captures \textbf{unobservable factors}: mood, cravings, things we can't measure
+\item[]<3->
+\item<4-> Perhaps $u_{\text{Thai}} = -2 \times price + 3 \times Yelp\_rating - 0.5 \times travel\_time$
+\item[]<4->
+\item<5-> But $\epsilon_{\text{Thai}}$ might be positive tonight because you're craving spice
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+You choose restaurant $j$ if and only if:
+
+\begin{align}
+   \onslide<1->{U_{ij} > U_{ik} &\text{ for all } k \neq j \\}
+   \onslide<2->{&\Updownarrow\nonumber\\}
+   \onslide<2->{u_{ij} + \epsilon_{ij} > u_{ik} + \epsilon_{ik} &\text{ for all } k \neq j}
+\end{align}
+
+\onslide<3->{\bigskip{}
+
+Since we (data analysts) can't observe your $\epsilon$'s, we have to think probabilistically:
+\begin{align}
+P_{ij} &= \text{Pr}(U_{ij} > U_{ik} \text{ for all } k \neq j)
+\end{align}}
+
+\onslide<4->{\bigskip{}
+
+How many times out of 100 would someone choose Thai given identical observables?}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Three key properties of choice sets:
+
+\begin{itemize}
+\item[]
+\item \textbf{Finite}: You can't choose from an infinite number of restaurants (i.e., ``discrete'')
+\item[]
+\item \textbf{Mutually exclusive}: You can eat at only one restaurant tonight
+\item[]
+\item \textbf{Exhaustive}: These are the complete set of realistic options
+\end{itemize}
+
+\end{frame}
+
+\end{document}

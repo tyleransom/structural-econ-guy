@@ -1,0 +1,71 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+
+\begin{frame}
+
+Adding more choices with i.i.d. T1EV errors yields the \textbf{multinomial logit model}
+
+\bigskip{}
+
+\onslide<2->{
+Normalizing with respect to alternative $J$ we have (for $j\in\{1,\ldots,J-1\}$):
+
+\begin{align}
+    u_{ij}-u_{iJ}=(\beta_j-\beta_J)X_i+\gamma (Z_j-Z_{J})
+\end{align}
+}
+
+\bigskip{}
+
+\onslide<3->{
+We observe $X_i, Z_1, \ldots, Z_J$, and $d_i$
+}
+
+\end{frame}
+
+\begin{frame}
+
+The likelihood of choosing $j$ and $J$ respectively is:
+
+\begin{align*}
+P_{ij}&=\frac{\exp(u_{ij}-u_{iJ})}{1+\sum_{k=1}^{J-1}\exp(u_{ik}-u_{iJ})}\\
+&\\
+P_{iJ}&=\frac{1}{1+\sum_{k=1}^{J-1}\exp(u_{ik}-u_{iJ})}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+
+The log likelihood function we maximize is:
+
+\only<1>{
+\begin{align*}
+\ell(X,Z,d;\beta,\gamma)&=\sum_{i=1}^N\left[\sum_{j=1}^{J-1}(d_{ij}=1)(u_{ij}-u_{iJ})\right]-\\
+&\quad\quad \quad\,\log\left(1+\sum_{k=1}^{J-1}\exp(u_{ik}-u_{iJ})\right)
+\end{align*}
+}
+
+\only<2>{
+\begin{align*}
+\ell(X,Z,d;\beta,\gamma)&=\sum_{i=1}^N\left[\sum_{j=1}^{J-1}(d_{ij}=1)(u_{ij}-u_{iJ})\right]-\\
+&\quad\quad \quad\,\log\left(1+\sum_{k=1}^{J-1}\exp(u_{ik}-u_{iJ})\right)\\
+&\\
+&=\sum_{i=1}^N\sum_{j=1}^J d_{ij}\log \left(P_{ij}\right)
+\end{align*}
+}
+
+
+\end{frame}
+
+
+\end{document}

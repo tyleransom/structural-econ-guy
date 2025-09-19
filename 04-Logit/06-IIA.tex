@@ -1,0 +1,152 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Independence of Irrelevant Alternatives (IIA)
+
+\bigskip{}
+
+One property of multinomial logit: $P_{ij}/P_{ik}$ does not depend on other alternatives
+
+\bigskip{}
+
+\onslide<2->{
+\begin{align*}
+\frac{P_{ij}}{P_{ik}} &= \frac{e^{u_{ij}}/\sum_{m}e^{u_{im}}}{e^{u_{ik}}/\sum_{m}e^{u_{im}}}\\
+&\\
+&= \frac{e^{u_{ij}}}{e^{u_{ik}}}\\
+&\\
+&= e^{u_{ij}-u_{ik}}
+\end{align*}
+}
+
+\onslide<3->{
+\textbf{Economic meaning:} All alternatives are equally substitutable
+}
+
+\end{frame}
+
+\begin{frame}
+
+Advantage of IIA: Enables choice-based sampling
+
+\onslide<1->{
+\begin{align*}
+P_{ij} = \frac{\exp(u_{ij})}{\sum_{k=1}^J\exp(u_{ik})}
+\end{align*}
+}
+
+\onslide<2->{
+Can estimate using conditional likelihood $P_i(j|j\in \{1,\ldots,K\})$ where $K < J$
+}
+
+\onslide<3->{
+\begin{align*}
+\ell(\beta,\gamma|d_i\in \{1,\ldots,K\}) &= \sum_{i=1}^N\left[\sum_{j=1}^{K-1}(d_{ij}=1)(u_{ij}-u_{iK})\right]\\
+&\quad - \log\left(1+\sum_{k=1}^K\exp(u_{ik}-u_{iK})\right)
+\end{align*}
+}
+
+\onslide<4->{
+\bigskip{}
+\textbf{Practical use:} Oversample rare choices without bias
+}
+
+\end{frame}
+
+\begin{frame}
+
+Disadvantage: Proportional substitution problem
+
+\bigskip{}
+
+\onslide<1->{
+Suppose there are two ways for someone to go to work: Car or Blue Bus
+}
+
+\bigskip{}
+
+\onslide<2->{
+Initial shares: Car 50\%, Blue bus 50\%
+}
+
+\bigskip{}
+
+\onslide<3->{
+Now let's add an identical red bus ... what would you intuit the new shares to be?
+}
+
+\onslide<4->{
+\bigskip{}
+
+\textbf{Logit prediction:} Car 33\%, Blue bus 33\%, Red bus 33\%
+
+\bigskip{}
+}
+
+\onslide<5->{
+\textbf{Reality:} Car 50\%, Blue bus 25\%, Red bus 25\%
+
+\bigskip{}
+}
+
+\onslide<6->{
+\textbf{Problem:} IIA assumes car and buses equally substitutable
+}
+
+\end{frame}
+
+\begin{frame}
+
+Economic significance
+
+\bigskip{}
+
+
+Suppose people drive 1 of 3 types of cars and there's a subsidy for electric cars:
+\only<1>{
+\begin{itemize}
+\item Large gas cars: 66\% $\rightarrow$ ?
+\item Small gas cars: 33\% $\rightarrow$ ?
+\item Electric cars: 1\% $\rightarrow$ 10\%
+\end{itemize}
+}
+
+\onslide<2->{
+\begin{itemize}
+\item Large gas cars: 66\% $\rightarrow$ 60\%
+\item Small gas cars: 33\% $\rightarrow$ 30\%  
+\item Electric cars: 1\% $\rightarrow$ 10\%
+\end{itemize}
+}
+
+\onslide<2->{
+\bigskip{}
+
+\textbf{Logit assumption:} Large and small gas cars lose share proportionally
+}
+
+\onslide<3->{
+\bigskip{}
+
+\textbf{Reality:} Electric cars compete more with small gas cars
+}
+
+\onslide<4->{
+\bigskip{}
+
+\textbf{Policy implication:} Overestimates gas savings from subsidy
+}
+
+\end{frame}
+
+\end{document}

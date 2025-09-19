@@ -1,0 +1,95 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+One solution to the homogeneity problem is to add interaction terms
+
+\bigskip{}
+
+Suppose we have a 2-option commute model, where $X_i$ is student status and $Z$ is price:
+
+\only<1>{
+\bigskip{}
+\bigskip{}
+
+\begin{align*}
+u_{i,bus}&=\beta_1 X_i + \gamma Z_1\\
+u_{i,car}&=\beta_2 X_i + \gamma Z_2
+\end{align*}
+}
+
+\onslide<2->{
+\bigskip{}
+
+We could introduce heterogeneity in $\gamma$ by interacting $Z_j$ with $X_i$:
+
+\begin{align*}
+u_{i,bus}&=\beta_1 X_i + \widetilde{\gamma} Z_1 X_i\\
+u_{i,car}&=\beta_2 X_i + \widetilde{\gamma} Z_2 X_i
+\end{align*}
+}
+
+\onslide<3->{
+Now a change in $Z_j$ will have a heterogeneous impact on utility depending on $X_i$
+
+\bigskip{}
+
+e.g. students $(X_i=1)$ may be more/less sensitive to changes in price $(Z_j)$
+}
+
+\end{frame}
+
+\begin{frame}
+
+Observable preference heterogeneity can be useful
+
+\bigskip{}
+
+\onslide<2->{
+But many dimensions of preferences are likely unobserved
+
+\bigskip{}
+
+In this case, we need to ``interact'' $Z$ with something unobserved
+}
+
+\bigskip{}
+
+\onslide<3->{
+One way to do this is to assume that $\beta$ or $\gamma$ varies across people
+
+\bigskip{}
+
+Assume some distribution for $\beta$ or $\gamma$ (e.g. Normal), called the \textcolor{navy}{mixing distribution}
+}
+
+\bigskip{}
+
+\onslide<4->{
+Then integrate this out of the likelihood function
+}
+
+\bigskip{}
+
+\onslide<5->{
+Coefficients that are ``mixed'' are called \textcolor{navy}{random coefficients}
+}
+
+\bigskip{}
+
+\onslide<5->{
+Models with discrete mixing distributions: \textcolor{navy}{latent class models} or \textcolor{navy}{finite mixture models}
+}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,104 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Finite mixture distributions offer an alternative to mixed logit models
+
+\bigskip{}
+
+\onslide<2->{
+Assume mixing distribution is discrete with finite support, indep. other variables
+
+\bigskip{}
+}
+
+\onslide<3->{
+Let $\pi_s$ denote the population probability of being in the $s$th unobserved group
+
+\bigskip{}
+}
+
+\onslide<4->{
+The log likelihood integrates over unobserved groups:
+}
+
+\onslide<5->{
+\begin{align*}
+\ell\left(X,Z;\beta,\gamma,\pi\right)=&\sum_{i=1}^N \log\left\{\sum_{s}\pi_s\prod_{j}\left[\frac{\exp\left(X_{i}\left(\beta_{j}-\beta_{J}\right)+\gamma_{s}\left(Z_{ij}-Z_{iJ}\right)\right)}{\sum_k \exp\left(X_{i}\left(\beta_{k}-\beta_{J}\right)+\gamma_{s}\left(Z_{ik}-Z_{iJ}\right)\right)}\right]^{d_{ij}}\right\}
+\end{align*}
+}
+
+
+\end{frame}
+
+\begin{frame}
+
+Need panel data for identification
+
+\bigskip{}
+
+\onslide<2->{
+Assume $\gamma$ is stable over time
+}
+
+\bigskip{}
+
+\onslide<3->{
+Finite mixture log likelihood:
+}
+
+\onslide<3->{
+\begin{align*}
+\ell\left(X,Z;\beta,\gamma,\pi\right)=&\sum_{i=1}^N \log\left\{\sum_{s}\pi_s\prod_{t}\prod_{j}\left[\frac{\exp\left(X_{it}\left(\beta_{j}-\beta_{J}\right)+\gamma_{s}\left(Z_{ijt}-Z_{iJt}\right)\right)}{\sum_k \exp\left(X_{it}\left(\beta_{k}-\beta_{J}\right)+\gamma_{s}\left(Z_{ikt}-Z_{iJt}\right)\right)}\right]^{d_{ijt}}\right\}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+Finite mixture log likelihood:
+}
+
+\onslide<1->{
+\begin{align*}
+\ell\left(X,Z;\beta,\gamma,\pi\right)=&\sum_{i=1}^N \log\left\{\sum_{s}\pi_s\prod_{t}\prod_{j}\left[\frac{\exp\left(X_{it}\left(\beta_{j}-\beta_{J}\right)+\gamma_{s}\left(Z_{ijt}-Z_{iJt}\right)\right)}{\sum_k \exp\left(X_{it}\left(\beta_{k}-\beta_{J}\right)+\gamma_{s}\left(Z_{ikt}-Z_{iJt}\right)\right)}\right]^{d_{ijt}}\right\}
+\end{align*}
+}
+
+\onslide<2->{
+Mixed logit panel data log likelihood:
+
+{\small
+\begin{align*}
+\ell\left(X,Z;\beta,\gamma,\mu,\sigma\right)=&\sum_{i=1}^N \log\left\{\int\prod_{t}\prod_{j}\left[\frac{\exp\left(X_{it}\left(\beta_{j}-\beta_{J}\right)+\gamma\left(Z_{ijt}-Z_{iJt}\right)\right)}{\sum_k \exp\left(X_{it}\left(\beta_{k}-\beta_{J}\right)+\gamma\left(Z_{ikt}-Z_{iJt}\right)\right)}\right]^{d_{ijt}}f\left(\gamma;\mu,\sigma\right)d\gamma\right\}
+\end{align*}
+}
+}
+
+\bigskip{}
+
+\onslide<3->{
+Key differences:
+}
+
+\begin{itemize}
+    \item[]<4->
+    \item<4-> discrete distribution allows for summation instead of integration
+    \item[]<5->
+    \item<5-> $f(\gamma;\mu,\sigma)d\gamma$ replaced with $\pi_s$
+\end{itemize}
+
+\end{frame}
+
+\end{document}

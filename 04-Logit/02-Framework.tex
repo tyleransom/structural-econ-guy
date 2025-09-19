@@ -1,0 +1,171 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+
+\begin{document}
+
+\begin{frame}
+
+Utility maximization implies
+
+\begin{align}
+   u_{ij} + \epsilon_{ij} > u_{ik} + \epsilon_{ik} &\text{ for all } k \neq j
+\end{align}
+
+\bigskip{}
+\onslide<2->{
+With the $\epsilon$'s unobserved, the probability of $i$ making choice $j$ is given by:
+
+\begin{align}
+P_{ij} &= \text{Pr}(u_{ij} + \epsilon_{ij} > u_{ij'} + \epsilon_{ij'} \; \forall \; j' \neq j) \nonumber\\
+&\nonumber\\
+&= \text{Pr}(\epsilon_{ij'} - \epsilon_{ij} < u_{ij} - u_{ij'} \; \forall \; j' \neq j) \label{eq:probs}\\
+&\nonumber\\
+&= \int_{\epsilon} I(\epsilon_{ij'} - \epsilon_{ij} < u_{ij} - u_{ij'} \; \forall \; j' \neq j) f(\epsilon) d\epsilon\nonumber
+\end{align}
+}
+\end{frame}
+
+
+
+\begin{frame}
+Regardless of the distribution of the $\epsilon$'s, probabilities don't change when we:
+
+\begin{itemize}
+\item[]
+\item Add a constant to the utility of all options
+\item[]\qquad\qquad or
+\item Multiply by a positive number
+\end{itemize}
+
+\bigskip{}
+\onslide<2->{Thus, we need to make some normalizations to identify preferences:
+
+\begin{itemize}
+\item[]
+\item Only \textit{differences} in utility matter (location normalization)
+\item[]
+\item We need to scale the variance of the $\epsilon$'s (scale normalization)
+\end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+\onslide<1->{
+Suppose we have two options with the following observable utilities:
+\begin{align*}
+u_{i1} &= \alpha Tall_i + \beta_1 X_i + \gamma Z_1 \\
+u_{i2} &= \alpha Tall_i + \beta_2 X_i + \gamma Z_2
+\end{align*}
+}
+
+\onslide<2->{
+Since only differences in utility matter:
+\begin{align*}
+u_{i1} - u_{i2} &= (\beta_1 - \beta_2) X_i + \gamma (Z_1 - Z_2)
+\end{align*}
+}
+
+\onslide<3->{
+\begin{itemize}
+\item[]
+\item We can't tell whether tall people are happier (overall) than short people, but we can tell whether they more strongly prefer one option
+\item[]
+\item We can only obtain \textit{differenced} coefficient estimates on $X$'s
+\item[]
+\item We can only obtain an estimate of a coefficient that is constant across choice alternatives if its corresponding variable varies by alternative
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+Because only differences in utility matter, we end up having one fewer dimension of $\epsilon$
+
+\bigskip{}
+\bigskip{}
+
+Rewriting the last line of \eqref{eq:probs} as a $J-1$ dimensional integral over the \textit{differenced} $\epsilon$'s:
+
+\begin{align}
+P_{ij} &= \int_{\tilde{\epsilon}} I(\tilde{\epsilon}_{ij'} < \tilde{u}_{ij'} \; \forall \; j' \neq j) g(\tilde{\epsilon}) d\tilde{\epsilon} \tag{4}
+\end{align}
+where
+$\tilde{\epsilon}_j \equiv \epsilon_j - \epsilon_J$, etc. ($J$ is reference alternative)
+\bigskip{}
+
+
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\begin{itemize}
+\item[]
+\item The need to normalize scale means we can never estimate the variance of $G(\tilde{\epsilon})$
+\item[]
+\item This contrasts with linear regression models, where we can easily estimate MSE
+\item[]
+\item<2-> The scale normalization means our $\beta$'s and $\gamma$'s are implicitly divided by an unknown variance term:
+\end{itemize}
+\vspace{-0.4cm}
+
+\onslide<3->{
+\begin{align*}
+u_{i1} - u_{i2} &= (\beta_1 - \beta_2) X_i + \gamma (Z_1 - Z_2) \\
+&= \tilde{\beta} X_i + \gamma \tilde{Z} \\
+&= \frac{\beta^*}{\sigma} X_i + \frac{\gamma^*}{\sigma} \tilde{Z}
+\end{align*}
+
+$\tilde{\beta}$ is what we estimate, but we will never know $\beta^*$ because utility is scale-invariant
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+\renewcommand{\arraystretch}{0.8}
+\begin{table}
+\centering
+\begin{tabular}{lccc}
+\toprule
+                       & (1)    & (2)    & (3) \\
+\midrule
+Price (\$)              & -0.145 & -0.112 & -0.098 \\
+                       & (0.023) & (0.028) & (0.031) \\
+Distance (miles)        &        & -0.067 & -0.054 \\
+                       &        & (0.015) & (0.018) \\
+Weekend                 &        &        & 0.423 \\
+                       &        &        & (0.089) \\
+\midrule
+$N$                     & 2,456  & 2,456  & 2,456 \\
+Pseudo $R^2$            & 0.142  & 0.198  & 0.234 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\bigskip{}
+
+\textbf{Important:} We cannot directly compare coefficient magnitudes across specifications due to the scale normalization. Each model implicitly rescales coefficients by $1/\sigma$, where $\sigma$ varies with the set of included variables. ($\sigma \downarrow$ as more covariates are included)
+
+\bigskip{}
+
+Instead, use marginal effects for comparison across specifications
+
+\end{frame}
+
+
+
+\end{document}

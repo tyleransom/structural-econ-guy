@@ -1,0 +1,61 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+Recall the inclusive value term from the bus choice model:
+
+\begin{align*}
+I_{iB}&=\log\left(1+\exp\left(\frac{u_{iRB|B}}{\lambda}\right)\right)
+\end{align*}
+
+\bigskip{}
+
+$\lambda I_{iB} + \gamma$  is the expected utility of riding a bus, from the standpoint of the top-level nest
+
+\bigskip{}
+
+Can think of it as the expected value over the $\lambda \epsilon_{ij}$'s within the nest
+
+\end{frame}
+
+\begin{frame}
+
+\bigskip{}
+
+Now we can make an analogy to a dynamic model (with no discounting):
+
+\bigskip{}
+
+\onslide<2->{
+First period: 
+\begin{itemize}
+    \item[]
+    \item Choose bus vs car with extreme value errors for both options
+    \item[]
+    \item Individuals account for future choice $\epsilon$'s if they choose bus (option value)
+\end{itemize}
+}
+\bigskip{}
+
+\onslide<3->{
+Second period: 
+\begin{itemize}
+    \item[]
+    \item Errors distributed TIEV, independent from each other and first period errors
+    \item[]
+    \item Expected value of second period decision is $\lambda I_{iB}$ plus Euler's constant
+\end{itemize}
+}
+
+
+\end{frame}
+
+\end{document}

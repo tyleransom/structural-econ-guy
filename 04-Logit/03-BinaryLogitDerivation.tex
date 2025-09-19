@@ -1,0 +1,142 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Consider a scenario with only two alternatives and $\epsilon$'s that are Type I extreme value
+
+\bigskip{}
+
+$\epsilon_{ij} \overset{\text{iid}}{\sim}$ Standard T1EV with $F(\epsilon) = e^{-e^{-\epsilon}}$ (CDF) and $f(\epsilon) = e^{-\epsilon}e^{-e^{-\epsilon}}$ (PDF)
+
+\bigskip{}
+
+\onslide<2->{
+We want to know the formula for the probability of choosing option 1:
+
+\begin{align*}
+P_{i1} &= \text{Pr}(u_{i1} + \epsilon_{i1} > u_{i2} + \epsilon_{i2})\\
+&\\
+&= \text{Pr}(\epsilon_{i2} - \epsilon_{i1} < u_{i1} - u_{i2})\\
+&\\
+&= \text{Pr}(\epsilon_{i2} < \epsilon_{i1} + u_{i1} - u_{i2})
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Start with the probability as a double integral:
+
+\only<1>{
+\begin{align*}
+P_{i1} &= \iint I(\epsilon_{i2} < \epsilon_{i1} + u_{i1} - u_{i2}) f(\epsilon_{i1}, \epsilon_{i2}) d\epsilon_{i1}d\epsilon_{i2}
+\end{align*}
+}
+
+\only<2->{
+\begin{align*}
+P_{i1} &= \iint I(\epsilon_{i2} < \epsilon_{i1} + u_{i1} - u_{i2}) \underbrace{f(\epsilon_{i1}, \epsilon_{i2})}_{f(\epsilon_{i1}) f(\epsilon_{i2})} d\epsilon_{i1}d\epsilon_{i2}
+\end{align*}
+}
+
+\onslide<3->{
+So we can separate the integrals:
+}
+
+\only<3>{
+\begin{align*}
+P_{i1} &= \int f(\epsilon_{i1}) \left[\int I(\epsilon_{i2} < \epsilon_{i1} + u_{i1} - u_{i2}) f(\epsilon_{i2}) d\epsilon_{i2}\right] d\epsilon_{i1}
+\end{align*}
+}
+
+\onslide<4->{
+\begin{align*}
+P_{i1} &= \int f(\epsilon_{i1}) \underbrace{\left[\int I(\epsilon_{i2} < \epsilon_{i1} + u_{i1} - u_{i2}) f(\epsilon_{i2}) d\epsilon_{i2}\right]}_{\text{CDF of }\epsilon_{i2}} d\epsilon_{i1}
+\end{align*}
+}
+
+\onslide<5->{
+\begin{align*}
+&= \int_{-\infty}^{\infty} F(\epsilon_{i1} + u_{i1} - u_{i2}) f(\epsilon_{i1}) d\epsilon_{i1}
+\end{align*}
+}
+\end{frame}
+
+
+\begin{frame}
+
+Substituting in the formulas for $F(\cdot)$ and $f(\cdot)$:
+
+\only<1>{
+\begin{align*}
+P_{i1} &= \int_{-\infty}^{\infty} \underbrace{e^{-e^{-(\epsilon_{i1} + u_{i1} - u_{i2})}}}_{\text{T1EV CDF}} \underbrace{e^{-e^{-\epsilon_{i1}}} e^{-\epsilon_{i1}}}_{\text{T1EV PDF}}d\epsilon_{i1}
+\end{align*}
+}
+
+\only<2-3>{
+\begin{align*}
+P_{i1} &= \int_{-\infty}^{\infty} \textcolor{purple}{e}^{\textcolor{purple}{-e}^{\textcolor{purple}{-}(\textcolor{purple}{\epsilon_{i1}} + u_{i1} - u_{i2})}} \textcolor{purple}{e^{-e^{-\epsilon_{i1}}}} e^{-\epsilon_{i1}}d\epsilon_{i1}
+\end{align*}
+}
+
+\only<4->{
+\begin{align*}
+P_{i1} &= \int_{-\infty}^{\infty} e^{-e^{-(\epsilon_{i1} + u_{i1} - u_{i2})}} e^{-e^{-\epsilon_{i1}}} e^{-\epsilon_{i1}}d\epsilon_{i1}
+\end{align*}
+}
+
+\only<3>{
+\begin{align*}
+\phantom{P_{i1}\,\,\,\,\,\,\,\,\,}&= \int_{-\infty}^{\infty} \exp\left(-e^{-\epsilon_{i1}}[e^{u_{i2}-u_{i1}} + 1]\right) e^{-\epsilon_{i1}} d\epsilon_{i1}
+\end{align*}
+}
+
+\only<4->{
+\begin{align*}
+\phantom{P_{i1}\,\,\,\,\,\,\,\,\,}&= \int_{-\infty}^{\infty} \exp\left(\textcolor{brown}{-e^{-\epsilon_{i1}}}[e^{u_{i2}-u_{i1}} + 1]\right) \textcolor{teal}{e^{-\epsilon_{i1}} d\epsilon_{i1}}
+\end{align*}
+}
+
+\bigskip{}
+\onslide<4->{
+Substitution: $\textcolor{brown}{t = e^{-\epsilon_{i1}}}$, so $\textcolor{teal}{dt = -e^{-\epsilon_{i1}}d\epsilon_{i1}}$
+
+\bigskip{}
+
+Bounds: $\epsilon_{i1}: -\infty \to \infty$ becomes $t: \infty \to 0$
+}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+\onslide<1->{
+After substitution:
+}
+\begin{align*}
+\onslide<1->{P_{i1} &= \int_{\infty}^{0} \exp\left(-t[e^{u_{i2}-u_{i1}} + 1]\right) (-dt)\\}
+\onslide<2->{&= \int_{0}^{\infty} \exp\left(-t[e^{u_{i2}-u_{i1}} + 1]\right) dt\\}
+\onslide<3->{&= \left.\frac{\exp\left(-t[e^{u_{i2}-u_{i1}} + 1]\right)}{-[e^{u_{i2}-u_{i1}} + 1]}\right|_{0}^{\infty}\\}
+\onslide<4->{&= 0 - \frac{1}{-[e^{u_{i2}-u_{i1}} + 1]}\\}
+\onslide<5->{&= \frac{1}{e^{u_{i2}-u_{i1}} + 1}= \frac{e^{u_{i1}}}{e^{u_{i1}} + e^{u_{i2}}}}
+\end{align*}
+
+\onslide<6->{
+This generalizes to $J$ alternatives: $P_{ij} = \frac{e^{u_{ij}}}{\sum_k e^{u_{ik}}}$ (see Train 2009, sec. 3.10)
+}
+\end{frame}
+
+\end{document}

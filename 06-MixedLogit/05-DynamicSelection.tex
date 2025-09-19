@@ -1,0 +1,135 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Dynamic Selection Problem
+
+\bigskip{}
+
+Link choices to outcomes:
+\begin{itemize}
+\item[]
+\item Labor force participation $\to$ earnings
+\item[]
+\item Market entry $\to$ profits
+\end{itemize}
+
+\bigskip{}
+
+\onslide<2->{
+Selection bias: firms choose to enter a market based on unobservable potential profits
+
+\bigskip{}
+
+We can use finite mixture distributions to control for selection
+}
+
+\onslide<3->{
+\bigskip{}
+
+\textcolor{navy}{Assumption:} Selection bias eliminated once we control for unobserved type
+}
+
+\end{frame}
+
+\begin{frame}
+
+Let $Y_{2t}=$ choice, $Y_{1t}=$ outcome, $s$ is unobserved type. Joint likelihood given by
+
+\only<2>{
+\begin{align*}
+\mathcal{L}(Y_{1t},Y_{2t}|X_{1t},X_{2t},\alpha_1,\alpha_2,s) &= \mathcal{L}(Y_{1t}|Y_{2t},X_{1t},\alpha_1,s)\mathcal{L}(Y_{2t}|X_{2t},\alpha_2,s)\\
+&\\
+& \phantom{=\mathcal{L}(Y_{1t}|X_{1t},\alpha_1,s)\mathcal{L}(Y_{2t}|X_{2t},\alpha_2,s)}
+\end{align*}
+}
+
+\onslide<3->{
+\begin{align*}
+\mathcal{L}(Y_{1t},Y_{2t}|X_{1t},X_{2t},\alpha_1,\alpha_2,s) &= \mathcal{L}(Y_{1t}|Y_{2t},X_{1t},\alpha_1,s)\mathcal{L}(Y_{2t}|X_{2t},\alpha_2,s)\\
+&\\
+&= \mathcal{L}(Y_{1t}|X_{1t},\alpha_1,s)\mathcal{L}(Y_{2t}|X_{2t},\alpha_2,s)
+\end{align*}
+}
+
+\onslide<4->{
+
+Likelihood separable conditional on type $s$, i.e. $Y_{1t} \perp Y_{2t} | X_{1t}, s$
+
+\bigskip{}
+This allows us to move to the second equality above
+}
+
+\end{frame}
+
+\begin{frame}
+
+Suppose $s$ were observed. Then we'd have the log likelihood:
+
+\onslide<2->{
+\begin{align*}
+\ell = \sum_{i}\sum_t \left\{\ell_1(Y_{1t}|X_{1t},\alpha_1,s) + \ell_2(Y_{2t}|X_{2t},\alpha_2,s)\right\}
+\end{align*}
+}
+
+\onslide<3->{
+\bigskip{}
+
+Two-stage estimation:
+\begin{enumerate}
+\item Estimate $\alpha_2$ using only $\ell_2$
+\item Estimate $\alpha_1$ using $\ell_1$ (taking $\hat{\alpha}_2$ as given, since $\ell_1$ might depend on $\alpha_2$ implicitly)
+\end{enumerate}
+}
+
+\onslide<4->{
+\bigskip{}
+
+Selection bias eliminated once conditioning on $s$ and $X_{1t}$
+}
+
+\end{frame}
+
+\begin{frame}
+
+But when $s$ is unobserved, log likelihood becomes non-separable:
+
+\onslide<2->{
+\begin{align*}
+\ell = \sum_i\log\left(\sum_s\pi_s\prod_t\mathcal{L}(Y_{1t}|X_{1t},\alpha_1,s)\mathcal{L}(Y_{2t}|X_{2t},\alpha_2,s)\right)
+\end{align*}
+}
+
+\onslide<3->{
+\bigskip{}
+
+where the $\pi$'s are the population type probabilities
+}
+
+\onslide<4->{
+\bigskip{}
+
+\textcolor{navy}{Implication:} Cannot estimate parts separately
+
+\bigskip{}
+
+Although conditional independence simplified things a bit
+
+\bigskip{}
+
+Resolving selection problem requires joint estimation of both components
+
+}
+
+\end{frame}
+
+\end{document}
