@@ -1,0 +1,272 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+
+\begin{document}
+
+
+\begin{frame}
+
+Individual $i$'s \textcolor{navy}{flow utility} for option $j$ at time $t$ is:
+
+\bigskip{}
+
+\onslide<2->{
+\begin{align*}
+U_{ijt} &= u_{ijt} + \epsilon_{ijt}\\
+&\\
+&= X_{it}\alpha_j + \epsilon_{ijt}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Individual $i$ chooses sequence $\{d_{i\tau}\}_{\tau=t}^T$ to maximize her \textcolor{navy}{expected lifetime utility}:
+
+\bigskip{}
+
+\only<1>{
+\begin{align}
+\label{eq:1}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \mathbb{E}\left\{\sum_{\tau=t}^T\sum_{j=1}^J\beta^{\tau-t}1\left[d_{i\tau}=j\right]U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+Let's break down each component:
+
+\bigskip{}
+
+}
+
+\only<2>{
+\begin{align}
+\max_{\highlight{\{d_{i\tau}\}_{\tau=t}^T}} \mathbb{E}\left\{\sum_{\tau=t}^T\sum_{j=1}^J\beta^{\tau-t}1\left[d_{i\tau}=j\right]U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\{d_{i\tau}\}_{\tau=t}^T$}: Sequence of choices from period $t$ to terminal period $T$
+}
+
+\only<3>{
+\begin{align}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \highlight{\mathbb{E}}\left\{\sum_{\tau=t}^T\sum_{j=1}^J\beta^{\tau-t}1\left[d_{i\tau}=j\right]U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\displaystyle\mathbb{E}$}: Expectation over future utility shocks $\epsilon_{ij\tau}$ and/or states $X_{i\tau}$ for $\tau > t$
+}
+
+\only<4>{
+\begin{align}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \mathbb{E}\left\{\highlight{\sum_{\tau=t}^T}\sum_{j=1}^J\beta^{\tau-t}1\left[d_{i\tau}=j\right]U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\displaystyle\sum_{\tau=t}^T$}: Sum over all time periods from current ($t$) to terminal ($T$)
+}
+
+\only<5>{
+\begin{align}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \mathbb{E}\left\{\sum_{\tau=t}^T\highlight{\sum_{j=1}^J}\beta^{\tau-t}1\left[d_{i\tau}=j\right]U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\displaystyle\sum_{j=1}^J$}: Sum over all choice alternatives $j$
+}
+
+\only<6>{
+\begin{align}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \mathbb{E}\left\{\sum_{\tau=t}^T\sum_{j=1}^J\highlight{\beta^{\tau-t}}1\left[d_{i\tau}=j\right]U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\beta^{\tau-t}$}: Discount factor for utility received in period $\tau$ 
+
+\bigskip{}
+
+(captures time preference and impatience; i.e. future utility is worth less than present)
+}
+
+\only<7>{
+\begin{align}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \mathbb{E}\left\{\sum_{\tau=t}^T\sum_{j=1}^J\beta^{\tau-t}\highlight{1\left[d_{i\tau}=j\right]}U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$1[d_{i\tau}=j]$}: Indicator function equals 1 if alternative $j$ is chosen at time $\tau$
+}
+
+\only<8>{
+\begin{align}
+\max_{\{d_{i\tau}\}_{\tau=t}^T} \mathbb{E}\left\{\sum_{\tau=t}^T\sum_{j=1}^J\beta^{\tau-t}1\left[d_{i\tau}=j\right]\highlight{U_{ij\tau}\left(X_{i\tau},\epsilon_{ij\tau}\right)}\right\}
+\end{align}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$U_{ij\tau}(X_{i\tau},\epsilon_{ij\tau})$}: Flow utility from choice $j$ at time $\tau$
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Within each period $t$, the sequence of events is:
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Individual observes current state $X_{it}$
+\item<3-> Utility shocks $\displaystyle\{\epsilon_{ijt}\}_{j=1}^J$ are revealed
+\item<4-> Individual knows utility $U_{ijt}$ for each alternative $j$
+\item<5-> Individual chooses $d_{it}$ to maximize current \textit{\textcolor{navy}{and expected future}} utility as in \eqref{eq:1}
+\item<6-> Period ends, state transitions to $X_{i,t+1}$ for next period
+\end{enumerate}
+
+
+\bigskip{}
+
+\onslide<7->{
+Key insight: Individual knows current $\epsilon$'s but must form expectations over future $\epsilon$'s
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Individual $i$ takes expectations over:
+
+\bigskip{}
+
+\onslide<2->{
+\begin{itemize}
+\itemsep1.5em
+\item $X$'s (future states)
+\item $\epsilon$'s (future errors)---unknown to both analyst and decision maker
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<3->{
+Key assumptions:
+\bigskip{}
+
+}
+
+\onslide<4->{
+\begin{itemize}
+\itemsep1.5em
+\item $\epsilon$'s are i.i.d. over time
+\item Future states are not affected by $\epsilon$'s except through choices
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Future states are not affected by $\epsilon$'s except through history of choices:
+
+\onslide<2->{
+\begin{align*}
+\mathbb{E}(X_{t+1}|d_t,\ldots,d_1,\epsilon_t,\ldots,\epsilon_{1}) = \mathbb{E}(X_{t+1}|d_t,\ldots,d_1)
+\end{align*}
+}
+
+\onslide<3->{
+i.e., $\epsilon$'s do not directly influence the evolution of $X$'s beyond their effect on $d$
+}
+
+\end{frame}
+
+
+\begin{frame}
+
+Example: College major choice
+
+\bigskip{}
+
+\onslide<2->{
+\textcolor{navy}{States ($X_{it}$)}: Observable characteristics
+\bigskip{}
+
+\begin{itemize}
+\itemsep1em
+\item Current transcript (GPA, course history), family income
+\item Tuition costs, job market conditions
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<3->{
+\textcolor{navy}{Shocks ($\epsilon_{ijt}$)}: Unobserved preference variation
+\bigskip{}
+
+\begin{itemize}
+\itemsep1em
+\item ``Fell in love with economics after having a great professor''
+\item ``Interested in dating classmate who is a biology major''
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<4->{
+Both analyst and student observe $X_{it}$, only student observes $\epsilon_{ijt}$
+\bigskip{}
+
+}
+
+\onslide<5->{
+Assume mood 2 semesters ago doesn't affect transcript (except through courses taken)
+}
+
+\end{frame}
+
+
+\end{document}

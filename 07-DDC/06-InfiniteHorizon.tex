@@ -1,0 +1,166 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+The infinite horizon value function:
+
+\bigskip{}
+
+\begin{align*}
+v_{j}(X_{i})&=u_{j}(X_{i})+\beta \int_{X_i'}V(X_i')dF_{j}(X_i'|X_{i})
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Expanding the continuation value:
+
+\begin{align*}
+v_{j}(X_{i})&=u_{j}(X_{i})+\beta \int_{X_i'}E_{\epsilon'}\left(\max_k v_{k}(X_i')+\epsilon'_{ik}\right)dF_{j}(X_i'|X_{i})
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+For T1EV $\epsilon$'s, the expectation of the maximum has a closed form:
+
+\begin{align*}
+v_j(X_i)=u_j(X_i)+\beta\int_{X_i'}\log\left(\sum_{k=1}^J\exp[v_{k}(X_i')]\right)dF_j(X_i'|X_i)+\beta c
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Key insight: The $v$'s appear on both sides of the equation
+
+\bigskip{}
+
+This creates a system that requires solving for a fixed point
+}
+
+\onslide<3->{
+\bigskip{}
+
+(This works because it is a contraction mapping)
+}
+
+\end{frame}
+
+\begin{frame}
+
+Let $\mathcal{X}$ denote the number of states $X$ can take on
+
+\bigskip{}
+
+Stack the conditional value functions for each possible state and choice:
+
+\bigskip{}
+
+\only<1>{
+\small
+\begin{align*}
+\left[\begin{array}{c}v_1(X_1)\\ v_1(X_2)\\ \vdots \\ v_1(X_{\mathcal{X}})\\ \vdots\\ v_{J}(X_{\mathcal{X}})\end{array}\right]&=
+\left[\begin{array}{c}u_1(X_1)+\beta\int_{X'}\log\left(\sum_{k=1}^J\exp[v_{k}(X')]\right)dF_1(X'|X_1)+\beta c\\ u_1(X_2)+\beta\int_{X'}\log\left(\sum_{k=1}^J\exp[v_{k}(X')]\right)dF_1(X'|X_2)+\beta c\\ \vdots\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\vdots\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\vdots\\ u_1(X_{\mathcal{X}})+\beta\int_{X'}\log\left(\sum_{k=1}^J\exp[v_{k}(X')]\right)dF_1(X'|X_{\mathcal{X}})+\beta c\\ \vdots\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\vdots\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\vdots\\ u_J(X_{\mathcal{X}})+\beta\int_{X'}\log\left(\sum_{k=1}^J\exp[v_{k}(X')]\right)dF_J(X'|X_{\mathcal{X}})+\beta c\end{array}\right]
+\end{align*}
+}
+
+\onslide<2->{
+This system of equations can be written compactly as:
+\begin{align*}
+\mathbf{v} = \mathbf{u} + \beta \mathbf{T}(\mathbf{v})
+\end{align*}
+
+where $\mathbf{T}(\cdot)$ represents the expectation operator
+}
+
+\end{frame}
+
+\begin{frame}
+
+Solution algorithm:
+
+\bigskip{}
+
+\begin{itemize}
+\item Plug in values for the parameters and take a guess at the $v$'s
+\end{itemize}
+
+\onslide<2->{
+\begin{itemize}
+\item Substitute in for the $v$'s on the right hand side which gives us a new set of $v$'s
+\end{itemize}
+}
+
+\onslide<3->{
+\begin{itemize}
+\item Repeat until convergence
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<4->{
+Formally: 
+\bigskip{}
+
+Iterate 
+\begin{align*}
+    \mathbf{v}^{(n+1)} = \mathbf{u} + \beta \mathbf{T}(\mathbf{v}^{(n)})
+\end{align*}
+until 
+\begin{align*}
+\|\mathbf{v}^{(n+1)} - \mathbf{v}^{(n)}\| < \delta
+\end{align*}
+}
+
+\end{frame}
+
+
+\begin{frame}
+
+The complete estimation algorithm has a similar nested structure as finite horizon case:
+
+\bigskip{}
+
+\textcolor{navy}{Outer loop (parameter estimation):}
+\begin{itemize}
+\item Guess parameter values $\boldsymbol{\theta}^{(0)}$ (utility coefficients, $\beta$, etc.)
+\end{itemize}
+\bigskip{}
+
+\onslide<2->{
+\textcolor{navy}{Inner loop (value function solution):}
+\begin{itemize}
+\item For given $\boldsymbol{\theta}^{(m)}$, solve fixed point: $\mathbf{v}^{(n+1)} = \mathbf{u}(\boldsymbol{\theta}^{(m)}) + \beta \mathbf{T}(\mathbf{v}^{(n)})$
+\item Continue until $\|\mathbf{v}^{(n+1)} - \mathbf{v}^{(n)}\| < \delta$
+\end{itemize}
+\bigskip{}
+
+}
+
+\onslide<3->{
+\textcolor{navy}{Back to outer loop:}
+\begin{itemize}
+\item Calculate choice probabilities using solved $\mathbf{v}(\boldsymbol{\theta}^{(m)})$
+\item Evaluate likelihood $\mathcal{L}(\boldsymbol{\theta}^{(m)})$
+\item Update parameters to $\boldsymbol{\theta}^{(m+1)}$ using nonlinear optimizer (e.g. L-BFGS)
+\item Repeat until likelihood convergence
+\end{itemize}
+\bigskip{}
+
+}
+
+\end{frame}
+
+\end{document}

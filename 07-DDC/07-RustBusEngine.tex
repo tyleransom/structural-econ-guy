@@ -1,0 +1,168 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Rust (1987) analyzes the decision to replace a bus engine $(d=1)$ or not $(d=0)$
+
+\bigskip{}
+
+\onslide<2->{
+\textcolor{navy}{Why is this an optimal stopping problem?}
+\bigskip{}
+
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Harold Zurcher wants to minimize operating costs
+\item<4-> But unexpected bus breakdowns cause ``customer goodwill costs''
+\item<5-> Premature replacement is costly, but so is breakdown
+\item<6-> Goal: figure out when to optimally replace engines
+\item<7-> Some buses get driven more than others
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+Replacement decision depends on:
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item Mileage on engine: $x_t$
+\item Cost of replacing: $\overline{P}$
+\item Scrap value of current engine: $\underline{P}$
+\end{itemize}
+
+\bigskip{}
+
+\onslide<2->{
+Payoffs net of error term:
+\begin{align*}
+u_0(x_{it},\theta) &= -c(x_{it},\theta)\\
+u_1(x_{it},\theta) &= -[\overline{P}-\underline{P}+c(0,\theta)]
+\end{align*}
+}
+
+\onslide<3->{
+Mileage is discrete and transitions according to $f(x_{t+1}|x_t)$
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Why This Matters}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Individual replacement decisions $\rightarrow$ aggregate investment volatility
+\item<2-> Firms replacing equipment creates economy-wide boom/bust cycles
+\item<3-> Wrong timing wastes billions in premature/delayed replacement
+\item<4-> Transportation infrastructure especially critical for service quality
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Estimation Procedure}
+
+\bigskip{}
+
+\onslide<1->{
+\textcolor{navy}{Step 1:} Calculate mileage transitions $f(x_{t+1}|x_t)$
+}
+
+\bigskip{}
+
+\onslide<2->{
+\textcolor{navy}{Step 2:} Maximize log likelihood of choices:
+\begin{align*}
+\ell(\theta;\mathbf{d},\mathbf{x}) = \sum_i\sum_t \sum_j (d_{it}=j)\log(p_{jt}(x_{it},\theta))
+\end{align*}
+}
+
+\onslide<3->{
+\textcolor{navy}{Step 3:} Within maximization, solve fixed point problem in the $v$'s each time log likelihood is evaluated
+}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Nested Fixed Point (NFXP) Algorithm}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item Outer loop: maximize likelihood over parameters $\theta$
+\item Inner loop: solve for value functions $v$ given $\theta$
+\item Repeat until convergence
+\end{itemize}
+
+\bigskip{}
+
+\onslide<2->{
+Each likelihood evaluation requires solving the dynamic programming problem
+\bigskip{}
+
+}
+
+\onslide<3->{
+Each outer loop iteration took 4 minutes ($N = 104$ buses, $T = 120$ months)
+}
+
+\end{frame}
+
+
+\begin{frame}
+What does Rust do with his results?
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+    \item<1-> Examines different functional forms for $c(\cdot)$, including with unobs. heterogeneity
+    \item<2-> Tests whether Zurcher behaves myopically (finds he doesn't)
+    \item<3-> Shows that dynamic considerations result in less replacement at high mileage
+    \item<4-> Infers implied demand for replacement as function of replacement cost
+    \item<5-> Myopic demand curve is much more sensitive to replacement cost 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Value of a structural model}
+\bigskip{}
+
+\begin{quote}
+Since engine replacement costs have not varied much in the past, estimating replacement demand by a ``reduced-form'' approach which, for example, regresses engine replacements on replacement costs, is incapable of producing reliable estimates of the replacement demand function.
+
+\bigskip{}
+
+In terms of Figure 7, all the data would be clustered in a small ball about the intersection of the two demand curves: obviously many different demand functions would appear to fit the data equally well. 
+
+\bigskip{}
+
+The structural approach, on the other hand, efficiently concentrates additional information contained in the sequences $\{d_t, x_t\}$ into estimates of a small number of primitive parameters. Despite the relatively small number of such parameters, we obtain a rich behavioral model that can be used to answer a wide range of ``what if?'' policy questions.
+\end{quote}    
+\end{frame}
+
+
+\end{document}

@@ -1,0 +1,241 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+
+\begin{document}
+
+\begin{frame}
+
+Choice probabilities in dynamic models follow the same structure as static cases
+
+\bigskip{}
+
+Key difference: use conditional value functions $v$'s instead of utilities $u$'s
+
+\bigskip{}
+
+\onslide<2->{
+For multinomial logit with choice set $J$ alternatives:
+
+\begin{align*}
+p_{jt}(X_{it}) &= \frac{\exp(v_{jt}(X_{it}))}{\sum_{k=1}^J\exp(v_{kt}(X_{it}))}
+\end{align*}
+\medskip{}
+
+}
+
+\onslide<3->{
+This is why we defined the conditional value functions the way that we did:
+\bigskip{}
+
+So that we could express the current-period choice probabilities conveniently
+}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}
+Before we get to the likelihood, let's remind ourselves what we're trying to estimate:
+
+\bigskip{}
+
+\only<1>{
+{\small
+\begin{align*}
+v_{jt}(X_{it};\alpha,\beta,\gamma) &= u_{jt}(X_{it};\alpha) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1};\alpha,\beta,\gamma)+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it};\gamma)
+\end{align*}
+}
+
+\bigskip{}
+
+Three sets of parameters to estimate:
+}
+
+\only<2>{
+{\small
+\begin{align*}
+v_{jt}(X_{it};\highlight{\alpha},\beta,\gamma) &= u_{jt}(X_{it};\highlight{\alpha}) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1};\highlight{\alpha},\beta,\gamma)+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it};\gamma)
+\end{align*}
+}
+
+\bigskip{}
+
+\textcolor{navy}{$\alpha$}: Flow utility parameters
+}
+
+\only<3>{
+{\small
+\begin{align*}
+v_{jt}(X_{it};\alpha,\highlight{\beta},\gamma) &= u_{jt}(X_{it};\alpha) + \highlight{\beta} \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1};\alpha,\highlight{\beta},\gamma)+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it};\gamma)
+\end{align*}
+}
+
+\bigskip{}
+
+\textcolor{navy}{$\beta$}: Discount factor
+}
+
+\only<4>{
+{\small
+\begin{align*}
+v_{jt}(X_{it};\alpha,\beta,\highlight{\gamma}) &= u_{jt}(X_{it};\alpha) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1};\alpha,\beta,\highlight{\gamma})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it};\highlight{\gamma})
+\end{align*}
+}
+
+\bigskip{}
+
+\textcolor{navy}{$\gamma$}: Parameters governing state transitions
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+Putting it all together, assume the following: 
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+    \item $\epsilon_{ijt}\overset{iid}{\sim}$ T1EV
+    \item $u_{jt}\left(X_{it};\alpha\right) = X_{it}\alpha_j$
+\end{itemize}
+\bigskip{}
+
+\onslide<2->{
+Then
+{\footnotesize
+\begin{align*}
+p_{jt}(X_{it};\alpha,\beta,\gamma) &= \frac{\exp\left[X_{it}\alpha_j + \beta \int \log \left(\sum_{k}\exp\left(v_{kt+1}\left(X_{it+1};\alpha,\beta,\gamma\right)\right)\right)dF_{jt}(X_{it+1}|X_{it};\gamma) + \beta c\right]}{\sum_m \exp\left[X_{it}\alpha_m + \beta \int \log \left(\sum_{k'}\exp\left(v_{k't+1}\left(X_{it+1};\alpha,\beta,\gamma\right)\right)\right)dF_{mt}(X_{it+1}|X_{it};\gamma) + \beta c\right]}
+\end{align*}
+}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+When taking this model to data, there are two model objects we need to match:
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+    \item Getting the $p$'s to match the $d$'s (choices)
+    \item Getting the mapping between $X_t$ and $X_{t+1}$
+\end{enumerate}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+The likelihood function thus incorporates both choice and state transition probabilities:
+
+\onslide<1->{
+\begin{align*}
+\mathcal{L}(\alpha,\beta,\gamma;X) &= \prod_i\prod_t\prod_j\left[p_{jt}(X_{it};\alpha,\beta,\gamma)f_{jt}(X_{it+1}|X_{it};\gamma)\right]^{d_{it}=j}
+\end{align*}
+}
+
+\onslide<2->{
+where $\gamma$ governs the transitions of the state variables $X$'s
+}
+
+\bigskip{}
+
+\onslide<3->{
+Taking logs gives the log-likelihood:
+
+\begin{align*}
+\ell(\alpha,\beta,\gamma) &= \sum_i\sum_t\sum_j (d_{it}=j)\left\{\log[p_{jt}(X_{it};\alpha,\beta,\gamma)]+\log[f_{jt}(X_{it+1}|X_{it};\gamma)]\right\}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+The log likelihood is additively separable in parameters
+
+\bigskip{}
+
+\onslide<2->{
+This allows for \textcolor{navy}{two-stage estimation}:
+
+\bigskip{}
+}
+
+\begin{enumerate}
+\itemsep1.5em
+    \item<3-> Estimate $\gamma$ from state transitions
+    \item<4-> Taking $\hat{\gamma}$ as given, estimate $\alpha, \beta$ from choice probabilities
+\end{enumerate}
+\bigskip{}
+
+
+\onslide<5->{
+Separability simplifies computational burden at cost of statistical efficiency
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Bringing in the backwards recursion ideas from last video, algorithm is as follows:
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+    \item<2-> Start with initial guess of $(\alpha,\beta,\gamma)$
+    \item<3-> Solve value functions $v_{jt}$ backwards from terminal period using Bellman equation
+    \item<4-> Compute policy functions (choice probabilities, $p_{jt}(X_{it};\alpha,\beta,\gamma)$) using current $v_{jt}$'s
+    \item<5-> Evaluate log likelihood $\ell(\alpha,\beta,\gamma)$ and update parameter guesses
+    \item<6-> Repeat steps 2--5 until convergence
+\end{enumerate}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Key insight}: Value function iteration nested within likelihood maximization
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+    \item<2-> The backwards recursion gives optimal behavior for any given parameter values
+    \item<3-> MLE finds which parameter values make that optimal behavior consistent with observed data
+    \item<4-> Must solve at \textit{all} states---not just observed ones---because state transitions depend on choice probabilities at unvisited states
+\end{itemize}
+
+\end{frame}
+
+
+
+\end{document}

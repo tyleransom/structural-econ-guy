@@ -1,0 +1,277 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+
+\begin{document}
+
+
+\begin{frame}
+
+Finite horizon backward recursion
+
+\bigskip{}
+
+Period $T$:
+\begin{align*}
+v_{ijT\phantom{-1}} = u_{ijT\phantom{-1}} \phantom{ + \beta \mathbb{E}\max_{k}\left\{v_{ikT-1}+\epsilon_{ikT-1}|d_{iT-2}=j\right\}}
+\end{align*}
+
+
+\onslide<2->{
+\bigskip{}
+
+Period $T-1$:
+\begin{align*}
+v_{ijT-1} = u_{ijT-1} + \beta \mathbb{E}\max_{k}\left\{u_{ikT\phantom{-1}}+\epsilon_{ikT\phantom{-1}}|d_{iT-1}=j\right\}
+\end{align*}
+}
+
+\onslide<3->{
+\bigskip{}
+
+Period $T-2$:
+\begin{align*}
+v_{ijT-2} = u_{ijT-2} + \beta \mathbb{E}\max_{k}\left\{v_{ikT-1}+\epsilon_{ikT-1}|d_{iT-2}=j\right\}
+\end{align*}
+}
+
+\onslide<4->{
+\bigskip{}
+
+General form:
+\begin{align*}
+v_{ijt} = u_{ijt} + \beta \mathbb{E}\max_{k}\left\{v_{ikt+1}+\epsilon_{ikt+1}|d_{it}=j\right\}
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Let $f_{jt}(X_{it+1}|X_{it})$ be transition density for choice $j$
+
+\onslide<2->{
+\bigskip{}
+
+\textcolor{navy}{Example}: College major choice
+\bigskip{}
+
+\begin{itemize}
+\setlength\itemsep{1.25em}
+\item Choice set: \{Physics, Literature, Other\}
+\item $X_{it}$: GPA, completed courses, job market conditions
+\item If you choose physics $\to$ $GPA_{i,t+1}$ may go down (due to harsh grading)
+\item If you choose literature $\to$ $GPA_{i,t+1}$ may go up (due to lenient grading)
+\end{itemize}
+}
+
+\onslide<3->{
+\bigskip{}
+
+Key insight: Today's major choice changes tomorrow's opportunities
+\bigskip{}
+
+Past choices create path dependence through skill accumulation
+}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\bigskip{}
+
+Conditional value function:
+
+\bigskip{}
+
+\only<1>{
+\begin{align*}
+v_{jt}(X_{it}) &= u_{jt}(X_{it}) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+Let's break down each component:
+
+\bigskip{}
+}
+
+\only<2>{
+\begin{align*}
+\highlight{v_{jt}(X_{it})} &= u_{jt}(X_{it}) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$v_{jt}(X_{it})$}: Conditional value of choosing $j$ today given state $X_{it}$
+}
+
+\only<3>{
+\begin{align*}
+v_{jt}(X_{it}) &= \highlight{u_{jt}(X_{it})} + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$u_{jt}(X_{it})$}: Flow utility today from choosing $j$
+}
+
+\only<4>{
+\begin{align*}
+v_{jt}(X_{it}) &= u_{jt}(X_{it}) + \highlight{\beta} \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\beta$}: Discount factor
+}
+
+\only<5>{
+\begin{align*}
+v_{jt}(X_{it}) &= u_{jt}(X_{it}) + \beta \highlight{\int} \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\displaystyle\int$}: Integral over all possible future states $X_{it+1}$
+}
+
+\only<6>{
+\begin{align*}
+v_{jt}(X_{it}) &= u_{jt}(X_{it}) + \beta \int \highlight{\mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}} dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$\displaystyle\mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}$}: Expected future value (integrated over pref. shocks)
+}
+
+\only<7>{
+\begin{align*}
+v_{jt}(X_{it}) &= u_{jt}(X_{it}) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}\highlight{dF_{jt}(X_{it+1}|X_{it})}
+\end{align*}
+\bigskip{}
+
+\phantom{Let's break down each component:}
+
+\bigskip{}
+
+\textcolor{navy}{$dF_{jt}(X_{it+1}|X_{it})$}: State transition probability (depends on today's choice $j$)
+\bigskip{}
+
+Also assumes \textcolor{navy}{Markov property}: future states depend only on current state and choice, not entire past history
+\bigskip{}
+
+Notation: $\displaystyle \textcolor{navy}{dF_{jt}(X_{it+1}|X_{it})} = f_{jt}(X_{it+1}|X_{it})dX_{it+1}$ where $f(\cdot)$ is the PDF
+}
+
+\only<8>{
+\begin{align*}
+v_{jt}(X_{it}) &= u_{jt}(X_{it}) + \beta \int \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}dF_{jt}(X_{it+1}|X_{it})
+\end{align*}
+\bigskip{}
+
+
+Note that the integral could turn into a summation if we discretize $F_{jt}\left(\cdot\right)$
+\bigskip{}
+
+}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+What is the formula for $\displaystyle\mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\}$? Depends on distr. of $\epsilon$'s
+
+\bigskip{}
+
+\onslide<2->{
+T1EV case:
+}
+\onslide<3->{
+\begin{align*}
+    \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\} &= \log\left(\sum_k \exp\left(v_{kt+1}(X_{it+1})\right)\right)+\underbrace{c}_{\text{Euler's\,\,constant}}
+\end{align*}
+}
+
+\onslide<4->{
+General GEV case:
+}
+\onslide<5->{
+\begin{align*}
+    \mathbb{E}_{\epsilon}\left\{\max_{k} v_{kt+1}(X_{it+1})+\epsilon_{ikt+1}\right\} &= \log\left(G\left(\exp\left(v_{kt+1}\left(X_{it+1}\right)\right)\right)\right)+\underbrace{c}_{\text{Euler's\,\,constant}}
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+Solution method (for any given set of parameter values $\alpha$): 
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+    \item<2-> Start at period $T$: $v_{ijT}(X_{iT}) = u_{ijT}(X_{iT})$
+    \item<3-> Work backwards to period $t$
+    \item<4-> Compute value functions at \textcolor{navy}{all possible states} $\{X_{i\tau}\}_{\tau=t}^{T}$
+    \begin{itemize}
+        \vspace{1.25em}
+        \item<5-> Period $T$ typically has largest state space (even with Markov assumption)
+    \end{itemize}
+\end{itemize}
+
+\bigskip{}
+
+\onslide<6->{
+\textcolor{navy}{What we solve for}: Policy functions---$\Pr(d_{it}=j)$ at all possible states
+}
+
+\onslide<7->{
+\bigskip{}
+
+\textcolor{navy}{Computational challenge}: State space grows with $T$
+\bigskip{}
+
+Various simplifying assumptions and workarounds can sidestep this challenge
+}
+
+\end{frame}
+
+
+\end{document}

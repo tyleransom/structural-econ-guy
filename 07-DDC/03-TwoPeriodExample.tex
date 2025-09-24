@@ -1,0 +1,205 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+
+\begin{document}
+
+
+\begin{frame}
+\onslide<1->{
+Final period utility for choice $j$ in choice set $\mathcal{J}$:
+\begin{align*}
+U_{ijT} &= u_{ijT} + \epsilon_{ijT}\\
+&\\
+&= X_{iT}\alpha_j + \epsilon_{ijT}
+\end{align*}
+
+\bigskip{}
+}
+
+\onslide<2->{
+\textcolor{navy}{Conditional value function} for choice $j$: 
+\bigskip{}
+
+\only<2>{deterministic utility today plus discounted expected future utility given today's choice}
+\only<3>{\highlighttext{deterministic utility today} plus discounted expected future utility given today's choice}
+\only<4>{deterministic utility today plus \highlighttext{discounted expected future utility given today's choice}}
+
+\only<2>{
+\begin{align*}
+v_{ijT-1} &= u_{ijT-1} + \beta \mathbb{E}\max_{k\in \mathcal{J}}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j\right\}
+\end{align*}
+}
+
+\only<3>{
+\begin{align*}
+v_{ijT-1} &= \highlight{u_{ijT-1}} + \beta \mathbb{E}\max_{k\in \mathcal{J}}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j\right\}
+\end{align*}
+}
+
+\only<4>{
+\begin{align*}
+v_{ijT-1} &= u_{ijT-1} + \highlight{\beta \mathbb{E}\max_{k\in \mathcal{J}}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j\right\}}
+\end{align*}
+}
+
+\smallskip{}
+
+where $\beta$ is the discount factor
+}
+\end{frame}
+
+
+
+\begin{frame}
+\textcolor{navy}{Bellman Equation} for dynamic discrete choice:
+
+\begin{align*}
+V_{it} &= \mathbb{E}\max_{j \in \mathcal{J}}\left\{u_{ijt} + \beta V_{it+1}(X_{it+1}) + \epsilon_{ijt}\right\}
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+As with $v_{ijt}$ formulation, we have immediate and discounted future components
+\bigskip{}
+}
+
+\onslide<3->{
+$V$ is also called the \textcolor{navy}{unconditional value function}
+\bigskip{}
+}
+
+\onslide<4->{
+Expectation taken over both future $\epsilon$'s and future $X$'s
+\bigskip{}
+}
+
+\onslide<5->{
+Recursive formulation helps keep notation compact
+\bigskip{}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+\onslide<1->{
+We've seen the $\mathbb{E}\max$ term before:
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+    \item When talking about expected consumer surplus
+    \item When thinking about nested logit as a multi-stage problem
+\end{itemize}
+
+\bigskip{}
+}
+
+\onslide<2->{
+What is $\mathbb{E}\max$ if $X_{iT}$ is deterministic given $X_{iT-1}$ and $d_{iT-1}$, and $\epsilon$'s are T1EV?
+}
+
+\onslide<3->{
+\begin{align*}
+\mathbb{E}\max = \log\left(\sum_k \exp\left(u_{ikT}\right)\right) + \underbrace{c}_{\text{Euler's\,\,constant}}
+\end{align*}
+\bigskip{}
+
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+We can estimate $\alpha$'s by MLE under the following conditions:
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+    \item $X$'s transition deterministically
+    \item $\displaystyle \mathbb{E}\max$ term has a closed form
+\end{itemize}
+\bigskip{}
+
+\onslide<2->{
+Then
+\begin{align*}
+    v_{ijT} &= X_{iT}\alpha_j,\\
+    &\\
+    v_{ijT-1}&=X_{iT-1}\alpha_j + \beta \log\sum_{k\in\mathcal{J}}\exp\left(X_{iT}\alpha_k\right) + \beta c
+\end{align*}
+}
+
+\onslide<3->{
+\bigskip{}
+
+Treat the $v$'s like we would the $u$'s in a multinomial logit model
+}
+    
+\end{frame}
+
+
+
+
+\begin{frame}
+
+When might dynamics not matter? \only<1>{Let's walk through location normalization of utility}
+
+\only<2,4>{
+\begin{align*}
+v_{ijT-1}-v_{ij'T-1} &= u_{ijT-1} - u_{ij'T-1}+\\
+&\phantom{==} \beta \mathbb{E}\max_{k}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j\right\}-\\
+&\phantom{==} \beta \mathbb{E}\max_{k}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j'\right\}
+\end{align*}
+}
+
+\only<3>{
+\begin{align*}
+v_{ijT-1}-v_{ij'T-1} &= u_{ijT-1} - u_{ij'T-1}+\\
+&\phantom{==} \highlight{\beta \mathbb{E}\max_{k}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j\right\}}-\\
+&\phantom{==} \highlight{\beta \mathbb{E}\max_{k}\left\{u_{ikT}+\epsilon_{ikT}|d_{iT-1}=j'\right\}}
+\end{align*}
+}
+
+
+
+\onslide<3->{
+If future value terms are equal $\Rightarrow$ cancellation (model becomes static)
+
+\bigskip{}
+
+Thus, dynamics require that choices affect future states
+}
+
+\onslide<4->{
+\bigskip{}
+
+Easiest way to satisfy this is switching costs
+
+\bigskip{}
+
+Intuition: switching costs make agents consider future consequences
+}
+
+\end{frame}
+
+
+
+
+
+
+\end{document}

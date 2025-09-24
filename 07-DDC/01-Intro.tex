@@ -1,0 +1,177 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{booktabs}
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,arrows}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{173, 216, 230}
+\definecolor{lightgreen}{RGB}{144, 238, 144}
+
+
+
+
+\begin{document}
+
+\begin{frame}
+
+To start with, let's discuss the theory of \textcolor{navy}{optimal stopping}
+
+\bigskip{}
+
+\onslide<2->{
+Gives mathematical context for maximizing rewards or minimizing costs
+
+\bigskip{}
+
+Optimal stopping problems are by definition dynamic
+}
+
+\end{frame}
+
+\begin{frame}
+
+Many economic problems involve some sort of optimal stopping:
+
+\begin{itemize}
+\item[]
+\item<2-> The Secretary Problem (when to hire from a sequence of job candidates)
+\item[]
+\item<3-> Search theory more generally (job search, spousal search, house search, ...)
+\item[]
+\item<4-> ``Buy/sell/hold'' problems (e.g. stock/options trading)
+\item[]
+\item<5-> Replacement problems (e.g. machines, infrastructure)
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Optimal stopping problems inherently have a tension between costs and benefits:
+
+\begin{itemize}
+\item[]
+\item<2-> It is costly to interview job candidates
+\item[]
+\item<3-> But it is also costly to miss out on the best candidate
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+In a discrete choice setting, \textcolor{navy}{dynamic programming} is the best solution method
+
+\bigskip{}
+
+\onslide<2->{
+Within a discrete choice setting, time can be either continuous or discrete:
+}
+
+\begin{itemize}
+\item[]
+\item<3-> If continuous time: use Hamiltonians and Differential Equations
+\item[]
+\item<4-> If discrete time: use recursive methods
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Solution method also depends on the \textcolor{navy}{time horizon}:
+
+\begin{itemize}
+\item[]
+\item<2-> If the time horizon is finite: then we can use dynamic programming
+\item[]
+\item<3-> If the time horizon is infinite: then need to (also) solve for a fixed point
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+
+\onslide<1->{
+All four combinations represent \textcolor{navy}{viable solution approaches} for discrete choice problems
+
+\bigskip{}
+}
+
+\only<2>{
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{} & \textbf{Finite Time Horizon} & \textbf{Infinite Time Horizon} \\
+\midrule
+\textbf{Continuous Time} & 
+\begin{tabular}[c]{@{}c@{}}
+Hamiltonians \& Diff. Eq., \\
+Finite Differences
+\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}
+Hamiltonians \& Diff. Eq., \\
+Fin. Diff. \& Fixed Point
+\end{tabular} \\
+\hline
+\textbf{Discrete Time} & 
+\begin{tabular}[c]{@{}c@{}}
+Dynamic Programming, \\
+Backwards Recursion
+\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}
+Dynamic Programming, \\
+Bkw. Recursion \& Fixed Point
+\end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{center}
+}
+
+\only<3>{
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{} & \textbf{Finite Time Horizon} & \textbf{Infinite Time Horizon} \\
+\midrule
+\textbf{Continuous Time} & 
+\phantom{\begin{tabular}[c]{@{}c@{}}
+Hamiltonians \& Diff. Eq., \\
+Finite Differences
+\end{tabular}} & 
+\phantom{\begin{tabular}[c]{@{}c@{}}
+Hamiltonians \& Diff. Eq., \\
+Fin. Diff. \& Fixed Point
+\end{tabular}} \\
+\hline
+\textbf{Discrete Time} & 
+\begin{tabular}[c]{@{}c@{}}
+Dynamic Programming, \\
+Backwards Recursion
+\end{tabular} & 
+\phantom{\begin{tabular}[c]{@{}c@{}}
+Dynamic Programming, \\
+Bkw. Recursion \& Fixed Point
+\end{tabular}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+}
+
+    
+\end{frame}
+
+
+\end{document}

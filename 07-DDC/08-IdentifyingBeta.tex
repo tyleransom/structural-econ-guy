@@ -1,0 +1,223 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+
+\begin{document}
+
+\begin{frame}
+
+Rust (1987, footnote 12, original emphasis):
+
+\bigskip{}
+
+``The identification of $\beta$ depends on a priori specification of the utility function $u$. Actually $\beta$ is \textit{nonparametrically unidentified}: in the absence of a priori knowledge of the form of $u$ it is impossible to infer $\beta$.''
+
+\bigskip{}
+
+\onslide<2->{
+``While this theoretical result might appear disturbing at first, on reflection it is clear we often do have substantial a priori information about $\beta$ itself. In the case of Zurcher, we know that $\beta$ must be `large' because $\beta=0$ implies an implausibly large rate of increase in monthly operating costs''
+}
+
+\end{frame}
+
+\begin{frame}
+
+The discount factor $\beta$ and utility parameters $\theta$ are confounded
+
+\bigskip{}
+
+\onslide<2->{
+Two observationally equivalent explanations for behavior:
+\bigskip{}
+
+}
+
+\begin{itemize}
+\itemsep1.5em
+    \item<3-> Low $\beta$ (impatient): ``I don't care about the future''
+    \item<4-> High $\beta$ but low future utility: ``I care about the future, but it's not valuable to me''
+\end{itemize}
+
+
+\bigskip{}
+
+\onslide<5->{
+Without additional restrictions, these are indistinguishable in the data
+}
+
+\end{frame}
+
+\begin{frame}
+
+Rust's suggestion: impose strong a priori assumptions about $u(\cdot)$
+
+\bigskip{}
+
+\onslide<2->{
+Example: Linear utility in maintenance costs
+\begin{align*}
+u(x_t, d_t) = -\theta c(x_t, d_t)
+\end{align*}
+}
+
+\onslide<3->{
+With known functional form, $\beta$ identified from intertemporal tradeoffs
+}
+
+\bigskip{}
+
+\onslide<4->{
+Problem: Strong assumptions may be incorrect
+}
+
+\bigskip{}
+
+\onslide<5->{
+``the difference in the log-likelihoods for $\beta=0$ vs. $\beta = .9999$ disappears as I generalize the specification of the cost function, c.''
+}
+
+\end{frame}
+
+\begin{frame}
+Alternative approach: find variables that affect transitions but not flow utility
+
+\bigskip{}
+
+\onslide<2->{
+Need $Z_t$ such that:
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item $Z_t$ affects $X_{t+1}$ given choice $d_t$  
+\item $Z_t$ does not affect $u(X_t, d_t)$
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<3->{
+Intuition: $Z_t$ creates variation in future consequences without changing current payoffs
+}
+
+\bigskip{}
+
+\onslide<4->{
+Forward-looking agents respond to $Z_t$; myopic agents do not
+}
+
+\end{frame}
+
+\begin{frame}
+
+Empirical example: Arcidiacono, Sieg and Sloan (2007, IER)
+\bigskip{}
+
+\onslide<2->{
+Studies smoking and drinking decisions of elderly
+}
+
+\bigskip{}
+
+\onslide<3->{
+Key idea: Age affects health transitions but not utility of consuming alcohol/tobacco
+}
+
+\bigskip{}
+
+\onslide<4->{
+Age excluded from utility function:
+\begin{align*}
+u(d_t, X_t) \neq f(\text{age}_t)
+\end{align*}
+}
+
+\onslide<4->{
+But age affects health transition probabilities:
+\begin{align*}
+P(X_{t+1}|\text{age}_t, d_t, X_t) \neq P(X_{t+1}| d_t, X_t)
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+How does this identify $\beta$?
+\bigskip{}
+
+
+\onslide<2->{
+Age-consumption profiles reveal degree of forward-looking behavior
+}
+
+\bigskip{}
+
+\onslide<3->{
+High $\beta$ (forward-looking):
+\bigskip{}
+
+\begin{itemize}
+\item Reduce harmful consumption with age due to shorter health horizon
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<4->{
+Low $\beta$ (myopic):
+\bigskip{}
+
+}
+
+\begin{itemize}  
+\itemsep1em
+\item<5-> Consumption patterns driven by instantaneous utility only
+\item<6-> Less responsive to age-related health risk changes
+\end{itemize}
+
+\bigskip{}
+
+\onslide<7->{
+Data determines which pattern fits better
+}
+
+\end{frame}
+
+\begin{frame}
+
+The main idea: leverage variables that create \textcolor{navy}{intertemporal wedges}
+
+\bigskip{}
+
+\onslide<2->{
+Variables that change future consequences of current actions but not current payoffs
+}
+
+\bigskip{}
+
+\onslide<3->{
+Other examples:
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item Policy changes affecting future (but not current) environment
+\item Variation in information about future states
+\item Individual differences in transition probabilities
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<4->{
+Forward-looking behavior reveals itself through responses to intertemporal wedges
+}
+
+\end{frame}
+
+\end{document}
