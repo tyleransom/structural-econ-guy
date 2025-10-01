@@ -1,0 +1,248 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+Key advantage of finite dependence: no need to make assumptions far into lifecycle
+
+\bigskip
+
+Setup:
+\bigskip
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Utility varies over time: $u_{jt}(X_t)$
+\item<3-> State transitions vary over time: $f_{jt}(X_{t+1}|X_t)$
+\item<4-> Decisions made until period $T$
+\item<5-> Observations only until period $\mathcal{T}<T$
+\end{itemize}
+
+\bigskip
+
+\onslide<6->{
+\textcolor{navy}{Question:} What remains identifiable?
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+With terminal or renewal choices, can identify $f_{jt}$'s and $u_{jt}$'s until period $\mathcal{T}-1$
+
+\bigskip
+
+\onslide<2->{
+Extreme value case:
+\begin{align*}
+v_j(X_t)&=u_{jt}(X_t)+\beta\sum_{X_{t+1}}\log\left(\sum_k\exp[v_{kt+1}(X_{t+1})]\right)f_{jt}(X_{t+1}|X_t)+\beta c\\
+\onslide<3->{&=u_{jt}(X_t)+\beta\sum_{X_{t+1}}\left[v_{1t+1}(X_{t+1})-\log\left(p_{1t+1}(X_{t+1})\right)\right]f_{jt}(X_{t+1}|X_t)+\beta c}
+\end{align*}
+}
+
+\onslide<4->{
+\bigskip
+Last term differences out or is constant
+
+\bigskip
+
+Expression holds \textit{regardless} of expectations at $t+2$
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+When finite dependence takes more than one period:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Transition functions can vary over time
+\item<3-> Utility function needs to be stable
+\item<4-> Reason: future flow payoffs appear in expectation of future utility, but we lack corresponding data to recover them
+\item<5-> Implication: possible to estimate non-stationary games
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+If $\epsilon$'s are GEV, can still express $V_{t+1}$ as closed-form function of $p_{jt+1}$
+
+\bigskip
+
+\onslide<2->{
+But it can get complicated:
+\bigskip\par
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Math depends on form of $G$
+\item<4-> Recall: $V_{t+1} = \log G$, where $G = \sum_k \exp(\cdot)$ for T1EV
+\item<5-> For nested logit: formula involves nesting parameters ($\lambda_r$'s)
+\end{itemize}
+
+\bigskip
+
+\onslide<6->{
+If $\epsilon$'s are Normal:
+\bigskip\par
+}
+\begin{itemize}
+\itemsep1.5em
+\item<7-> No closed-form expression for $V_{t+1}$
+\item<8-> Need simulation to compute $\mathbb{E}\max$ integral
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+\begin{displaymath}
+G_t=\sum_r\left(\sum_{j\in J_r}\exp\left(\frac{v_j(X_{t})}{\lambda_r}\right)\right)^{\lambda_r}
+\end{displaymath}
+
+\onslide<2->{
+\bigskip
+Probability of choosing $j$ in nest $J_r$:
+\begin{displaymath}
+p_{jt}(X_{t})=\frac{\left(\sum_{j'\in J_r}\exp\left(\frac{v_{j'}(X_{t})}{\lambda_r}\right)\right)^{\lambda_r-1}\exp\left(\frac{v_j(X_{t})}{\lambda_r}\right)}{G_t}
+\end{displaymath}
+}
+
+\onslide<3->{
+\bigskip
+Probability of choosing nest $r$:
+\begin{displaymath}
+p_{rt}(X_{t})=\frac{\left(\sum_{j'\in J_r}\exp\left(\frac{v_{j'}(X_{t})}{\lambda_r}\right)\right)^{\lambda_r}}{G_t}
+\end{displaymath}
+}
+
+\end{frame}
+
+\begin{frame}
+
+From nest probability:
+\begin{displaymath}
+({G_t}p_{rt}(X_{t}))^{1/\lambda_r}=\sum_{j'\in J_r}\exp\left(\frac{v_{j'}(X_{t})}{\lambda_r}\right)
+\end{displaymath}
+
+\onslide<2->{
+\bigskip
+Substitute into choice probability:
+\begin{displaymath}
+p_{jt}(X_{t})=\frac{\left({G_t}p_{rt}(X_{t})\right)^{\frac{\lambda_r-1}{\lambda_r}}\exp\left(\frac{v_j(X_{t})}{\lambda_r}\right)}{G_t}
+\end{displaymath}
+}
+
+\onslide<3->{
+\bigskip
+Simplify:
+\begin{displaymath}
+p_{jt}(X_{t})=G_t^{\frac{-1}{\lambda_r}}p_{rt}(X_{t})^{\frac{\lambda_r-1}{\lambda_r}}\exp\left(\frac{v_j(X_{t})}{\lambda_r}\right)
+\end{displaymath}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Take logs and rearrange:
+\begin{displaymath}
+(1/\lambda_r)\log(G_t)=-\log(p_{jt}(X_{t}))+((\lambda_r-1)/\lambda_r)\log(p_{rt}(X_{t}))+(1/\lambda_r)v_j(X_{t})
+\end{displaymath}
+
+\bigskip
+
+\onslide<2->{
+Multiply through by $\lambda_r$:
+\begin{displaymath}
+\log(G_t)=-\lambda_r\log(p_{jt}(X_{t}))+(\lambda_r-1)\log(p_{rt}(X_{t}))+v_j(X_{t})
+\end{displaymath}
+}
+
+\bigskip
+
+\onslide<3->{
+Since $V_{t}(X_{t})=\log(G_t)+c$, we're done
+}
+
+\bigskip
+
+\onslide<4->{
+Note: when $\lambda_r=1$, this reduces to multinomial logit
+}
+
+\end{frame}
+
+\begin{frame}
+
+When $\epsilon\sim$ GEV, analytic expressions for $V_t(X_t)$ generally difficult
+
+\bigskip
+
+\onslide<2->{
+But: given particular $X_t$, can solve for $V_t(X_t)$ numerically
+}
+
+\bigskip
+
+\onslide<3->{
+Recall: $p_{jt}(X_t)=\frac{\partial\log(G_t)}{\partial v_j(X_t)}$
+}
+
+\bigskip
+
+\onslide<4->{
+Stack for all choices:
+\begin{displaymath}
+\left[\begin{array}{c}p_{1t}(X_t)\\ \vdots \\p_{Jt}(X_t)\end{array}\right]=
+\left[\begin{array}{c}\frac{\partial\log(G_t)}{\partial v_{1t}(X_t)}\\ \vdots \\ \frac{\partial\log(G_t)}{\partial v_j(X_t)}\end{array}\right]
+\end{displaymath}
+}
+
+\bigskip
+
+\onslide<5->{
+One equation redundant $\Rightarrow$ $J-1$ system solving for $J-1$ differences in $v$'s
+}
+
+\end{frame}
+
+\end{document}

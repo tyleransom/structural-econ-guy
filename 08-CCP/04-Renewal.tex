@@ -1,0 +1,198 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{xcolor}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+An action is termed \textcolor{navy}{renewal} if previous choices become irrelevant to the state:
+
+\bigskip{}
+
+\begin{align*}
+\sum_{X_{t+1}}f_k(X_{t+2}|X_{t+1})f_j(X_{t+1}|X_{t})=\sum_{X_{t+1}}f_k(X_{t+2}|X_{t+1})f_{j'}(X_{t+1}|X_{t}) \quad \forall j,j'
+\end{align*}
+
+\onslide<2->{
+\bigskip\par
+In this case, choosing option $k$ ``renews'' the state space, i.e.
+}
+
+\onslide<3->{
+\bigskip\par
+Choosing $k$ in $t+1$ removes any dependence of the period-$t$ choice on the $t+2$ states
+}
+
+
+\onslide<4->{
+\bigskip\par
+We can use renewal, along with clever normalizations, to eliminate recursion
+}
+
+\onslide<5->{
+\bigskip\par
+... Even when our choice set does not contain a terminal option
+}
+
+\onslide<5->{
+\bigskip\par
+Why? \textcolor{navy}{Because CCPs don't have to correspond to optimal decisions}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Normalize future value term relative to renewal action for choice $j$:
+
+\onslide<1->{
+\begin{align*}
+v_{jt}(X_{t})&=u_j(X_t)+\beta\sum_{X_{t+1}}\left[v_{kt+1}(X_{t+1})-\log(p_{kt+1}(X_{t+1}))\right]f_j(X_{t+1}|X_t)+\beta c
+\end{align*}
+}
+
+\onslide<2->{
+Expanding $v_{kt+1}(X_{t+1})$:
+\begin{align*}
+v_{kt+1}(X_{t+1})&=u_k(X_{t+1})+\beta\sum_{X_{t+2}}V_{t+2}(X_{t+2})f_k(X_{t+2}|X_{t+1})
+\end{align*}
+}
+
+\onslide<3->{
+Substituting in yields:
+\begin{align*}
+v_{jt}(X_{t})&=u_j(X_t)+\beta\sum_{X_{t+1}}\left[u_{k}(X_{t+1})-\log(p_{kt+1}(X_{t+1}))\right]f_j(X_{t+1}|X_t)+\\
+&\phantom{==u_j(X_t)+}\beta^2\sum_{X_{t+1}}\sum_{X_{t+2}}V_{t+2}(X_{t+2})f_k(X_{t+2}|X_{t+1})f_j(X_{t+1}|X_t)+\beta c
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+For choice $j'$, normalize FV term relative to choice $k$:
+
+\begin{align*}
+v_{j't}(X_{t})&=u_{j'}(X_t)+\beta\sum_{X_{t+1}}\left[u_{k}(X_{t+1})-\log(p_{kt+1}(X_{t+1}))\right]f_{j'}(X_{t+1}|X_t)+\\
+&\phantom{==u_{j'}(X_t)+}\beta^2\sum_{X_{t+1}}\sum_{X_{t+2}}V_{t+2}(X_{t+2})f_k(X_{t+2}|X_{t+1})f_{j'}(X_{t+1}|X_t)+\beta c
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Renewal property: $V_{t+2}(X_{t+2})$ terms \textcolor{navy}{cancel out} in differences
+
+\begin{align*}
+v_{jt}(X_{t})-v_{j't}(X_{t})&=u_j(X_t) - u_{j'}(X_t)\\
+&\phantom{=}+\beta\sum_{X_{t+1}}\left[u_{k}(X_{t+1})-\log(p_{kt+1}(X_{t+1}))\right]f_j(X_{t+1}|X_t)\\
+&\phantom{=}-\beta\sum_{X_{t+1}}\left[u_{k}(X_{t+1})-\log(p_{kt+1}(X_{t+1}))\right]f_{j'}(X_{t+1}|X_t)
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Let's revisit the Rust (1987) bus engine model---two choices with flow payoffs:
+
+\begin{align*}
+u(X_t,d_t,\theta)=\left\{\begin{array}{ll}-c(X_t,\theta)&\text{if }d_t=0\\
+-[\overline{P}-\underline{P}+c(0,\theta)]&\text{if } d_t=1\end{array}\right.
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Replacing the engine sets $X_{t+1} = 0$ regardless of $X_t$ $\implies$ $j=1$ is renewal
+
+\bigskip{}
+
+Only need one-period-ahead replacement probability for future value
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Value functions (choice 1 is renewal, $k=1$):
+
+\begin{align*}
+v_1(X)&=u_1(X)+\beta\left[v_1(0)-\log(p_1(0))\right]+\beta c & \text{(replace)}\\
+v_0(X)&=u_0(X)+\beta\sum_{X'}\left[v_1(X')-\log(p_1(X'))\right]f(X'|X)+\beta c &\text{(maintain)}
+\end{align*}
+
+\onslide<2->{
+\bigskip
+Key property: $v_1(X) = v_1(0)$ for all $X$ because:
+\bigskip
+}
+
+\begin{enumerate}
+\itemsep1.5em
+    \item<3-> \textcolor{navy}{Renewal}: Next period's state is always 0 after replacement 
+    
+    $\implies$ continuation value $\beta[v_1(0)-\log(p_1(0))]$ is identical for all $X$
+    \item<4-> \textcolor{navy}{Rust's specification}: $u_1(X)$ is constant in $X$
+\end{enumerate}
+
+\onslide<5->{
+\bigskip
+Together: both current flow utility and all future values are independent of $X$
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Taking differences:
+\begin{align*}
+v_1(X)-v_0(X)&=u_1(X)-u_0(X)\\
+&\phantom{=}+\beta\left[v_1(0)-\log(p_1(0))\right]\\
+&\phantom{=}-\beta\sum_{X'}\left[\only<2>{\highlight{v_1(X')}}\only<1,3->{v_1(X')}-\log(p_1(X'))\right]f(X'|X)
+\end{align*}
+
+\onslide<2->{
+Since $v_1(X') = v_1(0)$ for all $X'$:
+\begin{align*}
+&= u_1(X)-u_0(X)\only<4>{\highlight{+\beta v_1(0)}}\only<2,3,5->{+\beta v_1(0)} - \beta\log(p_1(0))\\
+&\phantom{=}\only<2>{-\beta\highlight{v_1(0)}}\only<4>{\highlight{-\beta v_1(0)}}\only<3,5->{-\beta v_1(0)}\sum_{X'}f(X'|X) + \beta\sum_{X'}\log(p_1(X'))f(X'|X)
+\end{align*}
+}
+
+\onslide<4->{
+The $\beta v_1(0)$ terms cancel (since $\sum_{X'}f(X'|X)=1$):
+\begin{align*}
+v_1(X)-v_0(X)&=u_1(X)-u_0(X)+\beta\sum_{X'}\left[\log(p_1(X'))-\log(p_1(0))\right]f(X'|X)
+\end{align*}
+}
+
+\onslide<5->{
+Estimation: logit with adjustment term, calculate $p_1$ and $f(X'|X)$ in first stage
+}
+
+\end{frame}
+
+
+
+\end{document}
