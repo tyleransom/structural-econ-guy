@@ -1,0 +1,75 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+\textcolor{navy}{Simple Example:} OLS via Indirect Inference
+
+\bigskip
+
+True model: $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon$, \quad $\varepsilon \sim N(0,\sigma^2)$
+
+\bigskip
+
+\onslide<2->{
+Parameters to estimate: $\theta = (\beta_0, \beta_1, \beta_2, \sigma)$
+}
+
+\bigskip
+
+\onslide<3->{
+Auxiliary statistics (7 moments):
+$$\alpha = \begin{pmatrix} E[y] \\ E[x_1]\\ E[x_2] \\ \text{Cov}(y,x_1)\\ \text{Cov}(y,x_2) \\ \text{Cov}(x_1,x_2) \\ \text{Var}(y) \end{pmatrix}$$
+}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Algorithm:}
+
+\bigskip
+
+\begin{enumerate}
+\itemsep1.5em
+\item<1-> Compute $\hat{\alpha}$ from real data
+\item<2-> For candidate $\theta$, simulate $N$ observations, repeated $S=10$ times:
+$$y^{(s)} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \sigma \cdot \varepsilon^{(s)}$$
+\item<3-> Compute $\tilde{\alpha}_s(\theta)$ for each simulation, average: $\bar{\tilde{\alpha}}(\theta) = \frac{1}{S}\sum_{s=1}^S \tilde{\alpha}_s(\theta)$
+\item<4-> Minimize: $J(\theta) = ||\hat{\alpha} - \bar{\tilde{\alpha}}(\theta)||^2$
+\end{enumerate}
+
+\bigskip
+
+\onslide<5->{
+Result: $\hat{\theta} \approx$ OLS estimates
+}
+
+
+\bigskip
+
+\onslide<6->{
+Note that we obtain our estimates \textcolor{navy}{indirectly} using moments of the data
+}
+
+\end{frame}
+
+\end{document}

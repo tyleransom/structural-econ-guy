@@ -1,0 +1,275 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+GMM is a fundamental concept in graduate-level econometrics
+
+\bigskip{}
+
+\onslide<2->{
+Very popular because it nests many common estimators:
+\bigskip\par
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> OLS
+\item<4-> IV and 2SLS
+\item<5-> Nonlinear least squares (NLLS)
+\end{itemize}
+
+\onslide<6->{
+\bigskip\par
+Can also (asymptotically) replicate MLE when using score-based moment conditions
+}
+\onslide<7->{
+\bigskip\par
+Unlike MLE, GMM need not assume exact distribution of errors
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+Consider a simple regression model:
+
+\begin{align*}
+y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+Assume $\mathbb{E}[\varepsilon \mid \mathbf{x}] = 0$ (conditional independence)
+}
+
+\bigskip{}
+
+\onslide<3->{
+Then we can form a system of 3 equations and 3 unknowns
+}
+
+
+\bigskip{}
+
+\onslide<4->{
+Note: If we were doing MLE, we would need to assume, e.g. $\varepsilon\overset{iid}{\sim}N(0,\sigma^2)$
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+\only<1>{
+OLS population moment conditions:
+\begin{align*}
+\mathbb{E}[\varepsilon]     &= 0\\
+&\\
+\mathbb{E}[\varepsilon x_1] &= 0\\
+&\\
+\mathbb{E}[\varepsilon x_2] &= 0
+\end{align*}
+}
+
+\only<2->{
+Rewriting in terms of parameters $(\beta_0,\beta_1,\beta_2)$:
+\begin{align*}
+\mathbb{E}[(y - \beta_0 - \beta_1 x_1 - \beta_2 x_2)]     &= 0\\
+&\\
+\mathbb{E}[(y - \beta_0 - \beta_1 x_1 - \beta_2 x_2) x_1] &= 0\\
+&\\
+\mathbb{E}[(y - \beta_0 - \beta_1 x_1 - \beta_2 x_2) x_2] &= 0
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Replace expectations with sample analogs to get sample moment conditions:
+\onslide<2->{
+\begin{align*}
+g\left(\boldsymbol \beta\right) &=\begin{cases}
+\frac{1}{N}\sum_{i=1}^N(y_i - \beta_0 - \beta_1 x_{i1} - \beta_2 x_{i2})         &= 0\\
+\frac{1}{N}\sum_{i=1}^N(y_i - \beta_0 - \beta_1 x_{i1} - \beta_2 x_{i2}) x_{i1} &= 0\\
+\frac{1}{N}\sum_{i=1}^N(y_i - \beta_0 - \beta_1 x_{i1} - \beta_2 x_{i2}) x_{i2} &= 0
+\end{cases}
+\end{align*}
+}
+
+\onslide<3->{
+Estimate by \textcolor{navy}{exactly-identified GMM}:
+\begin{align*}
+\hat{\boldsymbol \beta} &= \arg \min_{\boldsymbol \beta} J\left(\boldsymbol \beta\right)
+\end{align*}
+where
+\begin{align*}
+J\left(\boldsymbol \beta\right) &= N g\left(\boldsymbol \beta\right)' g\left(\boldsymbol \beta\right)
+\end{align*}
+}
+
+\onslide<4->{
+For OLS, this objective function has a closed form solution: $(X'X)^{-1}X'y$
+}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+\onslide<1->{
+When we have more moment conditions than parameters, we need to weight:
+}
+
+\onslide<2->{
+\begin{align*}
+\hat{\boldsymbol \beta} &= \arg \min_{\boldsymbol \beta} J\left(\boldsymbol \beta, \hat{\mathbf{W}}\right)
+\end{align*}
+}
+\onslide<3->{
+where
+\begin{align*}
+J\left(\boldsymbol \beta\right) &= N g\left(\boldsymbol \beta\right)' \hat{\mathbf{W}}(\boldsymbol \beta) g\left(\boldsymbol \beta\right)
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+There is extensive econometric theory about:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> The optimal weighting matrix $\hat{\mathbf{W}}$ \onslide<3->{(weight each moment by inverse of its variance)}
+\item<4-> Asymptotic properties of the GMM estimator \onslide<4->{(they're good)}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Another approach to OLS:
+
+\bigskip{}
+
+\onslide<2->{
+Previously: solved $K$ equations of $\mathbb{E}\left[\varepsilon X_k\right]=0$ and $\mathbb{E}\left[\varepsilon\right]=0$
+}
+
+\bigskip{}
+
+\onslide<3->{
+Alternative: attempt to match $y$ to $X\beta$ for every observation (as closely as possible)
+\bigskip\par
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<4-> Set $g = y-X\beta$
+\item<5-> $N$ ``moment conditions'' (residuals) and $K+1$ parameters
+\item<6-> Use $N\times N$ Identity matrix for $\mathbf{W}$
+\item<7-> This is precisely OLS
+\end{itemize}
+
+
+\bigskip{}
+
+\onslide<8->{
+In practice, this approach often has better computational properties
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Classical approach for binary logit:
+
+\onslide<2->{
+\begin{align*}
+g\left(\boldsymbol \beta\right) &=\begin{cases}
+\frac{1}{N}\sum_{i=1}^N\left[y_i - \frac{\exp\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}\right)}{1+\exp\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}\right)}\right]         &= 0\\[1em]
+\frac{1}{N}\sum_{i=1}^N\left[y_i - \frac{\exp\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}\right)}{1+\exp\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}\right)}\right] x_{i1} &= 0\\[1em]
+\frac{1}{N}\sum_{i=1}^N\left[y_i - \frac{\exp\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}\right)}{1+\exp\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}\right)}\right] x_{i2} &= 0\end{cases}
+\end{align*}
+
+where $y_i \in \left\{0,1\right\}$
+}
+
+\onslide<3->{
+\bigskip{}
+
+Same formula for $J$ as in the OLS case
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\onslide<1->{
+\bigskip\par
+\textcolor{navy}{Alternative approach}: use $g = y - P$ where $y\in \left\{0,1\right\}$ and $P\in\left(0,1\right)$
+
+\bigskip{}
+}
+
+\onslide<2->{
+Again: $N$ ``moment conditions'' (residuals) and $K+1$ parameters to be estimated
+\bigskip\par
+}
+
+\onslide<3->{
+This is known as \textcolor{navy}{Nonlinear Least Squares (NLLS)}
+}
+
+\end{frame}
+
+
+
+\end{document}

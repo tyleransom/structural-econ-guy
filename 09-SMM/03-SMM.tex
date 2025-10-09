@@ -1,0 +1,170 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\hypersetup{
+    colorlinks=true,      % color the text of links instead of boxes
+    urlcolor=navy,        % color for \href and \url links
+    linkcolor=navy,       % color for internal links (e.g., \ref)
+    citecolor=darkgreen   % color for citations, if you use them
+}
+
+
+\begin{document}
+
+\begin{frame}
+
+Simulated Method of Moments
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> SMM is a simulated version of GMM
+\item<3-> Uses moments from simulated data instead of analytical moments
+\item<4-> Objective: make simulated and actual data match
+\item<5-> See \href{http://www.jstor.org/stable/1913621}{McFadden (1989)} and \href{https://github.com/QuantEcon/notebook-gallery/blob/main/ipynb/richard_w_evans-smmest.ipynb}{Evans (2018)} for details
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Pros of SMM
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Can estimate models with $P$'s that don't have closed form (e.g. probit)
+\item<3-> Can handle otherwise intractable models (dynamic models, high-dim integrals)
+\item<4-> Can estimate micro-models using only aggregated data
+\item<5-> Simulation code already done---easy to move to counterfactuals
+\item<6-> Straightforward to interpret which moments the model is fitting
+\item<7-> Easier to compare with reduced-form evidence
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Cons of SMM
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Much more computationally intensive than GMM
+\item<3-> Must fully specify model (including error distribution)
+\item<4-> Loss of statistical efficiency relative to MLE (larger standard errors)
+\item<5-> Selection of moments can feel ad hoc
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+SMM Example: Linear Regression
+
+\bigskip
+
+Consider a simple linear regression model:
+
+\begin{align*}
+y &= X\beta + \varepsilon,\\
+\varepsilon&\sim N(0,\sigma^2)
+\end{align*}
+
+\bigskip
+
+\onslide<2->{
+$y$ and $X$ are data; we want to estimate $\beta$ and $\sigma$
+
+\bigskip
+
+As mentioned earlier, we must make a strong assumption about DGP: $\varepsilon\sim N(0,\sigma^2)$
+}
+
+\end{frame}
+
+\begin{frame}
+
+SMM Estimation Steps
+
+\bigskip
+
+For each guess of $\theta = [\beta', \sigma]'$:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Compute data moments
+\item<3-> Draw $N$ $\varepsilon$'s $D$ times (typically $D>1000$)
+\item<4-> For each draw, compute $\tilde{y} = X\beta + \varepsilon$
+\item<5-> Compute model moments using $\tilde{y}$ (same structure as data moments)
+\item<6-> Average model moments across all $D$ draws
+\item<7-> Update objective function: minimize distance between data and model moments
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Moments to Match
+
+\bigskip
+
+Data moments: $\left\{y_i, i=1,\ldots,N;\widehat{V}(y)\right\}$
+
+\bigskip
+
+\onslide<2->{
+Model moments: $\left\{\tilde{y}_i, i=1,\ldots,N;\widehat{V}(\tilde{y})\right\}$
+}
+
+
+\end{frame}
+
+\begin{frame}
+
+SMM Optimization
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Can use any optimizer for the SMM objective function
+\item<3-> SMM objective may have local optima (poorly behaved)
+\item<4-> Tactics for finding global optimum:
+\item<4->[]
+    \begin{itemize}
+    \itemsep1.5em
+    \item Use L-BFGS from many starting values
+    \item Use Simulated Annealing or Particle Swarm
+    \end{itemize}
+\item<5-> Simple problems (like OLS) should be well-behaved
+\item<6-> Be sure to use same draw of $\varepsilon$ in every iteration!
+\end{itemize}
+
+\end{frame}
+
+\end{document}

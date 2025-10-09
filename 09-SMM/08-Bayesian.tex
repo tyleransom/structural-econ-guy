@@ -1,0 +1,261 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+% Put this in preamble after \usetikzlibrary line
+\newcommand{\func}[1]{0.5 + 1.5*sin(deg(#1*3.14159/3))}
+
+\begin{document}
+
+
+
+\begin{frame}
+
+Recall: Mixed logit choice probability requires an integral
+
+\begin{align*}
+P_{ij}(X,Z;\beta,\mu,\sigma) &= \int\frac{\exp(X_{i}(\beta_{j}-\beta_{J})+\gamma_i(Z_{ij}-Z_{iJ}))}{\sum_k \exp(X_{i}(\beta_{k}-\beta_{J})+\gamma_i(Z_{ik}-Z_{iJ}))}f(\gamma_i;\mu,\sigma)d\gamma_i
+\end{align*}
+
+\onslide<2->{
+\bigskip
+
+This integral has no closed form $\rightarrow$ must approximate numerically
+}
+
+\onslide<3->{
+\bigskip
+
+\textcolor{navy}{Classical approach:} Quadrature or simulation-based methods
+}
+
+\onslide<4->{
+\bigskip
+
+\textcolor{navy}{Problem:} Maximization can be difficult (local maxima, slow convergence, ...)
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Bayesian approach avoids maximization entirely}
+
+\bigskip
+
+Instead of finding $\max_\theta \ell(\theta)$, calculate $E[\theta | \text{data}]$
+
+\onslide<2->{
+\bigskip
+
+\textcolor{navy}{Key insight:} Treat individual $\gamma_i$ as parameters alongside $\mu, \sigma$
+}
+
+\onslide<3->{
+\bigskip
+
+Use data augmentation via posterior distribution instead of integrating:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item Classical: $\int L(y_i|\gamma_i)dF(\gamma_i; \mu, \sigma)$ inside likelihood
+\item Bayesian: Draw $\gamma_i$ directly, condition on it
+\end{itemize}
+}
+
+\onslide<4->{
+\bigskip
+
+No simulation of choice probabilities needed → just evaluate logit formula at drawn $\gamma_i$
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Bayesian Gibbs sampling is like EM with continuous types}
+
+\bigskip
+
+Both treat $\gamma_i$ as latent → fill in $\gamma_i$ instead of integrating it out
+
+\bigskip
+\bigskip
+
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\textcolor{navy}{EM (you know this):}
+
+\bigskip
+
+E-step: $E[\gamma_i|y_i, \mu^{(m)}, \sigma^{(m)}]$
+
+\bigskip
+
+M-step: Maximize using expectations
+
+\bigskip
+
+$\rightarrow$ MLE
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textcolor{navy}{Bayesian Gibbs (new):}
+
+\bigskip
+
+Draw $\gamma_i \sim p(\gamma_i|y_i, \mu, \sigma)$
+
+\bigskip
+
+Draw $\mu, \sigma \sim p(\mu, \sigma|\{\gamma_i\})$
+
+\bigskip
+
+$\rightarrow$ Posterior mean $\approx$ MLE in limit
+
+\end{column}
+\end{columns}
+
+\onslide<2->{
+\bigskip
+\bigskip
+
+\textcolor{navy}{Difference:} EM integrates analytically, Gibbs samples via MCMC
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Bayesian procedure for mixed logit:
+
+\bigskip
+
+\textcolor{navy}{Gibbs sampling} - iteratively draw from conditional posteriors:
+\bigskip\par
+
+\begin{enumerate}
+\item<2-> Draw each $\gamma_i$ from posterior distribution $p(\gamma_i | \mu, \sigma, y_i)$ 
+\begin{itemize}
+\item Just evaluate logit likelihood at current $\mu, \sigma$
+\item No integral needed
+\end{itemize}
+\item[]<3->
+\item<3-> Draw $\mu$ from $p(\mu | \sigma, \{\gamma_i\})$ 
+\begin{itemize}
+\item Essentially: average of the $\gamma_i$'s
+\end{itemize}
+\item[]<4->
+\item<4-> Draw $\sigma$ from $p(\sigma | \mu, \{\gamma_i\})$
+\begin{itemize}
+\item Essentially: variance of the $\gamma_i$'s around $\mu$
+\end{itemize}
+\end{enumerate}
+
+\onslide<5->{
+\bigskip
+
+Repeat until convergence → posterior mean of draws = estimates
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\textcolor{navy}{How do we know the posterior distributions?}
+
+\bigskip
+
+\textcolor{navy}{Bayes' rule:}
+
+$$p(\theta | \text{data}) \propto L(\text{data}|\theta) \times \pi(\theta)$$
+
+\onslide<2->{
+\bigskip
+
+For $\gamma_i$: 
+\begin{itemize}
+\item $p(\gamma_i | \mu, \sigma, y_i) \propto L(y_i|\gamma_i) \times \pi(\gamma_i|\mu,\sigma)$
+\item No closed form → sample via Metropolis-Hastings (accept/reject)
+\end{itemize}
+}
+
+\onslide<3->{
+\bigskip
+
+For $\mu, \sigma$:
+\begin{itemize}
+\item Conjugate priors → closed form posteriors
+\item $p(\mu | \sigma, \{\gamma_i\}) \sim$ Normal
+\item $p(\sigma | \mu, \{\gamma_i\}) \sim$ Inverse Wishart
+\item Direct sampling (no M-H needed)
+\item (though usually use M-H for all parameters)
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Advantages of Bayesian approach:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> No maximization → no convergence issues, starting values less critical
+\item<3-> Number of simulation draws $R$ need not grow with sample size
+\item<4-> Naturally provides full posterior distribution of $\gamma_i$ (not just point estimates)
+\item<5-> Asymptotically equivalent to MLE (Bernstein-von Mises theorem)
+\end{itemize}
+
+\onslide<6->{
+\bigskip
+
+Disadvantages:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item Different convergence issue: to posterior distribution (burn-in)
+\item Slower for some specifications (fixed coefficients, bounded distributions)
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+
+
+
+\end{document}
+

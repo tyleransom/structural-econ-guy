@@ -1,0 +1,292 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+
+
+\begin{frame}
+
+Simulation allows us to compute complex integrals that arise in structural estimation
+
+\bigskip\par
+
+\onslide<2->{
+\textcolor{navy}{Why do we have complex integrals in estimation?}
+\bigskip\par
+}
+
+\onslide<3->{
+Integration over distributions of unobservables (e.g. preference heterogeneity)
+\bigskip\par
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<4-> cf. PS4: simulation can approximate integrals involving mixture distributions
+\item<5-> Alternative approach: quadrature (works only for low-dimensional integrals)
+\item<6-> For otherwise-intractable models, simulation may be the only option
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+
+Train (2009) discusses three main approaches:
+
+\bigskip
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Simulated Maximum Likelihood (SML, sometimes ``MSL'' or ``SMLE'')
+\item<3-> Simulated Method of Moments (SMM, sometimes ``MSM'')
+\item<4-> Method of Simulated Scores (MSS)
+\end{enumerate}
+
+\bigskip
+\onslide<5->{
+PS4 implemented SML for mixed logit estimation
+\bigskip\par
+
+This series: focus primarily on SMM
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+In SML, we replace exact probabilities with simulated approximations
+
+\bigskip
+
+\only<2>{
+Log-likelihood function:
+{\small
+\begin{align*}
+\ell\left(\theta\right) &= \sum_i \log\left\{\int\prod_{j}\left[P_{ij}\left(\theta,z\right)\right]^{d_{ij}}dF\left(z\right)\right\}
+\end{align*}
+}
+}
+
+\onslide<3->{
+Log-likelihood function:
+{\small
+\begin{align*}
+\ell\left(\theta\right) &= \sum_i \log\underbrace{\left\{\int\prod_{j}\left[P_{ij}\left(\theta,z\right)\right]^{d_{ij}}dF\left(z\right)\right\}}_{P_i\left(\theta\right)}
+\end{align*}
+}
+}
+
+\only<3>{
+Simulated log-likelihood:
+{\small
+\begin{align*}
+\ell\left(\theta\right) &= \sum_i \log\left\{\frac{1}{R}\sum_{r=1}^R\prod_{j}\left[P_{ij}\left(\theta,z^r\right)\right]^{d_{ij}}\right\}
+\end{align*}
+}
+}
+
+\onslide<4->{
+Log-likelihood function:
+{\small
+\begin{align*}
+\ell\left(\theta\right) &= \sum_i \log\underbrace{\left\{\frac{1}{R}\sum_{r=1}^R\prod_{j}\left[P_{ij}\left(\theta,z^r\right)\right]^{d_{ij}}\right\}}_{\check{P}_i\left(\theta\right)}
+\end{align*}
+}
+}
+
+\onslide<5->{
+where $\check{P}_i(\theta)$ is the simulated probability based on $R$ draws $z^r \sim F(z)$
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Key issue: bias from the log transformation
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Even if $\check{P}_i(\theta)$ is unbiased for $P_i(\theta)$, $\log \check{P}_i(\theta)$ is biased for $\log P_i(\theta)$
+\item<3-> This simulation bias affects the SML estimator
+\item<4-> Properties depend on relationship between $R$ (no. of draws) and $N$ (sample size)
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Three cases based on how $R$ grows with $N$:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> If $R$ is fixed: SML is \textcolor{navy}{inconsistent}
+\item<3-> If $R$ rises with $N$ at any rate: SML is \textcolor{navy}{consistent}
+\item<4-> If $R$ rises faster than $\sqrt{N}$: SML is \textcolor{navy}{asymptotically efficient}
+\end{itemize}
+
+\bigskip
+\onslide<5->{
+Practical implication: increase $R$ as sample size grows
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Simulated Method of Moments (SMM) avoids the log bias problem
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Match moments from data to moments from simulated model
+\item<3-> General approach: find $\theta$ such that $g(\theta) \approx 0$
+\item<4-> $g(\theta)$ compares empirical moments to model-implied moments
+\item<5-> No log transformation needed, so simulation bias is less severe
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+SMM framework parallels classical GMM
+
+\bigskip
+
+\only<2>{
+Classical moment condition:
+\begin{align*}
+g(\theta) &= \frac{1}{N}\sum_i \left[m_i - m(\theta)\right]
+\end{align*}
+}
+
+\onslide<3->{
+Simulated moment condition:
+\begin{align*}
+g(\theta) &= \frac{1}{N}\sum_i \left[m_i - \check{m}(\theta)\right]
+\end{align*}
+}
+
+\onslide<4->{
+where $\check{m}(\theta) = \frac{1}{R}\sum_{r=1}^R m(\theta, z^r)$ is the simulated moment
+
+\bigskip
+
+\onslide<5->{
+Minimize objective: $J(\theta) = Ng(\theta)' W g(\theta)$
+}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+GMM for discrete choice models:
+\bigskip\par
+
+For each observation $i$ and alternative $j$, define the moment:
+\begin{align*}
+g_{ij}(\theta) &= d_{ij} - P_{ij}(\theta)
+\end{align*}
+
+\onslide<2->{
+Stack into $NJ\times 1$ vector
+}
+
+\onslide<3->{
+\bigskip\par
+$J\left(\theta\right) = g(\theta)' W g(\theta)$ becomes NLLS when $W = \mathbf{I}_{NJ}$
+}
+\end{frame}
+
+
+
+\begin{frame}
+
+For SMM, we replace exact probabilities with simulated ones:
+
+
+\begin{align*}
+g(\theta) &= \frac{1}{N}\sum_i \sum_j \left[d_{ij} - \check{P}_{ij}(\theta)\right]
+\end{align*}
+
+\bigskip
+
+\onslide<2->{
+Key advantage over SML:
+\bigskip\par
+}
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Probabilities enter \textcolor{navy}{linearly} (no log transformation)
+\item<4-> No simulation bias if $\check{P}_{ij}(\theta)$ is unbiased
+\item<5-> Consistent even with fixed $R$ (though not as efficient as SML with $R\rightarrow\infty$)
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Method of Simulated Scores (MSS) can simulate the score in different ways
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Score function: $s(\theta) = \frac{\partial \log \ell(\theta)}{\partial \theta}$
+\item<3-> Key distinction: can use unbiased score simulators (not just $\frac{\partial \log \check{P}(\theta)}{\partial \theta}$)
+\item<4-> With unbiased simulators: consistent even for fixed $R$
+\item<5-> Efficient when $R$ rises at any rate with $N$ (better than MSL)
+\item<6-> Practical limitation: constructing unbiased score simulators is difficult
+\item<7-> Rarely used due to implementation challenges
+\end{itemize}
+
+\end{frame}
+
+\end{document}
