@@ -1,0 +1,126 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+Model validation addresses skepticism about model fit
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Using entire dataset for estimation risks \textcolor{navy}{overfitting}
+\item<3-> Matching targeted moments can also overfit
+\item<4-> \textcolor{navy}{Model validation} demonstrates model generalizes beyond data used for estimation
+\item<5-> i.e. for counterfactual prediction
+\item<6-> A valid model:
+\begin{itemize}
+    \item<7->[]
+    \item<7-> Reproduces patterns in a ``holdout sample'' excluded from estimation
+    \item<7->[]
+    \item<8-> Or matches moments of estimation sample not explicitly targeted
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Validation assesses whether the model ``makes sense''
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Qualitative: Do parameters conform to theory?
+\item<3-> Quantitative: Is prediction error sufficiently low?
+\item<4-> Machine learning uses \textcolor{navy}{cross-validation} to determine optimal complexity
+\item<5-> Cross-validation enables automated specification search
+\item<6-> Structural estimation rarely uses automated specification search
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Lang \& Palacios (2018, NBER WP)}
+
+\bigskip{}
+
+Key question: How much unobserved heterogeneity should we specify?
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Cannot determine optimal amount \textit{ex ante}
+\item<3-> Typical approach: Add ``enough'' for good in-sample fit
+\item<4-> Authors search for optimal number of types
+\item<5-> Use 20\% holdout sample for out-of-sample assessment
+\item<6-> Formally compare model fit between estimation and holdout data
+\item<7-> Take-away: Visual model fit often insufficient
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Delavande \& Zafar (2019, JPE)}
+
+\bigskip{}
+
+Alternative validation: Predict treatment effects in control group
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Compare model predictions across states of the world
+\item<3-> New state: Schooling without costs
+\item<4-> Elicited preferences under both cost regimes
+\item<5-> Estimated model using only one regime
+\item<6-> Tests whether model predicts behavior in counterfactual regime
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Arcidiacono et al. (2025, NBER WP)}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Analyze school choice vouchers in India
+\item<3-> Use a field experiment to validate structural model
+\item<4-> Estimate model on control villages, predict behavior in treatment villages
+\item<5-> Initial model: underpredicts take-up, overpredicts school quality
+\item<6-> Add new mechanisms based on prediction failures
+\item<7-> Enriched model predicts treatment outcomes much better
+\item<8-> Final policy experiments use enriched model
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}

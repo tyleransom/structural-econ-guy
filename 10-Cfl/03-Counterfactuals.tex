@@ -1,0 +1,93 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+
+\begin{document}
+
+\begin{frame}
+
+Counterfactuals: change the model, simulate new data, compare with status quo
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> ``Changing a policy'' typically captured by changing parameter values
+\item<3-> ``Policy experiments'' mimic real-world policy this way
+\item<4-> \textcolor{navy}{Note:} policy experiments assume invariance of other model parameters
+\item<5-> If one parameter changes, it won't ``leak'' into others
+\item<6-> This may be a heroic assumption, depending on the model
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Examples of counterfactuals:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \href{https://www.nber.org/papers/w27838}{Caucutt et al. (2020)}:  How do childcare/goods subsidies affect all parental investments when inputs are complements?
+\item<3-> \href{https://onlinelibrary.wiley.com/doi/full/10.3982/QE1722}{Fu et al. (2022)}: Would low-SES youth commit fewer crimes if sent to better schools?
+\item<4-> \href{https://jhr.uwpress.org/content/early/2021/03/02/jhr.monopsony.0219-10013R2}{Ransom (2022)}: Would American men move to a new city if paid \$10,000?
+\item<5-> \href{https://jhr.uwpress.org/content/early/2022/01/04/jhr.0421-11641R1}{Arcidiacono et al. (2024)}: Would Harvard become less white without legacy admissions?
+\item<6-> \href{https://www.journals.uchicago.edu/doi/abs/10.1086/732526}{Arcidiacono et al. (2025)}: How would human capital investment change with perfect information about one's abilities?
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+To perform counterfactual simulations:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Impose parameter restrictions
+\item<3-> Simulate fake data under those restrictions
+\item<4-> Compare resulting model summary to a ``baseline'' prediction (i.e. model fit)
+\end{itemize}
+
+\bigskip{}
+
+\onslide<6->{
+If you use SMM, you already have the code to simulate the model
+}
+
+\bigskip{}
+
+\onslide<7->{
+Otherwise, you'll need to write the code to compute the counterfactuals
+}
+
+\end{frame}
+
+\end{document}

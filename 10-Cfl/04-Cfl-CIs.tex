@@ -1,0 +1,79 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+Confidence intervals around counterfactuals
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> The counterfactuals produce, e.g., a new predicted distribution of $Y$
+\item<3-> But we don't know what the confidence intervals are around the prediction
+\item<4-> Our estimates inherently come with sampling variation
+\item<5-> We should incorporate that variation into our counterfactual
+\item<6-> How do we do this? Bootstrapping
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Bootstrapping to get CIs around counterfactuals
+
+\bigskip{}
+
+\onslide<2->{
+Recall: $-H^{-1}$ is the variance matrix of our estimates, where $H$ is the Hessian
+}
+
+\bigskip{}
+
+\onslide<3->{
+Assume that $\hat{\theta} \sim MVN(\theta,-H^{-1})$
+\bigskip\par
+}
+
+\onslide<4->{
+\begin{itemize}
+\itemsep1.5em
+\item but remember that we want to minimize $-\ell$ so we just use $H^{-1}$
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> We sample $B$ times from $MVN(\theta,-H^{-1})$ and compute our new counterfactuals
+\item<2-> Then we look at the 2.5th and 97.5th percentiles of cfl statistics
+\item<3-> This will represent a 95\% confidence interval of that statistic
+\item<4-> This algorithm is known as the \textcolor{navy}{parametric bootstrap}
+\item<5-> Contrast with \textcolor{navy}{nonparametric bootstrap} which is when we randomly re-sample data
+\item<6-> P.B. can be intensive if it is costly to conduct counterfactuals $\to$ rarely used
+\end{itemize}
+
+\end{frame}
+
+\end{document}
