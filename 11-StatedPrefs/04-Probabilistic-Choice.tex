@@ -1,0 +1,265 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Stated probabilistic choice models
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Now, we observe a probability of choosing each alternative
+\item<3-> What does this information represent? It represents the person's uncertainty
+\item<4-> Specifically, it represents \textcolor{navy}{resolvable uncertainty:} 
+\begin{itemize}
+    \item<5->[]
+    \item<5-> uncertainty about unspecified attributes or states of the world in which choices will ultimately be made
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Example of resolvable uncertainty:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Q. ``Will you go for Mexican or Thai food on Friday night?''
+\item<3-> A. ``Well, I'm not sure what mood I'll be in that day, but probably Mexican''
+\item<4-> Q. ``What do you mean by `probably'?''
+\item<5-> A. ``A 78\% chance''
+\end{itemize}
+
+\bigskip{}
+\onslide<6->{
+If the person thinks there is no such uncertainty, then they can report $p=0$ or $p=1$
+}
+
+\end{frame}
+
+\begin{frame}
+
+Estimating probabilistic choice models
+
+\bigskip{}
+
+\onslide<2->{
+How do we proceed with estimation when $y$ is itself a probability (not 0/1)?
+}
+
+\bigskip{}
+
+\onslide<3->{
+We invert the logit formula
+}
+
+\bigskip{}
+
+\onslide<4->{
+Consider the binomial logit as an example:
+\begin{align*}
+P_{i1} &= \frac{\exp\left(\left(Z_{i1}-Z_{i2}\right)\gamma\right)}{1+\exp\left(\left(Z_{i1}-Z_{i2}\right)\gamma\right)}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+Start with the logit probability:
+\begin{align*}
+P_{i1} &= \frac{\exp\left(\left(Z_{i1}-Z_{i2}\right)\gamma\right)}{1+\exp\left(\left(Z_{i1}-Z_{i2}\right)\gamma\right)}
+\end{align*}
+}
+
+\onslide<2->{
+And the complement:
+\begin{align*}
+1 - P_{i1} &= \frac{1}{1+\exp\left(\left(Z_{i1}-Z_{i2}\right)\gamma\right)}
+\end{align*}
+}
+
+\onslide<3->{
+Take the ratio (denominators cancel):
+\begin{align*}
+\frac{P_{i1}}{1-P_{i1}} &= \exp\left(\left(Z_{i1}-Z_{i2}\right)\gamma\right)
+\end{align*}
+}
+
+\onslide<4->{
+Take logs:
+\begin{align*}
+\log\left(\frac{P_{i1}}{1-P_{i1}}\right) &= \left(Z_{i1}-Z_{i2}\right)\gamma
+\end{align*}
+}
+
+\onslide<5->{
+Now we're in a world where we can (in principle) use OLS to estimate $\gamma$!
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Stated probabilities provide more information than discrete choice or rank ordering
+
+\bigskip{}
+
+\onslide<2->{
+Consider the following responses for an individual:
+
+\bigskip{}
+
+\begin{table}
+\begin{tabular}{ccccc}
+\toprule
+Option & Discrete Choice & Rank Ordering & Stated Prob 1 & Stated Prob 2\\
+\midrule
+A & 0 & 2 & 0.01 & 0.49\\
+B & 1 & 1 & 0.99 & 0.51\\
+C & 0 & 3 & 0.00 & 0.00\\
+\bottomrule
+\end{tabular}
+\end{table}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> The preference ordering is the same in each column
+\item<2-> But the implied preference intensity is much different in the last two columns
+\item<3-> A (0,1,0) discrete choice response corresponds to a (0,100,0) probability response
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Measurement error
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> One concern with stated probabilities is measurement error
+\item<3-> Rather than report 99.5\%, someone may just write 100\%
+\item<4-> But if $p=0$ or $p=1$, $\log\left(\frac{P_{i1}}{1-P_{i1}}\right)$ is undefined!
+\item<5-> In this case, we have to recode 0s or 1s to be small values (e.g. .001, .999)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Then, to avoid contamination, we need to use LAD instead of OLS. New equation:
+
+\begin{align*}
+\log\left(\frac{\tilde{P}_{i1}}{1-\tilde{P}_{i1}}\right) &= \left(Z_{i1}-Z_{i2}\right)\gamma + \eta_{i1}
+\end{align*}
+
+\bigskip{}
+
+\onslide<2->{
+where $\tilde{P}$ is the recoded probability and $\eta_{i1}$ is the difference in measurement errors
+}
+
+\end{frame}
+
+\begin{frame}
+
+Estimation with $J>2$
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> The above is the equation for a 2-option choice set
+\item<3-> With more than 2 options, we have more observations per scenario
+\end{itemize}
+
+\onslide<4->{
+\bigskip{}
+
+If $J=3$, we have:
+\begin{align*}
+\log\left(\frac{\tilde{P}_{i1}}{\tilde{P}_{i2}}\right) &= \left(Z_{i1}-Z_{i2}\right)\gamma + \eta_{i1}\\
+\log\left(\frac{\tilde{P}_{i3}}{\tilde{P}_{i2}}\right) &= \left(Z_{i3}-Z_{i2}\right)\gamma + \eta_{i3}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+If we see $N$ people each making $T$ choices, then our data has $NT(J-1)$ rows:
+\bigskip\par
+
+\onslide<2->{
+\begin{table}
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+ID & Scenario & Alternative & Probability & $Z$ & $Z_j - Z_B$ & $\log(P_j/P_B)$ \\
+\midrule
+1 & 1 & A & 0.45 & 2.3 & 0.5 & 1.099 \\
+1 & 1 & B & 0.15 & 1.8 & 0.0 & --- \\
+1 & 1 & C & 0.40 & 3.1 & 1.3 & 0.981 \\ \midrule
+1 & 2 & A & 0.25 & 2.5 & -0.4 & -0.875 \\
+1 & 2 & B & 0.60 & 2.9 & 0.0 & --- \\
+1 & 2 & C & 0.15 & 1.7 & -1.2 & -1.386 \\\midrule
+2 & 1 & A & 0.10 & 3.2 & -0.9 & -1.946 \\
+2 & 1 & B & 0.70 & 4.1 & 0.0 & --- \\
+2 & 1 & C & 0.20 & 2.8 & -1.3 & -1.253 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\bigskip\par
+}
+
+\onslide<3->{
+Drop the rows for alternative B before estimating LAD regression models
+}
+
+\end{frame}
+
+
+
+
+\end{document}

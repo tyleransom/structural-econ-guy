@@ -1,0 +1,167 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Example hypothetical choice scenarios from \href{https://www.sciencedirect.com/science/article/abs/pii/S0304407621000415}{Ko\c{s}ar, Ransom and van der Klaauw (2022)}
+
+\bigskip
+
+\onslide<2->{
+What is the percent chance you would choose to live in each of these three locations given their characteristics below? \textit{Assume that the locations are otherwise identical.}
+}
+
+\bigskip
+
+\onslide<3->{
+\textcolor{navy}{Scenario 1}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Option & Distance & Family here & Income & Probability \\
+\midrule
+A (not move) & 0 & No & 30\% lower & \\
+B & 1000 miles & Yes & same & \\
+C & 1000 miles & No & 30\% higher & \\
+\bottomrule
+\end{tabular}
+\end{table}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Scenario 2}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Option & Distance & Family here & Income & Probability \\
+\midrule
+A (not move) & 0 & Yes & 30\% lower & \\
+B & 500 miles & Yes & 150\% higher & \\
+C & 100 miles & No & 60\% higher & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+
+\begin{frame}
+
+Types of SP choice experiments
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Discrete choice
+\medskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item Individuals select which of the $J$ options they prefer
+    \item i.e. if $J=3$ then the $y$ vector will be $[0,1,0]$, $[1,0,0]$, or $[0,0,1]$
+    \end{itemize}
+\item<3-> Rank-ordered choice
+    \begin{itemize}
+    \item[]
+    \item Individuals provide their preference ordering of the $J$ options
+    \end{itemize}
+\item<4-> Probabilistic choice
+    \begin{itemize}
+    \item[]
+    \item Individuals provide choice probabilities of each of the $J$ options (must sum to 1)
+    \end{itemize}
+\end{itemize}
+
+\bigskip
+
+\onslide<5->{
+Each of these settings provides increasing amounts of information
+}
+
+\end{frame}
+
+\begin{frame}
+
+General considerations in designing choice experiments
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Keep the number of choices limited (2-4 alternatives most common)
+\item<3-> Have the choice setup mimic real-life decisions
+\item<4-> Include a status-quo or reference option (despite risk of status-quo bias)
+\item<5-> Only vary a small subset of attributes at a time
+\item<6-> Instruct respondents that alternatives only differ in explicitly listed attributes
+\item<7-> Randomly assign respondents to subsets of choice alternatives/attributes
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Identification and design
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Need independent variation in each attribute to identify preferences
+\item<3-> With three attributes: need four choice scenarios with independent variation to identify linear effects
+\item<4-> Additional scenarios required for nonlinear effects or interaction effects
+\item<5-> Large literature on optimal design variation across scenarios (D-efficient or D-optimal designs)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Why elicit choice probabilities?
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Accommodates remaining uncertainty about unspecified attributes or states of the world (resolvable uncertainty)
+\item<3-> Provides respondents opportunity to express such uncertainty
+\item<4-> Collects richer information than forcing binary choice
+\item<5-> Example: if two alternatives highly preferred to third and individual is close to indifferent between first two, this is better captured in choice probabilities
+\item<6-> Whether such resolvable uncertainty exists is an empirical question
+\end{itemize}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,166 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\begin{document}
+
+\begin{frame}
+
+\textcolor{navy}{Stated Preferences (SP) vs. Revealed Preferences (RP)}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Up to now: \textit{revealed preference} data
+\item<3-> Data on choices that were \textit{actually made}
+\item<4-> In contrast: \textcolor{navy}{stated preferences}
+\item<5-> Data on choices that are \textcolor{navy}{hypothetically} made
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{What are Stated Preferences?}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> SP derived from hypothetical situations
+\item<3-> Example: ``which of these three trucks would you purchase?''
+\item<4-> Response based on what one \textit{would} choose, not actual choice
+\item<5-> SP tightly related to counterfactuals we consider
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\textcolor{navy}{The Revealed Preference Paradox}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.25em
+\item<2-> Most important factors to consumer choices show \textit{least} variation in data
+\item<3-> Why? Market equilibrium forces
+\item<4-> e.g. consumers are highly price-responsive $\to$ firms match competitors' prices
+\item<5-> $\implies$ All firms charge same price (equilibrium)
+\item<6-> In data: Price coefficient appears insignificant (no variation)
+\item<7-> $\overset{?}{\implies}$ Price unimportant to consumers
+\item<8-> Price is \textit{so} important that it created equilibrium
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{center}
+\textcolor{navy}{Revealed Preferences (RP)}
+\end{center}
+\begin{itemize}
+\itemsep1em
+\item<2-> Usually don't know choice set
+\item<3-> Unable to observe important variables
+\item<4-> Limited variation in key dimensions
+\item<5-> Restricted to existing/past settings
+\item<6-> Must consider equilibrium allocation
+\item<7-> Counterfactuals require care
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{center}
+\textcolor{navy}{Stated Preferences (SP)}
+\end{center}
+\begin{itemize}
+\itemsep1em
+\item<2-> Specify complete choice set
+\item<3-> Specify and observe all relevant variables
+\item<4-> Control variation in data
+\item<5-> Useful for unseen settings
+\item<6-> Separate preferences from system
+\item<7-> Multiple counterfactuals per individual
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Disadvantages of SP}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> They are hypothetical---may not be grounded in reality
+\item<3-> Example: 90s pop song ``If I Had a Million Dollars''
+\item<4-> Data collection not necessarily multipurpose
+\item<5-> May require mastery of survey methodology
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Collection of RP Data}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> RP data typically collected by governments or NGOs
+\item<3-> Examples: household surveys, administrative data
+\item<4-> These sources have many uses
+\item<5-> \textcolor{navy}{Thousands} of papers have used the NLSY surveys
+\item<6-> Administrative data for tax collection and research
+\item<7-> Widely available and comparable across time/contexts
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Collection of SP Data}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.25em
+\item<2-> SP data collected under narrower scope
+\item<3-> Individuals answer hypothetical choice scenarios
+\item<4-> $X$'s in each scenario are randomized
+\item<5-> Data typically limited to specific research questions
+\item<6-> Researchers usually collect their own data
+\item<7-> Requires survey methodology knowledge
+\item<8-> Requires funding for survey participation
+\item<9-> More work up front, but much simpler analysis
+\end{itemize}
+
+\end{frame}
+
+\end{document}

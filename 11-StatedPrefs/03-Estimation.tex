@@ -1,0 +1,147 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Example data structure in a discrete choice experiment:
+
+\bigskip{}
+
+\begin{table}
+\centering
+\begin{tabular}{ccccc}
+\toprule
+ID & Scenario & Alternative & Chosen & $Z$ \\
+\midrule
+1 & 1 & A & 1 & 2.3 \\
+1 & 1 & B & 0 & 1.8 \\
+1 & 1 & C & 0 & 3.1 \\ \midrule
+1 & 2 & A & 0 & 2.5 \\
+1 & 2 & B & 1 & 2.9 \\
+1 & 2 & C & 0 & 1.7 \\ \midrule
+2 & 1 & A & 0 & 3.2 \\
+2 & 1 & B & 1 & 4.1 \\
+2 & 1 & C & 0 & 2.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\bigskip{}
+
+\onslide<2->{
+Each individual faces multiple scenarios, each with multiple alternatives
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Estimation proceeds as if one has panel data on choices (Rust, 1987)
+\item<2-> Each choice scenario is another observation in the individual's panel
+\item<3-> Can estimate assuming multinomial logit, nested logit, mixed logit, etc.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+Example data structure for rank-ordered logit:
+
+\bigskip{}
+
+\begin{table}
+\centering
+\begin{tabular}{ccccc}
+\toprule
+ID & Scenario & Alternative & Rank & $Z$ \\
+\midrule
+1 & 1 & A & 1 & 2.3 \\
+1 & 1 & B & 3 & 1.8 \\
+1 & 1 & C & 2 & 3.1 \\ \midrule
+1 & 2 & A & 2 & 2.5 \\
+1 & 2 & B & 1 & 2.9 \\
+1 & 2 & C & 3 & 1.7 \\\midrule
+2 & 1 & A & 3 & 3.2 \\
+2 & 1 & B & 1 & 4.1 \\
+2 & 1 & C & 2 & 2.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\bigskip{}
+
+\onslide<2->{
+Rank $= 1$ indicates most preferred alternative in each scenario
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Here, we use the \textcolor{navy}{exploded logit} model (Beggs et al., 1981) for estimation
+
+\bigskip{}
+
+\onslide<2->{
+The ``choice probability'' is the joint event of a particular ranking of options
+}
+
+\bigskip{}
+
+\onslide<3->{
+It's a product of logit $P$'s, where the choice set decreases as options are ranked:
+
+\begin{align*}
+\Pr\left(\text{Ranking}=1,\ldots,J\right) &= \frac{\exp\left(Z_{i1}\gamma\right)}{\sum_{k=1}^J\exp\left(Z_{ik}\gamma\right)}\frac{\exp\left(Z_{i2}\gamma\right)}{\sum_{k=2}^J\exp\left(Z_{ik}\gamma\right)}\cdots\frac{\exp\left(Z_{iJ-1}\gamma\right)}{\sum_{k=J-1}^J\exp\left(Z_{ik}\gamma\right)}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> We can also add mixing to these probabilities to get a \textcolor{navy}{mixed exploded logit}
+\item<2-> Note that rank ordering provides more information than 0/1 choice data
+\item<3-> We now know the relative preference of the $J-1$ non-chosen options
+\end{itemize}
+
+\end{frame}
+
+\end{document}
