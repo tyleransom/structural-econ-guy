@@ -1,0 +1,125 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+How to estimate factor models?
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Typically, we impose distributional assumptions on $\boldsymbol{\theta}$ and $\boldsymbol{\varepsilon}$
+\item<3-> e.g. assume $\boldsymbol{\theta}$ and $\boldsymbol{\varepsilon}$ are each MVN with 0 covariance and $\boldsymbol{\theta} \perp \boldsymbol{\varepsilon}$
+\item<4-> Then we estimate $(\boldsymbol{\beta}, \Lambda, \Sigma_{\boldsymbol{\theta}}, \Omega)$ by maximum likelihood
+\item<5-> The likelihood function will need to be integrated, since $\boldsymbol{\theta}$ is unobserved
+\item<6-> Can use quadrature, MC integration, SMM, MCMC, or EM / MM algorithms
+\item<7-> As you know, these vary in their ease of use!
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> The whole reason we use a factor model is to reduce bias and improve precision
+\item<2-> Let's go back to the log wage example from earlier
+\bigskip\par
+\begin{itemize}
+    \itemsep1.5em
+    \item<3-> $\beta$'s are biased if we omit cognitive ability (omitted variable bias)
+    \item<4-> $\beta$'s are also biased if we include IQ score (attenuation bias from meas. err.)
+    \item<5-> We know ability affects wages, and we have (noisy \& correlated) measurements of it
+\end{itemize}
+\item<6-> We can estimate the log wage parameters by maximum likelihood
+\item<7-> We combine together the log wage and factor model likelihoods
+\item<8-> Coding walkthrough later
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Log wage example: system of equations
+\onslide<2->{
+\begin{align*}
+    asvab_j &= W\alpha_j + \gamma_j\xi + \varepsilon_j \\
+    \log(wage) &= X\beta + \delta \xi + \eta\nonumber
+\end{align*}
+
+\bigskip
+
+where $\xi \sim N(0,1)$ is unobserved cognitive ability
+}
+\bigskip
+
+\onslide<3->{
+Likelihood for observation $i$, assuming $\eta \sim N(0,\sigma_w^2)$ and $\varepsilon_j \sim N(0,\sigma_j^2)$:
+\begin{align*}
+    \mathcal{L}_i &= \left\{\prod_j \frac{1}{\sigma_j}\phi\left(\frac{asvab_{ij} - W_{i}\alpha_j - \gamma_j \xi_i}{\sigma_j}\right)\right\}\frac{1}{\sigma_w}\phi\left(\frac{\log(wage_i) - X_{i}\beta - \delta \xi_i}{\sigma_w}\right)
+\end{align*}
+
+Since $\xi$ is unobserved, integrate out: $\ell = \sum_i \log\left(\int \mathcal{L}_i \text{d} F\left(\xi\right)\right)$
+}
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Factor models can also be used to account for dynamic selection
+\item<2-> Intuition: \textcolor{navy}{$\uparrow$ cog. abil $\Rightarrow \,\,\uparrow$ schooling $\Rightarrow \,\,\uparrow$ wages}
+\item<3-> Schooling is endogenous, so we can add a schooling choice model to our likelihood
+\item<4-> Ability factor $\to$ choice of schooling $\Rightarrow$ corr. between schooling choices and wages
+\item<5-> But conditional on the factor, we have separability of the likelihood components
+\end{itemize}
+
+\onslide<6->{
+\begin{align*}
+\mathcal{L} = \int \underbrace{\mathcal{L}_1(A)}_{\text{measurements}}\underbrace{\mathcal{L}_2(A)}_{\text{choices}}\underbrace{\mathcal{L}_3(A)}_{\text{wages}} dF(A)
+\end{align*}
+}
+\onslide<7->{
+\begin{itemize}
+\itemsep1.5em
+\item Reminiscent of mixed logit / preference heterogeneity
+\end{itemize}
+}
+
+\end{frame}
+
+\end{document}

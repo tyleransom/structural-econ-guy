@@ -1,0 +1,156 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Recall our factor model with observable characteristics:
+\begin{align*}
+M &= X\boldsymbol{\beta} + \underbrace{\boldsymbol{\theta}\Lambda + \boldsymbol{\varepsilon}}_{\boldsymbol{u}} \\
+\end{align*}
+\only<2>{
+We need to make the following assumptions:
+\begin{align*}
+\mathbb{E}\left(\boldsymbol{\varepsilon}\right) &= \mathbf{0}_{J\times 1}\\
+\mathbb{V}\left(\boldsymbol{\varepsilon}\right) &\equiv \mathbb{E}\left(\boldsymbol{\varepsilon}'\boldsymbol{\varepsilon}\right)=\Omega_{J\times J}\\
+\Omega_{[j,j]} &= \sigma^2_j\\
+\Omega_{[j,k]} &= 0\\
+\mathbb{E}\left(\boldsymbol{\theta}\right) &= \mathbf{0}_{2\times 1}\\
+\mathbb{V}\left(\boldsymbol{\theta}\right) &= \Sigma_{\boldsymbol{\theta}}
+\end{align*}
+}
+
+\only<3>{
+Then
+\begin{align*}
+\mathbb{E}\left(u\right) &= \mathbf{0}_{J\times 1}\\
+\mathbb{V}\left(u\right) &= \Lambda\Sigma_{\boldsymbol{\theta}}\Lambda' + \Omega\\
+\Sigma_{\boldsymbol{\theta}} &= \left[\begin{array}{cc}
+\sigma^2_{\theta_1} & \sigma_{\theta_1 \theta_2}\\
+\sigma_{\theta_1 \theta_2} & \sigma^2_{\theta_2}\\
+\end{array}\right]
+\end{align*}
+}
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Our only data source to estimate $\Lambda$ and $\Sigma_{\boldsymbol{\theta}}$ is $\mathbb{V}\left(M-X\boldsymbol{\beta}\right)\equiv \mathbb{V}\left(u\right)$
+
+\bigskip{}
+
+\onslide<2->{
+Let's look at the variance-covariance matrix of $u$:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> This has $J$ diagonal elements and $\frac{J(J-1)}{2}$ unique off-diagonal elements
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<4->{
+With these $J+\frac{J(J-1)}{2}$ moments in the data, we want to estimate:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<5-> The $J$ diagonal elements of $\Omega$ (i.e. the $\sigma^2_j$'s)
+\item<6-> $2J$ elements of $\Lambda$
+\item<7-> three elements of $\Sigma_{\boldsymbol{\theta}}$
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> We have $3J+3$ parameters, but only $J+\frac{J(J-1)}{2}$ data moments
+\item<2-> In general, the model is not identified. Need to impose further assumptions
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+The following are common assumptions, but you could impose others
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> $\theta_1 \perp \theta_2$ (so $\Sigma_{\boldsymbol{\theta}}$ is diagonal)
+\item<3-> The scale of each factor is arbitrary. 2 ways to normalize the scale:
+    \bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<4-> $\Sigma_{\boldsymbol{\theta}} = I_{2\times 2}$
+    \medskip\par or \vspace{-0.25cm}
+    \item<5-> Set one element of each row of $\Lambda=1$
+    \end{itemize}
+\end{enumerate}
+\bigskip\par
+\onslide<6->{
+With these two assumptions, we achieve identification if
+\begin{align*}
+2J + J \leq J+\frac{J(J-1)}{2}
+\end{align*}
+}
+\onslide<7->{
+So $J\geq 5$ is necessary (but not sufficient) for identification
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> For \textcolor{navy}{model interpretability}, also need to put more structure on $\Lambda$
+\item<2-> For example, suppose we have 6 measurements: 
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<3-> 3 from a cognitive test and 3 from a personality test
+    \end{itemize}
+\item<4-> In this case, the first row of $\Lambda$ should be 0 for the personality measures
+\item<5-> Likewise, the second row of $\Lambda$ should be 0 for the cognitive measures
+\item<6-> If all 6 measurements come from a cog. test, can't identify a non-cog. factor
+\item<7-> Could possibly identify $\sigma_{\theta_1\theta_2}$ if overlap in measurements
+\end{itemize}
+
+\end{frame}
+
+\end{document}

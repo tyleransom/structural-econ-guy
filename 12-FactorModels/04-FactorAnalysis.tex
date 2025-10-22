@@ -1,0 +1,174 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Factor Analysis comes in two forms: Exploratory (EFA) and Confirmatory (CFA)
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> EFA: see what factors might be in the data
+
+\item<3-> CFA: write down a model and use the data to test it
+\end{itemize}
+
+\bigskip{}
+
+\onslide<4->{
+In structural econometrics, we pretty much only do CFA
+}
+
+\bigskip{}
+
+\end{frame}
+
+\begin{frame}
+
+FA is used extensively in psychometrics
+\bigskip{}
+
+\onslide<2->{
+It is a natural tool for analyzing cognitive or behavioral tests
+}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Each test measures some set of skills, but does so noisily
+
+\item<4-> Tests tend to measure the same set of skills, so they are correlated
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Suppose our $J$ columns of $M$ correspond to measurements (e.g. test scores)
+
+\bigskip{}
+
+\onslide<2->{
+FA tries to find some underlying unobservables that commonly affect $M$
+}
+
+\bigskip{}
+
+\onslide<3->{
+We assume that we cannot observe $\boldsymbol{\theta}$
+}
+
+\bigskip{}
+
+\onslide<4->{
+If we assume that $M$ is standardized (mean-zero, unit-variance), then
+\begin{align*}
+M &= \underbrace{\boldsymbol{\theta}_k\Lambda_k + \boldsymbol{\varepsilon}}_{\boldsymbol{u}}
+\end{align*}
+}
+\bigskip{}
+
+\onslide<5->{
+$\boldsymbol{u}$ is a composite error term (since both $\boldsymbol{\theta}$ and $\varepsilon$ are unobservable)
+}
+\bigskip{}
+
+\onslide<6->{
+In FA, we call $\boldsymbol{\theta}$ \textcolor{navy}{factors}, and we call $\Lambda$ \textcolor{navy}{factor loadings} and $\boldsymbol{\varepsilon}$ \textcolor{navy}{uniquenesses}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Clearly, PCA and FA are related, but there are important differences
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> When we drop components, both have error: $M = \boldsymbol{\theta}_k\Lambda_k + \boldsymbol{\varepsilon}$
+
+\item<3-> But the $\boldsymbol{\theta}_k$, $\Lambda_k$, and $\boldsymbol{\varepsilon}$ are all different between PCA and FA
+
+\item<4-> PCA error: approximation from dimensionality reduction ($\to 0$ as $K\to J$)
+
+\item<5-> FA error: measurement error (persists even with all factors retained)
+\end{itemize}
+\bigskip{}
+
+\onslide<6->{
+FA separates common variance from unique variance; PCA explains total variance
+}
+
+\bigskip{}
+
+\onslide<7->{
+For many more excellent details, see \href{http://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch19.pdf}{Shalizi (2019)}
+}
+
+\end{frame}
+
+
+\begin{frame}
+
+\onslide<1->{
+In econometrics, we often want to allow covariates $X$ to affect our measurements
+}
+
+\bigskip{}
+
+\onslide<2->{
+We can extend FA to incorporate observable characteristics:
+\begin{align*}
+\only<2>{
+M &= \highlight{X\boldsymbol{\beta}} + \underbrace{\boldsymbol{\theta}_k\Lambda_k + \boldsymbol{\varepsilon}}_{\boldsymbol{u}} \\
+}
+\onslide<3->{
+M &= X\boldsymbol{\beta} + \underbrace{\boldsymbol{\theta}_k\Lambda_k + \boldsymbol{\varepsilon}}_{\boldsymbol{u}} \\
+}
+\onslide<3->{
+  &= \underbrace{X}_{N\times L}\times\underbrace{\boldsymbol{\beta}}_{L\times J} + \underbrace{\boldsymbol{\theta}_k}_{N\times K} \times \underbrace{\Lambda_{k}}_{K\times J} + \underbrace{\boldsymbol{\varepsilon}}_{N\times J}}
+\end{align*}
+}
+
+\begin{itemize}
+\itemsep1.5em
+
+\item<4-> The factors $\boldsymbol{\theta}_k$ now capture common variation \emph{after} conditioning on $X$
+
+\item<5-> \textcolor{navy}{Key challenge:} We need additional assumptions for identification
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}
