@@ -1,0 +1,96 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Throughout this course, we've focused on Julia's \texttt{Optim} package
+\item<2-> This package provides algorithms for nonlinear unconstrained optimization
+\item<3-> This makes sense: likelihood functions are nonlinear
+\item<4-> But there are many other types of optimizers out there
+\item<5-> They may not be as applicable for econometric applications
+\item<6-> But they might be helpful for certain applications
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Aside from nonlinear optimization, there are:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Linear programming
+\item<3-> Mixed integer programming
+\item<4-> Semidefinite programming
+\item<5-> Convex optimization
+\item<6-> Constrained nonlinear optimization
+\end{itemize}
+
+\bigskip{}
+
+\onslide<7->{
+Each of these algorithms can be accessed through Julia's \texttt{JuMP} package
+}
+
+\end{frame}
+
+\begin{frame}
+
+These other algorithms in JuMP have valuable real-world uses:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Optimal bus routes
+\item<3-> Optimal power grid architecture
+\item<4-> Solving budget constraint problems
+\item<5-> Solving sudoku puzzles
+\end{itemize}
+
+\bigskip{}
+
+\onslide<6->{
+The great thing about JuMP is that it \textcolor{navy}{interfaces} with a plethora of optimizers
+}
+
+\bigskip{}
+
+\onslide<7->{
+You can keep your code the same and simply switch out which optimizer to use
+}
+
+\end{frame}
+
+
+\end{document}

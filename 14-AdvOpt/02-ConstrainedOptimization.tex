@@ -1,0 +1,136 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+
+\begin{frame}
+
+\textcolor{navy}{Why do we need constrained optimization?}
+
+\bigskip{}
+
+In nonlinear optimization, constraints can be very helpful, for a number of reasons:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{Numerical stability}
+\bigskip\par
+    \begin{itemize}
+    \item e.g. optimization will crash if it tries a negative value for a variance parameter
+    \end{itemize}
+\item<3-> \textcolor{navy}{Make results consistent with economic theory}
+\bigskip\par
+    \begin{itemize}
+    \item e.g. discount factor $\beta \in [0,1]$ in DDC models, otherwise model is undefined
+    \end{itemize}
+\item<4-> \textcolor{navy}{Simplify the problem}
+\bigskip\par
+    \begin{itemize}
+    \item e.g. $\beta=0$ reduces to a static model
+    \end{itemize}
+\item<5-> \textcolor{navy}{More quickly solve equilibrium models} through a method called MPEC
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> How do we do constrained optimization in economics? Lagrangians!
+\begin{align*}
+& \max_x f(x) \\
+& \text{subject to} \\
+& g(x)\leq 0
+\end{align*}
+\begin{align*}
+\mathcal{L}(x,\lambda) &= f(x) - \lambda g(x)
+\end{align*}
+\item<2-> In the case of optimization, $f(x)$ is our likelihood function; $x$'s are the parameters
+\item<3-> The first-order conditions (FOCs) tell us what the optimal $x$'s are
+\item<4-> Also must satisfy second-order (SOCs) and Kuhn-Tucker conditions
+\item<5-> In this case, the SOCs involve looking at the \textcolor{navy}{bordered Hessian}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+How to use JuMP
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Let's go through an example of how to estimate an econometric model with \texttt{JuMP}
+\item<3-> There are four basic components to any \texttt{JuMP} model:
+\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<4-> An optimizer
+\item<5-> Variables
+\item<6-> Constraints
+\item<7-> Objective function
+\end{enumerate}
+\item<8-> This list is not too different from what goes into \texttt{Optim.jl}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Limitations and considerations when using JuMP
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.25em
+\item<2-> You cannot vectorize the objective function
+\bigskip\par
+\begin{itemize}
+\itemsep1.25em
+\item i.e. everything needs to be expressed as a scalar
+\end{itemize}
+\item<3-> You cannot use \texttt{Distributions.jl} objects in the objective function
+\item<4-> It is a royal pain to extract the Hessian of the objective function
+\bigskip\par
+\begin{itemize}
+\itemsep1.25em
+\item We need the Hessian to conduct statistical inference
+\end{itemize}
+\item<5-> It is very simple to add constraints
+\item<6-> JuMP computes the Hessian of the Lagrangian when constraints are present
+\item<7-> This requires additional processing to obtain correct SEs under constraints
+\end{itemize}
+
+\end{frame}
+
+\end{document}

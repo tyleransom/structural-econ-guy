@@ -1,0 +1,106 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Doing constrained optimization
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> In \texttt{JuMP}, it is simple to add a constraint
+\item<3-> Simply add, for example, \texttt{@constraint(model, beta[2] == .16)}
+\item<4-> In \texttt{Optim}, it is a little bit trickier
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<5-> In this case, we need to treat the constrained parameter as ``data''
+\item<6-> We need to reduce the dimensionality of the vector we're estimating
+\item<7-> Then we need to impose the constraint
+\item<8-> We also need to repeat these steps outside of the optimization
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Comments on JuMP results
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \texttt{JuMP} gives us the correct point estimates
+\item<3-> The standard errors, however, are incorrect
+\item<4-> At the very least, $\text{se}(\beta_2)$ should be 0
+\item<5-> Note that the constrained log likelihood is much lower; this is as it should be
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> In \texttt{Optim}, it's helpful to create a matrix that stores our constraints
+\item<2-> Each row represents one constraint; we have 5 columns:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Column 1: Index of parameter to constrain
+\item<4-> Column 2: Index of other parameter (0 if fixed value)
+\item<5-> Column 3: Type indicator (0 = fixed value, 1 = function of another parameter)
+\item<6-> Column 4: Multiplier $q$ for type 1 constraints (e.g., $\beta_4 = 1 + 2\beta_3$)
+\item<7-> Column 5: The fixed value or constant $m$
+\end{itemize}
+\item<8-> Example: \texttt{cns\_mat = [2 0 0 0 .16; 4 3 1 2 1]}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Analytical gradients and Hessians
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> So far in this course, we've used Julia's \texttt{autodiff} to take derivatives for us
+\item<3-> In most cases, this will get you pretty close to as much speed as you'll need
+\item<4-> But in some cases, you may require even more performance gains
+\item<5-> In this case, it can be helpful to provide \texttt{Optim} with the analytical gradient
+\item<6-> In one test I ran, the analytical gradient ran over \textcolor{navy}{3x faster} than autodiff
+\end{itemize}
+
+\end{frame}
+
+\end{document}
