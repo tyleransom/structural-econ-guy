@@ -1,0 +1,132 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Imperfect information abounds in economics (and real life)
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Life is full of ``noisy signals''
+\item<3-> See also: ``it's better to be lucky than good''
+\item<4-> How do we know someone or something is ``lucky'' or ``good''?
+\item<5-> How do we know a restaurant we visited for the first time is actually good?
+\item<6-> How do we know we didn't just happen to get their best dish on a good night?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+How do we estimate models where a person has imperfect information?
+
+\bigskip{}
+
+\onslide<2->{
+We've done some of this already with dynamic discrete choice models:
+}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> People can't see the future
+\item<4-> Instead, have expectations about their future states and preference shocks
+\item<5-> We compute individuals' expectations according to the $\mathbb{E}\max$ formula
+\item<6-> For tractability, we impose a strong assumption on the distribution of $\epsilon$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Consider a setting where an agent is trying to learn about something, call it $a_i$
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> For simplicity, assume $a_i$ is continuous and drawn from CDF $F_a$
+\item<3-> The agent doesn't know the exact value of $a_i$, but has beliefs denoted $\mathbb{E}_t [a_i]$
+\item<4-> He gains additional information about $a_i$ from a noisy signal $S_{it}$
+\item<5-> That is, $S_{it} = a_i + \varepsilon_{it}$ where $\varepsilon_{it}$ is pure noise
+\item<6-> The agent updates his beliefs to $\mathbb{E}_{t+1} [a_i]$ by incorporating new information in $S_{it}$
+\item<7-> This process repeats itself in each period where $S_{it}$ is received
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+If $\varepsilon_{it}$ is pure noise, then it is independent of $a_i$ for all $t$
+
+\bigskip{}
+
+Assume WLOG that $\mathbb{E}(a_{i})=0$ and $\mathbb{E}(\varepsilon_{it})=0$ for all $t$
+
+\bigskip{}
+
+\onslide<2->{
+Then we can decompose the variance of the signal $S_{it}$
+\begin{align*}
+\mathbb{V}(S_{it}) &= \mathbb{V}(a_{i}) + \mathbb{V}(\varepsilon_{it})\\
+&= \sigma^2_a + \sigma^2_{\varepsilon}
+\end{align*}
+}
+
+\onslide<3->{
+The \textcolor{navy}{signal-to-noise ratio (SNR)} is defined as
+\begin{align*}
+\frac{\mathbb{V}(a_{i})}{\mathbb{V}(\varepsilon_{it})} &= \frac{\sigma^2_a}{\sigma^2_{\varepsilon}}
+\end{align*}
+}
+
+\onslide<4->{
+This ratio measures the quality of the signal (bigger is better)
+}
+
+\end{frame}
+
+\begin{frame}
+
+
+Another commonly used quantity is the \textcolor{navy}{variance ratio}:
+\begin{align*}
+\frac{\mathbb{V}(S_{it})}{\mathbb{V}(\varepsilon_{it})} &= \frac{\sigma^2_a + \sigma^2_\varepsilon}{\sigma^2_{\varepsilon}}
+\end{align*}
+
+\onslide<2->{
+This is used in common formulas for updating beliefs
+}
+
+\end{frame}
+
+\end{document}

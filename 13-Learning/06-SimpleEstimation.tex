@@ -1,0 +1,63 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Estimate a simple learning model
+\item<2-> Assume no censoring or truncation
+\item<3-> Signals are log wage residuals
+\item<4-> Individuals infer their ability from these residuals
+\end{itemize}
+\onslide<5->{
+\begin{align*}
+\log w_{it} &= X_{it}\beta + a_i + \varepsilon_{it}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{What we hope to get out of estimation}:
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Place distributional assumptions on $a_i$ and $\varepsilon_{it}$
+\item<3-> Estimate $(\beta,\sigma^2_a,\sigma^2_\varepsilon)$ by maximum likelihood
+\item<4-> Recover each person's beliefs at each point in time
+\item<5-> Compare results with other panel data estimators (FE, RE)
+\item<6-> \textcolor{navy}{Note:} our learning model assumes $a_i \perp X_{it}$ so is identical to RE
+\end{itemize}
+
+\end{frame}
+
+\end{document}

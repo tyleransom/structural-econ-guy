@@ -1,0 +1,114 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Bayesian updating is so popular because the math works out nicely
+
+\item<2-> This is because of what is known as a \textcolor{navy}{conjugate prior} (read Wikipedia)
+
+\item<3-> If we assume a different kind of updating, the math could get ugly real quick
+
+\item<4-> But Bayesian updating has intuitive properties (e.g. $\lim_{t\rightarrow\infty}\mathbb{V}_{t+1}[a_i] = 0$)
+
+\item<5-> Moreover, we often don't know people's beliefs
+
+\item<6-> If we had detailed data on people's beliefs, that would allow us to be more flexible
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item cf. stated probabilistic choice models and quantification of preferences
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Things get more complicated if the signal is not continuous
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Naturally, a discrete signal will provide less information
+
+\item<3-> e.g. Pass/Fail on an exam, versus a 0-100 score
+\end{itemize}
+
+\item<4-> Another complication is if the signal is selected
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<5-> For example, I only see a wage signal if I have a job
+
+\item<6-> In this case, we need a choice model to resolve the sample selection problem
+
+\end{itemize}
+\item<7-> Or if the signal is censored
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<8-> e.g. Grade Point Average capped at ``perfect grades''
+
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> The \textcolor{navy}{Kalman filter} is a special type of Bayesian updating of a learning model
+
+\item<2-> Most common application: remote sensing of aircraft/spacecraft
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Any given sensor sends back a ``noisy'' signal about exact location
+
+\item<4-> Multiple sensors acting in sequence can provide more reliable location info
+\end{itemize}
+
+
+\item<5-> Other applications: player/team skill ratings
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<6-> In chess/video games, ``Glicko'' system generalizes ELO to allow for uncertainty
+
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\end{document}

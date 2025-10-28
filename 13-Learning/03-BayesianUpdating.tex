@@ -1,0 +1,92 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> How exactly do agents update their beliefs given new information in $S_{it}$?
+\item<2-> The simplest way to handle this is to assume \textcolor{navy}{Bayesian updating}
+\item<3-> As the name implies, this comes from Bayes' rule
+\item<4-> Given \textcolor{navy}{prior beliefs} $\mathbb{E}_t[a_i]$ and $\mathbb{V}_t[a_i]$, agents update as follows:
+\end{itemize}
+
+\onslide<4->{
+\begin{align*}
+\mathbb{E}_{t+1}[a_i] &= \mathbb{E}_t[a_i]\frac{\sigma^2_\varepsilon}{\sigma^2_\varepsilon + \mathbb{V}_t[a_i]} + S_{it}\frac{\mathbb{V}_t[a_i]}{\sigma^2_\varepsilon + \mathbb{V}_t[a_i]} \\
+\mathbb{V}_{t+1}[a_i] &= \mathbb{V}_t[a_i] \frac{\sigma^2_\varepsilon}{\sigma^2_\varepsilon + \mathbb{V}_t[a_i]}
+\end{align*}
+}
+
+\onslide<5->{
+\begin{itemize}
+\itemsep1.5em
+\item $\mathbb{E}_{t+1}[a_i]$ and $\mathbb{V}_{t+1}[a_i]$ are referred to as the \textcolor{navy}{posterior beliefs}
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+Properties of Bayesian Learning
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<1-> $\mathbb{V}_{t+1}[a_i]>0$ for all $t$
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<2-> One is never completely certain of what he has learned
+    \end{itemize}
+\item<3-> If $\sigma^2_a>0$ then $\frac{\partial\mathbb{V}_{t+1}[a_i]}{\partial t}<0$
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<4-> As additional signals are received, uncertainty of beliefs goes down
+    \end{itemize}
+\item<5-> If $\sigma^2_a>0$ then $\lim_{t\rightarrow\infty}\mathbb{V}_{t+1}[a_i] = 0$
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<6-> In the limit, uncertainty of beliefs vanishes
+    \end{itemize}
+\item<7-> The \textcolor{navy}{speed of learning} is dictated by the signal-to-noise ratio
+\end{enumerate}
+
+\onslide<8->{
+\bigskip{}
+These properties may not always be desirable, but they are intrinsic to Bayesianism
+}
+
+\end{frame}
+
+\end{document}

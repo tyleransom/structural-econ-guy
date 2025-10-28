@@ -1,0 +1,112 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+What would Bayesian updating look like if $a_i$ were a vector rather than a scalar?
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Let $A_i$ denote the vector, and suppose its population covariance is $\Delta$
+\item<3-> $\mathbf{S}_{it} = A_i + \boldsymbol\varepsilon_{it}$ is a vector-valued signal
+\end{itemize}
+\onslide<4->{
+\begin{align*}
+\mathbb{E}_{t+1}[A_i]&=(\mathbb{V}^{-1}_{t}[A_i] + \Omega_{it})^{-1}(\mathbb{V}^{-1}_{t}[A_i]\mathbb{E}_{t}[A_i]+\Omega_{it}\mathbf{S}_{it}) \\[1em]
+\mathbb{V}_{t+1}[A_i]&=(\mathbb{V}^{-1}_{t}[A_i] + \Omega_{it})^{-1}
+\end{align*}
+}
+\begin{itemize}
+\itemsep1.5em
+\item<5-> $\Omega_{it}$ is a diagonal matrix with $\frac{1}{\sigma^2_{\varepsilon_j}}$ in the $(j,j)$ element
+\item<6-> Elements of $\Omega$ and $\mathbf{S}$ are set to 0 for signals that aren't received
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<7-> (i.e., not all signals need to be received in every period)
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+Let's go through a scalar example:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> In period 1, the individual begins with prior beliefs $(\mathbb{E}_1[a_i],\mathbb{V}_1[a_i])$
+\item<3-> Usually, set these to the population values $(0,\sigma^2_a)$ for all individuals
+\item<4-> Then, a signal $S_{i1}$ is received and beliefs are updated according to the formulas:
+\end{itemize}
+
+\onslide<5->{
+\begin{align*}
+\mathbb{E}_{2}[a_i] &= \underbrace{\mathbb{E}_1[a_i]}_{0}\frac{\sigma^2_\varepsilon}{\sigma^2_\varepsilon + \underbrace{\mathbb{V}_1[a_i]}_{\sigma^2_a}} + S_{i1}\frac{\overbrace{\mathbb{V}_1[a_i]}^{\sigma^2_a}}{\sigma^2_\varepsilon + \underbrace{\mathbb{V}_1[a_i]}_{\sigma^2_a}}\\
+& = \frac{S_{i1}\sigma^2_a}{\sigma^2_\varepsilon + \sigma^2_a}
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+When $S_{i1}$ is received, $i$ updates the variance as follows:
+
+\bigskip{}
+
+\onslide<2->{
+\begin{align*}
+\mathbb{V}_{2}[a_i] &= \underbrace{\mathbb{V}_1[a_i]}_{\sigma^2_a} \frac{\sigma^2_\varepsilon}{\sigma^2_\varepsilon + \underbrace{\mathbb{V}_1[a_i]}_{\sigma^2_a}}\\
+& = \frac{\sigma^2_a\sigma^2_\varepsilon}{\sigma^2_\varepsilon + \sigma^2_a}
+\end{align*}
+}
+
+\bigskip{}
+
+\onslide<3->{
+It is straightforward to show that $\mathbb{V}_{2}[a_i]<\mathbb{V}_{1}[a_i]$ when $\sigma^2_a>0$
+}
+
+\end{frame}
+
+
+\begin{frame}
+Back to the vector example:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Division in scalar form is replaced with matrix inversion
+\item<3-> Multiplication is replaced with matrix multiplication
+\item<4-> Other matrices (e.g. $\Omega$) defined for conformability
+\end{itemize}
+
+\end{frame}
+
+
+
+\end{document}

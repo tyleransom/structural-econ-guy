@@ -1,0 +1,72 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+
+\begin{frame}
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+\textcolor{navy}{Factor Models} & \textcolor{navy}{Learning Models} \\
+\midrule
+\onslide<2->{Correlated noisy measurements $M_j$} & \onslide<2->{Sequence of signals $S_{it}$} \\[0.25em]
+\onslide<3->{Identify factor using correlation in $M_j$'s} & \onslide<3->{Agent learns through sequence of $S_{it}$'s} \\[0.25em]
+\onslide<4->{Composite error: $a_i + \varepsilon_{ij}$} & \onslide<4->{Composite error: $a_i + \varepsilon_{ij}$} \\[0.25em]
+\onslide<5->{\textcolor{navy}{Factor $a_i$ known to individual}} & \onslide<5->{\textcolor{navy}{Factor $a_i$ unknown to individual}} \\[0.25em]
+\onslide<6->{Factor $a_i$ unknown to researcher} & \onslide<6->{Factor $a_i$ unknown to researcher} \\[0.25em]
+\onslide<7->{Cross-sectional or panel data} & \onslide<7->{\textcolor{navy}{Requires panel data}} \\[0.25em]
+\onslide<8->{Agents have private information} & \onslide<8->{Agents lack information initially} \\
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\onslide<9->{
+\centering
+\textcolor{navy}{These models are complements, not substitutes}
+}
+\end{frame}
+
+
+
+% \begin{frame}
+
+% \begin{itemize}
+% \itemsep1.5em
+% \item<1-> Rather than being substitutes, these two types of models are \textcolor{navy}{complements}
+
+% \item<2-> Factor models recognize that agents might possess some private information
+
+% \item<3-> Learning models underscore the potential importance of unknown information
+
+% \item<4-> If we ignored private information, that might distort what we call ``learning''
+% \end{itemize}
+
+% \end{frame}
+
+\end{document}

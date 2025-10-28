@@ -1,0 +1,103 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Estimate multi-dimensional learning model
+\item<2-> Individuals have vector of abilities across $J=6$ occupations
+\item<3-> Abilities are correlated: $\mathbf{a}_i \sim N(\mathbf{0}, \Delta)$
+\item<4-> Observe wage in one occupation per period
+\item<5-> Learn about all occupations through (population) correlation matrix
+\end{itemize}
+\onslide<6->{
+\begin{align*}
+\log w_{ijt} &= X_{it}\beta_j + a_{ij} + \varepsilon_{ijt}
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\textcolor{navy}{What we hope to get out of estimation}:
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Assume occupations are assigned randomly
+\item<3-> Place distributional assumptions on $\mathbf{a}_i$ and $\boldsymbol{\varepsilon}_{it}$
+\item<4-> Estimate $(\beta,\Delta,\boldsymbol{\sigma}^2_\varepsilon)$ by maximum likelihood
+\item<5-> Recover each person's beliefs at each point in time
+\item<6-> Observe how agent can update all beliefs in response to one signal
+\item<7-> \textcolor{navy}{Note:} no occupation choice $\implies$ can estimate via equation-by-equation OLS
+\item<8-> $\hat{\Delta}$ estimated from covariance of within-person mean residuals
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Handling endogenous occupation choice}:
+\bigskip
+
+\onslide<2->{
+\textbf{Problem:} If $d_{it} = j$ depends on $\mathbb{E}_t\mathbf{a}_i$, then $\mathbb{E}[\varepsilon_{ijt}|d_{it}=j] \neq 0$
+
+\bigskip
+}
+
+\onslide<3->{
+\textbf{Solution:} Joint model of wages and choice, add permanent unobserved type $r$
+\begin{align*}
+\text{Wage:} \quad &\log w_{ijt} = X_{itr}\beta_j + a_{ij} + \varepsilon_{ijt}\\
+\text{Choice:} \quad &P(d_{it}=j|\mathbf{a}_i,X_{it},r) = \frac{\exp(X_{itr}\gamma_j + \lambda_j \mathbb{E}_t a_{ij})}{\sum_k \exp(X_{itr}\gamma_k + \lambda_k \mathbb{E}_t a_{ik})}
+\end{align*}
+}
+
+\onslide<4->{
+Nested EM algorithm (Two latent variables: $\mathbf{a}_i$ and unobserved type $r$) 
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<5-> Outer: regular EM to get $\pi_r$'s, $q_{ir}$'s, $\gamma$'s, $\lambda$'s
+\item<6-> Inner: specific EM to recover beliefs over $\mathbf{a}$'s and estimate $(\beta, \Delta, \sigma^2)$
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}
