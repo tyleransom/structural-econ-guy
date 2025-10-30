@@ -103,9 +103,9 @@ println("True: ", round.(σ_ε_true, digits=3))
 println("Est:  ", round.(σ_est, digits=3))
 
 println("\nΔ correlation - True:")
-display(round.(cor(Matrix(abilities[:, 2:end])), digits=3))
+println(round.(cor(Matrix(abilities[:, 2:end])), digits=3))
 println("\nΔ correlation - Estimated:")
-display(round.(Δ_corr_est, digits=3))
+println(round.(Δ_corr_est, digits=3))
 
 
 #=============================================================================

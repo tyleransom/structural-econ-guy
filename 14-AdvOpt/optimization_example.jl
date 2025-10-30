@@ -119,7 +119,6 @@ results.se_jump_cns2 = vcat(jump_cns2_se,missing)
 println(results)
 
 
-
 #-------------------------------------------------------------------------------
 # Constrained optimization using Optim
 #-------------------------------------------------------------------------------

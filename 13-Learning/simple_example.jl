@@ -11,7 +11,6 @@ dfuse = df[df.ln_wage.!=999,:]
 @show reg(dfuse, @formula(ln_wage ~ 1 + exper*exper + collgrad + race1 + fe(idcode)), Vcov.cluster(:idcode))
 
 # RE estimation
-#categorical!(dfuse, :idcode)
 @show fm1 = fit(MixedModel, @formula(ln_wage ~ 1 + exper*exper + collgrad + race1 + (1|idcode)), dfuse)
 # gives σ²_ε = .092187 and σ²_a = 0.106297
 
