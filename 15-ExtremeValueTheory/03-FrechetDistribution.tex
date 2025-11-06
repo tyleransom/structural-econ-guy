@@ -1,0 +1,139 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+
+\begin{frame}
+
+\onslide<1->{
+\textcolor{navy}{Fr\'{e}chet}: T2EV distribution for heavy-tailed parent distributions
+}
+
+\bigskip\par
+
+\onslide<2->{
+\textit{CDF:}
+$$F(x) = e^{-\left(\frac{x-\mu}{\beta}\right)^{-\alpha}} \quad \text{for } x > \mu$$
+}
+
+\onslide<3->{
+$\alpha > 0$ is the \textit{tail index} (shape parameter), $\beta > 0$ is scale, $\mu$ is location
+}
+\bigskip\par
+
+\onslide<4->{
+Note similarity with T1EV (Gumbel) CDF:
+$$F(x) = e^{-\highlight{e^{-\frac{(x-\mu)}{\beta}}}}$$
+}
+\onslide<5->{
+If $X \sim \text{Fr\'{e}chet}(\alpha)$, then $Y = \log X$ has a Gumbel-like distribution
+}
+
+\end{frame}
+
+
+\begin{frame}
+
+\bigskip\par
+
+\onslide<2->{
+Useful property: Fr\'{e}chet has a \textit{power law} upper tail
+$$P(X > x) = 1 - F(x) \sim x^{-\alpha} \quad \text{as } x \to \infty$$
+}
+
+\onslide<3->{
+Also exhibits \textit{scale invariance}:
+$$\text{If } X \sim \text{Fr\'{e}chet}(\alpha), \text{ then } cX \sim \text{Fr\'{e}chet}(\alpha)$$
+}
+
+\onslide<4->{
+This means that \textcolor{navy}{max of Fr\'{e}chets is also Fr\'{e}chet} (``max stable'' property)
+}
+
+\bigskip\par
+
+\onslide<5->{
+\textit{Economic interpretation:}
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<6-> Relative comparisons matter more than absolute levels
+\item<7-> Natural for productivity, trade costs, firm/city size distributions
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\onslide<1->{
+Fr\'{e}chet naturally arises when there is \textit{extreme heterogeneity}:
+}
+
+\bigskip\par
+
+\onslide<2->{
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Winner-take-all dynamics
+\item<3-> Superstar effects (top 1\% vastly different from median)
+\item<4-> Long right tail: rare but massive observations
+\end{itemize}
+}
+
+\bigskip\par
+
+\onslide<5->{
+Contrast with Gumbel: moderate heterogeneity
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+\textcolor{navy}{Applications in economics and finance}
+\bigskip\par
+\onslide<2->{
+Fat-tailed parent distributions give rise to Fr\'{e}chet as limiting distribution of extremes
+}
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+    \item<3-> Trade (Eaton-Kortum Model)
+    \item<4-> Firm productivity (Melitz Model)
+    \item<5-> Income and wealth inequality (Piketty-Saez)
+    \item<6-> Tail risk in financial losses or natural disaster damages
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}

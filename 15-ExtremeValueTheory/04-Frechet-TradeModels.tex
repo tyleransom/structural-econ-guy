@@ -1,0 +1,182 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.52\textwidth]{EK_2002_Ecma_cover.jpg}
+\end{frame}
+
+
+\begin{frame}
+Trade models use a slightly modified version of the Fr\'{e}chet Distribution:
+
+\onslide<2->{
+$$F_i(z) = e^{-T_i z^{-\theta}}$$
+where $z_i(j)$ is \textit{iid} productivity of country $i$ in good $j$
+}
+
+\bigskip{}
+
+\onslide<3->{
+\begin{itemize}
+\itemsep1em
+\item<3-> $T_i$: country-specific productivity draws ($\uparrow T \to \,\,\uparrow$ productivity)
+\item<4-> $\theta$: dispersion of draws across all countries ($\uparrow\theta\to\,\,\downarrow$ dispersion in productivities)
+\end{itemize}
+}
+\bigskip\par
+\onslide<5->{
+We want to formulate $\pi_{ni}$, the probability that country $n$ will buy from country $i$
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\onslide<1->{
+Countries buy from lowest-cost source: $\displaystyle p_n(j) = \min_i \left\{\frac{c_i d_{ni}}{z_i(j)}\right\}$
+}
+
+\bigskip{}
+
+\onslide<2->{
+Productivity $z_i(j) \sim e^{-T_i z^{-\theta}}$ $\Rightarrow$ prices $p_{ni}(j) \sim 1-e^{-T_i(c_i d_{ni})^{-\theta}p^{\theta}}$
+}
+
+\bigskip{}
+
+\onslide<3->{
+Negative of Fr\'{e}chet is ``min stable'': $\displaystyle p_n(j) = \min_i\{p_{ni}(j)\} \sim 1-e^{-\Phi_n p^{\theta}}$
+}
+
+\bigskip{}
+
+\onslide<4->{
+where $\Phi_n = \sum_s T_s(c_s d_{ns})^{-\theta}$
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\onslide<1->{
+Probability that $n$ sources good $j$ from $i$:
+$$\pi_{ni} = \frac{T_i(c_i d_{ni})^{-\theta}}{\Phi_n} = \frac{T_i(c_i d_{ni})^{-\theta}}{\sum_s T_s(c_s d_{ns})^{-\theta}}$$
+}
+
+\bigskip{}
+
+\onslide<2->{
+Key results:
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<3-> Trade shares independent of good $j$
+\item<4-> By LLN and continuum of goods, $\pi_{ni}$ is also expenditure share
+\item<5-> Gravity-like structure emerges naturally and is microfounded
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+$\theta$ governs comparative advantage strength
+}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Low $\theta$: high productivity dispersion across goods
+\item<3-> $\Rightarrow$ countries very different in relative productivities
+\item<4-> $\Rightarrow$ strong comparative advantage
+\item<5-> $\Rightarrow$ less elastic trade flows to trade costs
+\end{itemize}
+
+\bigskip{}
+
+\onslide<6->{
+Trade elasticity with respect to trade costs: $-\theta$
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\onslide<1->{
+What Fr\'{e}chet gives us:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Closed-form trade shares
+\item<3-> Closed-form price indices
+\item<4-> Gravity equation from theory
+\item<5-> Single parameter ($\theta$) governs trade elasticity
+\item<6-> Aggregate predictions without tracking individual goods
+\end{itemize}
+}
+
+\bigskip{}
+
+\onslide<7->{
+Counterfactual policy experiments / welfare calculations are computationally feasible
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+Limitations
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Independence: $z_i(j)$ drawn independently across $i$ and $j$
+\item<3-> No correlation in productivity across countries
+\item<4-> No correlation in productivity across goods
+\item<5-> Extensions relax some assumptions (goods not on a continuum)
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}

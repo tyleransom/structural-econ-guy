@@ -1,0 +1,229 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+
+\begin{frame}
+
+\textcolor{navy}{Central Limit Theorem}
+
+\bigskip{}
+
+\onslide<2->{
+For \textit{iid} random variables $X_1, \ldots, X_N$ with mean $\mu$ and variance $\sigma^2$:
+$$\frac{\sqrt{N}(\overline{X}_N - \mu)}{\sigma} \xrightarrow{d} N(0,1)$$
+}
+\onslide<3->{
+Remarkable: works for \textit{any} underlying distribution (with finite variance)
+\bigskip\par
+}
+\onslide<4->{
+\textit{Economics applications:}
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<4-> Provides asymptotic sampling distribution to be used in hypothesis testing
+\item<5-> $X_1,\ldots,X_N$ can be nearly any statistics from repeated samples of the population
+\item<6-> e.g. medians, OLS regression coefficients, MLE parameter estimates, ...
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+% Thanks to this source for elucidating some of these concepts: https://borisburkov.net/2023-04-30-1/
+
+\textcolor{navy}{Extreme Value Theory}
+\bigskip
+
+\onslide<2->{
+What if we want the limiting distribution of $\max_i \left\{X_i\right\}_{i=1}^N$ instead of $\overline{X}=\frac{1}{N}\sum_i X_i$?
+}
+
+\bigskip{}
+
+\onslide<3->{
+Would that distribution be Normal? Is there an equivalent ``Central Limit Theorem''?
+}
+
+\bigskip{}
+
+\onslide<4->{
+\textit{Economics applications:}
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<5-> Discrete choice: agents maximize utility across alternatives
+\item<6-> Auctions: winner determined by highest valuation
+\item<7-> Market structure: largest firm, highest productivity when winner takes all
+\end{itemize}
+}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Fisher-Tippett-Gnedenko Theorem}
+
+\bigskip{}
+
+The maximum of $N$ \textit{iid} random variables converges to \textcolor{navy}{only three types} of distributions:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textit{Type I (Gumbel):} $F(x) = e^{-e^{-\frac{x-\mu}{\beta}}}$ with $x \in \mathbb{R}$
+\item<3-> \textit{Type II (Fr\'{e}chet):} $F(x) = e^{-\left(\frac{x-\mu}{\beta}\right)^{-\alpha}}$ with $x > \mu$
+\item<4-> \textit{Type III (Weibull):} $F(x) = e^{-\left(\frac{\mu-x}{\beta}\right)^{\alpha}}$ with $x < \mu$
+\end{itemize}
+
+\bigskip{}
+
+\onslide<5->{
+But the limiting distribution may not exist! Depends on distribution underlying $X_i$'s
+}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Domain of Attraction}
+
+\bigskip{}
+
+Which parent distributions lead to which extreme value type?
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textit{Gumbel:} Exponential-type tails (normal, exponential, gamma, lognormal)
+\item<3-> \textit{Fr\'{e}chet:} Heavy tails (Pareto, Cauchy, Student-$t$)
+\item<4-> \textit{Weibull:} Bounded support with finite upper end point (uniform, beta)
+\end{itemize}
+
+\bigskip{}
+
+\onslide<5->{
+Key condition: tail behavior of $F(x)$ as $x \to \infty$
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\onslide<1->{
+In \textcolor{navy}{extreme value theory}, we study the distribution of the \textit{maximum}:
+$$ M_N = \max\{X_1, \ldots, X_N\} $$
+}
+\onslide<2->{
+\par In \textcolor{navy}{discrete choice}, we model an agent choosing the alternative with the \textit{highest utility}:
+$$ j^* = \arg\max_j \, U_{ij} = \arg\max_j \, (u_{ij} + \epsilon_{ij}) $$
+}
+\onslide<3->{
+\par Both involve a \textit{maximum of random variables}, so it's useful to assume $\epsilon$'s come from an extreme value distribution family
+}
+\bigskip{}
+
+\onslide<4->{
+The T1EV assumption also gives us closed-form choice probabilities and $\mathbb{E}(U)$
+}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+$J$ alternatives, $\epsilon_{ij}\overset{iid}{\sim}$ Type I extreme value; $U_{ij} = u_{ij} + \epsilon_{ij}$; $F(\epsilon) = e^{-e^{-\epsilon}}$ (CDF)
+
+\bigskip{}
+
+\onslide<2->{
+We want to know the formula for the probability of choosing option $j$:
+
+\begin{align*}
+P_{ij} &= \text{Pr}(u_{ij} + \epsilon_{ij} > u_{ik} + \epsilon_{ik}\,\,\,\forall\,\,\,k\neq j)\\[1em]
+&= \frac{\exp\left(u_{ij}\right)}{\sum_k \exp\left(u_{ik}\right)}
+\end{align*}
+}
+
+\bigskip{}
+
+\onslide<3->{
+We also want to know the formula for expected utility:
+
+\begin{align*}
+\mathbb{E}_\epsilon \max_k \left\{u_{ik}+\epsilon_{ik}\right\} &= \log\left(\sum_k \exp\left(u_{ik}\right)\right) + \gamma
+\end{align*}
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Central Limit Theorem vs Extreme Value Theory}
+
+\bigskip{}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& \textbf{CLT} & \textbf{EVT} \\
+\midrule
+\onslide<2->{Object of interest & $\displaystyle \frac{1}{N}\sum_{i=1}^N X_i$ & $\displaystyle \max_i \left\{X_i\right\}_{i=1}^{N}$} \\[0.6em]
+\onslide<3->{Normalization & $\displaystyle \frac{\sqrt{N}(\overline{X}_N - \mu)}{\sigma}$ & $\displaystyle \frac{M_N - b_N}{a_N}$} \\[0.6em]
+\onslide<4->{Limiting distribution & Normal & Gumbel / Fr\'{e}chet / Weibull} \\[0.6em]
+\onslide<5->{Number of limit types & One & Three} \\[0.6em]
+\onslide<6->{Depends on & Finite variance & Tail behavior of $F(x)$} \\[0.6em]
+\onslide<7->{Economic applications & Sampling distributions, & Choice models,} \\
+\onslide<7->{ & inference & auctions, extremes} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\end{frame}
+
+\end{document}
