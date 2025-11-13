@@ -1,0 +1,63 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\bigskip\par
+\includegraphics[width=0.52\textwidth]{Ransom_Ransom_2018_EER_cover.png}
+\end{frame}
+
+\begin{frame}
+Main estimating equation:
+\begin{align*}
+    y &= \alpha HSathlete + X\beta + \varepsilon
+\end{align*}
+
+\onslide<2->{
+where $y$ is a bunch of outcomes:
+\bigskip\par
+}
+\begin{itemize}
+\itemsep1.5em
+    \item<3-> Educational (graduated high school, attended college, graduated college)
+    \item<4-> Labor market (log wages, employed full-time)
+    \item<5-> Health \& risky behaviors (overweight/obese, exercise regularly, heavy drinker)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\centering
+\bigskip\par
+\includegraphics[width=\textwidth]{Ransom_Ransom_Table_4.png}
+\end{frame}
+
+
+
+\end{document}

@@ -1,0 +1,273 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\bigskip\par
+\includegraphics[width=0.45\textwidth]{Diegert_al_2025_WP_cover.png}
+\end{frame}
+
+
+\begin{frame}
+
+
+\begin{align}
+    y &= \alpha d + X\beta + \underbrace{W\gamma + \nu}_{\varepsilon} \tag{2}
+\end{align}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Prior papers assume $Corr(X, W) = 0$ (exogenous controls)
+\item<4-> i.e. the $X$'s (control variables) are themselves exogenous
+\item<5-> But this is rarely true in practice
+\item<6-> Other methods allow $d$ and $W$ to be correlated through $Corr(d, \varepsilon)$
+\item<7-> but do not allow $X$ and $W$ to be correlated
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+Notational differences:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item $d$ is $X$ in DMP
+\item $X$ is $W_1$
+\item $W$ is $W_2$
+\item $(\alpha,\beta,\gamma)$ is $(\beta,\gamma_1,\gamma_2)$
+\item $\nu$ is a linear projection (e.g. $Y^{\perp X, W}$)
+\item $y$ is capitalized in DMP
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Terminology
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{long regression:} regress $Y$ on $d$, $X$ and $W$
+\bigskip\par
+\begin{itemize}
+\item<3-> this is the regression we \textit{want} to run but can't because $W$ is unobserved
+\end{itemize}
+\item<4-> \textcolor{navy}{medium regression:} regress $Y$ on $d$ and $X$
+\bigskip\par
+\begin{itemize}
+\item<5-> this is the regression we \textit{can} run, but which may be of limited use
+\end{itemize}
+\item<6-> \textcolor{navy}{first-stage regression:} regress $d$ on $X$ and $W$
+\bigskip\par
+\begin{itemize}
+\item<7-> helpful for conceptualizing what is meant by ``selection'' (on obs. or unobs.)
+\end{itemize}
+\item<8-> $\alpha_{\text{long}}=$ true treatment effect; $\alpha_{\text{med}}=$ the one we can feasibly estimate
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+We can use the first-stage regression to quantify selection:
+\onslide<2->{
+\begin{align*}
+d = X\psi + W\phi + \eta
+\end{align*}
+}
+\onslide<3->{
+\par then define the ratio of selection on unobservables to selection on observables by
+}
+\onslide<4->{
+\begin{align*}
+r_d = \frac{\sqrt{\mathbb{V}(W\phi)}}{\sqrt{\mathbb{V}(X\psi)}}
+\end{align*}
+}
+\onslide<5->{
+Intuition: \bigskip\par
+\begin{itemize}
+\itemsep1em
+    \item<6-> $r_d$ is analogous to $\lambda$ in previous video
+    \item<7-> $\mathbb{V}(X\psi) \approx Corr(d,X\beta)$
+    \item<8-> $\mathbb{V}(W\phi) \approx Corr(d,\varepsilon)$
+\end{itemize}
+}
+\end{frame}
+
+
+
+\begin{frame}
+How should we use this information?
+\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> present the \textcolor{navy}{breakdown point} ($\overline{r}_d^{\text{bp}}$, an upper bound on $r_d$ such that $\alpha=0$) 
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<3-> present this alongside $R^2$, sample size, etc.
+    \item<4-> it's a single number that summarizes robustness to selection on unobservables
+    \end{itemize}
+\item<5-> present the \textcolor{navy}{identified set} of $\alpha_\text{long}$ as a function of $\overline{r}_d$
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<6-> e.g. $\alpha_\text{long} \in \left[\alpha_\text{med}-\delta(\overline{r}_d),\alpha_\text{med}+\delta(\overline{r}_d)\right]$ for some adjustment $\delta(\overline{r}_d)$
+    \item<7-> if $\overline{r}_d= 0$ then $\delta(0) = 0 $ and this is just $\alpha_\text{med}$
+    \item<8-> set widens as $\overline{r}_d$ grows larger
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+
+\textcolor{navy}{Sensitivity parameters} $(\overline{r}_d, \overline{r}_Y, \overline{c})$
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+    \item<2-> $\overline{r}_d$ measures how much the unobservables predict \textit{treatment} compared to how much the observables predict treatment
+    \begin{align*}
+    \sqrt{\mathbb{V}(W\phi)} &\leq \overline{r}_d \sqrt{\mathbb{V}(X\psi)}
+    \end{align*}
+    
+    \item<3-> $\overline{r}_Y$ measures how much the unobservables predict the \textit{outcome} compared to how much the observables predict the outcome
+    \begin{align*}
+    \sqrt{\mathbb{V}(W\gamma)} &\leq \overline{r}_Y \sqrt{\mathbb{V}(X\beta)}
+    \end{align*}
+
+    \item<4-> $\overline{c}$ bounds how much $X$ (jointly) can predict $W$ ($\overline{c}=0$ in all prior literature)
+    \begin{align*}
+    R_{W,X} &\leq \overline{c}
+    \end{align*}
+    (assumes $W$ is a single omitted variable)
+\end{itemize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+\onslide<1->{
+Formula for $\overline{r}_{d}^{\text{bp}}$ is a function of $R^2_{Y\sim d \cdot X}$ and partial $R^2$ terms:
+\begin{align*}
+\overline{r}_{d}^{\text{bp}} & = \left( \frac{R^2_{Y\sim d \cdot X}}{ \frac{R^2_{d\sim X}}{1 - R^2_{d\sim X}} + R^2_{Y\sim d \cdot X}  } \right)^{\frac{1}{2}}
+\end{align*}
+}
+
+\onslide<2->{
+where $R^2_{Y\sim d \cdot X}$ = ``the $R^2$ from a regression of $y$ on $d$ after partialling out both by $X$''
+\par\bigskip\par
+}
+
+\onslide<3->{
+Depends on just 2 features of the observed data:
+\bigskip\par
+}
+\begin{enumerate}
+\itemsep1.5em
+    \item<4-> Relationship betweeen $y$ and $d$ (after adjusting for $X$)
+    \item<5-> Relationship between $d$ and $X$
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+Checklist of what researchers should report:
+\medskip\par
+
+\begin{enumerate}
+\itemsep1.25em
+\item<2-> \textbf{Breakdown point $\overline{r}_d^{\text{bp}}$:} Report alongside main regression results
+\medskip\par
+\begin{itemize}
+\item<3-> Single number summarizing robustness to omitted variables
+\end{itemize}
+
+\item<4-> \textbf{Plot the identified set} as a function of $\overline{r}_d$
+\medskip\par
+\begin{itemize}
+\item<5-> Shows how conclusions change as you allow stronger selection on unobservables
+\end{itemize}
+
+\item<6-> \textbf{Calibration via $\rho_k$:} Compare $\overline{r}_d^{\text{bp}}$ to importance of each of the $X$'s to $d$
+\medskip\par
+\begin{itemize}
+\item<7-> If $\overline{r}_d^{\text{bp}} > \max_k \rho_k$, unobservables must be more important than any single observed control to overturn results
+\end{itemize}
+
+\item<8-> \textbf{(Optional) Common maximal impact:} Report $\overline{r}^{\text{bp}}$ assuming $\overline{r}_d = \overline{r}_Y$
+\medskip\par
+\begin{itemize}
+\item<9-> Less conservative: $\overline{r}^{\text{bp}} \geq \overline{r}_d^{\text{bp}}$
+\end{itemize}
+\end{enumerate}
+
+\end{frame}
+
+
+
+\begin{frame} 
+Extensions\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Can this approach be used in nonlinear models like logit or probit?
+\bigskip\par
+\begin{itemize}
+    \item<3-> No, identification becomes much more complicated in nonlinear settings 
+\end{itemize}
+\item<4-> Can this approach be used in panel data settings?
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+    \item<5-> I believe so; I think you can do everything on the within-transformed dataset
+    \item<6-> Main equation becomes
+\begin{align}
+    \dot{y} &= \alpha \dot{d} + \dot{X}\beta + \underbrace{\dot{W}\gamma + \dot{\nu}}_{\dot{\varepsilon}} \tag{3}
+\end{align}
+where $\dot{y} = y_{it}-\overline{y}_i$, etc. \textcolor{navy}{Requires time-varying treatment!}
+
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+
+\end{document}

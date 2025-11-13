@@ -1,0 +1,123 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+Let's consider a basic linear model with cross-sectional data:
+\onslide<2->{
+\begin{align}
+    y &= \alpha d + X\beta + \varepsilon
+\end{align}
+where $d$ is a treatment indicator; $X$'s are other observable covariates
+}
+\bigskip\par
+\onslide<3->{
+Assume that $Corr(X,\varepsilon)=0$ but that $Corr(d,\varepsilon)\neq 0$
+}
+\end{frame}
+
+\begin{frame}
+\bigskip\par
+\onslide<1->{
+How can $Corr(d,\varepsilon)\neq 0$? Rewrite (1):
+}
+\onslide<2->{
+\begin{align}
+    y &= \alpha d + X\beta + \underbrace{W\gamma + \nu}_{\varepsilon}
+\end{align}
+with $Corr(d,W)\neq 0$ but $Corr(X,W) = 0$; $\nu$ is purely idiosyncratic
+}
+\bigskip\par
+\onslide<3->{
+$W$'s are variables that are unobservable or excluded from the model
+}
+\end{frame}
+
+
+\begin{frame}
+
+Some terminology:
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> $Corr(d,X\beta)$ is called \textcolor{navy}{selection on observables}
+
+\item<3-> $Corr(d,\varepsilon)$ is called \textcolor{navy}{selection on unobservables}
+
+\item<4-> Selection on unobservables is what confounds our original regression model
+
+\item<5-> Can always measure $Corr(d,X\beta)$ in the data; can never measure $Corr(d,\varepsilon)$
+\end{itemize}
+\bigskip\par
+
+\onslide<6->{
+Can we use selection on observables to tell us amount of selection on unobservables?
+}
+
+
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{align}
+    y &= \alpha d + X\beta + \underbrace{W\gamma + \nu}_{\varepsilon} \tag{2}
+\end{align}
+
+Key question: Can we use $Corr(d,X\beta)$ to learn about the \textcolor{navy}{causal effect} of $d$ on $y$?
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> One extreme: Assume unconfoundedness, i.e. $Corr(d,\varepsilon)=0$
+
+\item<3-> Another extreme: Assume $Corr(d,\varepsilon)=Corr(d,X\beta)$, e.g. if  $X{\underset{\text{\tiny random}}{\subset}} W$
+
+\item<4-> Combine $Corr(d,X\beta)$ with assumption about $Corr(d,\varepsilon)$ to properly ``shade'' $\hat{\alpha}$
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+We can follow these steps to obtain a plausibly causal $\hat{\alpha}$:
+\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Regress $y$ on $d$
+\item<3-> Regress $y$ on $d$ and $X$
+\item<4-> Observe how $\hat{\alpha}$ and $R^2$ change across steps 1 and 2
+\item<5-> Make an assumption on $\lambda$ such that $Corr(d,\varepsilon) = \lambda Corr(d,X\beta)$
+\item<6-> Use all of the above information to get an \textcolor{navy}{interval} on plausible $\hat{\alpha}$ TE
+\end{enumerate}
+\end{frame}
+
+
+\end{document}

@@ -1,0 +1,157 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.7\textwidth]{AET_2005_JPE_cover.png}
+\end{frame}
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Pioneer the method of bounding $Corr(d,\varepsilon)$ by looking at $Corr(d,X\beta)$
+
+\item<2-> Setting: estimating causal effect of attending Catholic high school
+
+\item<3-> Lots of selection, no random variation available
+
+\item<4-> Argue that $Corr(d,\varepsilon)=Corr(d,X\beta)$ is a good bound
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Why assume $Corr(d,\varepsilon)=Corr(d,X\beta)$?
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> $X$ is only a subset of everything that affects $y$
+
+\item<3-> Data collected for multiple purposes
+
+\item<4-> Data costly to collect, some variables impossible to measure
+
+\item<5-> Thus $X$ is probably a \textcolor{navy}{random} subset of everything affecting $y$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+$Corr(d,\varepsilon)\overset{?}{\lesseqqgtr}Corr(d,X\beta)$
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Application-specific question requiring careful thinking
+
+\item<3-> What are sources of selection bias? Why is $R^2$ low?
+
+\item<4-> Selection bias? Measurement error? Irreducible uncertainty?
+
+\item<5-> If lots of irreducible uncertainty: $Corr(d,\varepsilon)\ll Corr(d,X\beta)$
+
+\item<6-> Opposite true if not much irreducible uncertainty
+
+\item<7-> Typically assume $Corr(d,\varepsilon)$ and $Corr(d,X\beta)$ have same sign
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\centering
+\includegraphics[width=0.52\textwidth]{Krauth_2016_JEM_cover.png}
+\end{frame}
+
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Generalizes Altonji, Elder and Taber (2005)
+
+\item<2-> Allows for \textcolor{navy}{relative correlation restriction (RCR)}:
+\begin{align*}
+Corr(d, \varepsilon) = \lambda Corr(d, X\beta)
+\end{align*}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Two uses of $\lambda$:
+
+\bigskip
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Assume $\lambda \in [\lambda_L, \lambda_H]$ and estimate corresponding $\alpha$'s in interval $[\alpha_L, \alpha_H]$
+
+\item<3-> Estimate $\alpha$ by OLS, then find smallest (absolute) value of $\lambda$ such that OLS estimate is statistically zero
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+\centering
+\includegraphics[width=0.52\textwidth]{Oster_2019_JBES_cover.png}
+\end{frame}
+
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Also generalizes Altonji et al. (2005)
+
+\item<2-> Focuses on comparing movements in $\alpha$ with movements in $R^2$
+
+\item<3-> Intuition: if we could observe all unobservables, then $R^2=1$
+
+\item<4-> Value of $\alpha$ when $R^2=1$ represents true causal value
+
+\item<5-> If measurement error in $y$, consider $R_{\max}<1$ instead
+
+\item<6-> Implementation closely similar to Krauth (2016)
+\end{itemize}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,189 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Review: Linear just-identified IV
+
+\bigskip
+
+Two equations:
+\begin{align*}
+Y &= X\beta + u \\
+X &= Z\pi + \nu
+\end{align*}
+
+\onslide<2->{
+Two key assumptions for IV validity:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> \textcolor{navy}{Instrument relevance}: $\text{Cov}(Z,X) \neq 0$ (strong first stage)
+
+\item<4-> \textcolor{navy}{Exclusion restriction}: $\text{Cov}(Z,u) = 0$ (instrument only affects $Y$ through $X$)
+\end{itemize}
+}
+
+\onslide<5->{
+\bigskip
+
+Recent literature has raised the bar for what counts as ``plausible''
+}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Three critical papers in early 2020s:
+\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Mellon (2025, \textit{AJPS}): rainfall used as IV in many papers $\Rightarrow$ violates exclusion restriction
+
+\item<3-> Lee et al. (2022, \textit{AER}): valid inference requires $F > 105$ rather than $F > 10$
+
+\item<4-> Young (2022, \textit{EER}): AEA papers show IV results highly sensitive to outliers
+
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+
+\only<3>{\includegraphics[width=0.96\textwidth]{MellonDAG.png}}
+
+
+Exclusion restriction violations
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2,4-> Mellon (2025) documents \textcolor{navy}{192 papers} using weather as IV
+
+\item<4-> Each pathway represents a potential exclusion-restriction violation
+
+\item<5-> For weather IVs, scholars must assume \textcolor{navy}{hundreds} of additional identifying assumptions
+
+\item<6-> Similar concerns likely apply to other commonly-used instruments
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Problems in IV when using $t$-test for $H_0: \beta = 0$:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Stock and Yogo (2005): $F > 10$ became standard pre-test for IV relevance
+
+\item<3-> Lee et al. (2022): conventional $t$-ratio over-rejects \textcolor{navy}{even with $F > 10$}
+
+\item<4-> Introduce \textcolor{navy}{$tF$ procedure}: adjust critical values for 2nd-stage $t$ based on 1st-stage $F$
+
+\item<5-> For 25\% of AER specifications, corrected standard errors \textcolor{navy}{49\% larger} at 5\% level
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Statistical power in practice
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Young (2022): IV has \textcolor{navy}{little power} in published work
+
+\item<3-> Despite producing different estimates, IV rarely rejects OLS point estimate
+
+\item<4-> Rarely rejects null that OLS is unbiased
+
+\item<5-> Non-\textit{iid} errors and high leverage worsen both size and power
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Sensitivity to observations
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Young (2022): with deletion of \textcolor{navy}{one} cluster, 39\% of significant results become insignificant
+
+\item<3-> With deletion of \textcolor{navy}{two} clusters, 58\% become insignificant
+
+\item<4-> First-stage $F$-statistics similarly sensitive to outliers
+
+\item<5-> Problems concentrated in high-leverage specifications
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+Given these limitations, maybe we shouldn't do IV?
+
+\bigskip
+
+\onslide<2->{And if we're not going to do IV, what else can we do?}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Do OLS with lots and lots of covariates to eliminate OVB
+
+\item<4-> Walk away and admit that it's impossible to obtain a causal estimate
+
+\item<5-> Use \textcolor{navy}{partial identification} methods to put bounds on causal effects:
+\bigskip\par
+    \begin{itemize}
+    \itemsep1.5em
+    \item<6-> ``Upper'' bound: biased OLS
+    \item<7-> ``Lower'' bound: plausible treatment effect
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\end{document}
