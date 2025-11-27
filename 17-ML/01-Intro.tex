@@ -1,0 +1,213 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> \textcolor{navy}{Machine learning (ML):} Allowing computers to recognize patterns without explicitly being programmed for every contingency
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> USPS: Computer to read handwriting on envelopes
+
+\item<3-> Google: AlphaGo Zero, computer that defeated world champion Go player
+
+\item<4-> Apple/Amazon/Microsoft: Siri, Alexa, Cortana voice assistants
+\end{itemize}
+
+\item<5-> \textcolor{navy}{Artificial intelligence (AI):} Systems that 
+perform tasks typically requiring human intelligence (reasoning, perception, 
+decision-making)
+
+\item<6-> ML is the dominant modern approach to building AI systems
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Prediction and Inference are the two main reasons for analyzing data
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{Prediction:} We simply want to obtain $\hat{Y}$ given the $X$'s
+
+\item<3-> \textcolor{navy}{Inference:} Understanding how changing the $X$'s will change $Y$
+
+\item<4-> Three types of inference, according to Andrew Gelman
+\bigskip
+
+\begin{enumerate}
+\itemsep1.5em
+\item<5-> Generalizing from sample to population (statistical inference)
+
+\item<6-> Generalizing from control state to treatment state (causal inference)
+
+\item<7-> Generalizing from observed measurements to underlying constructs of interest
+\end{enumerate}
+
+\item<8-> Philosophically, these can each be framed as prediction problems
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+How can each type of inference be framed as a prediction problem?
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Statistical inference:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Predict what $Y$ (or $\beta$) would be in a different sample
+\end{itemize}
+
+\item<3-> Causal inference:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Predict what $Y$ would be if we switched each person's treatment status
+\end{itemize}
+
+\item<4-> Measurement quality:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<4-> Predict what $Y$ would be if we could perfectly measure underlying constructs
+
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Econometrics and Machine Learning use different words for the same objects
+
+\bigskip{}
+
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\textcolor{navy}{Econometrics}
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Dependent variable
+\item<3-> Covariate
+\item<4-> Observation
+\item<5-> Objective function
+\item<6-> Estimation
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textcolor{navy}{Machine Learning}
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Target variable
+\item<3-> Feature
+\item<4-> Example (Instance)
+\item<5-> Cost function (Loss function)
+\item<6-> Training (Learning)
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+
+Machine learning is all about automating two hand-in-hand processes:
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Model selection
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<2-> What should the specification (mapping $X$ to $Y$) be?
+\end{itemize}
+
+\item<3-> Model validation
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Does the specification generalize to other (similar) contexts?
+\end{itemize}
+\end{enumerate}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<4-> Want to automate these processes to maximize predictive accuracy
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<4-> As defined by some cost function
+\end{itemize}
+
+\item<5-> This is \textcolor{navy}{different} than the goal of econometrics! (causal inference)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> In econometrics, we typically use the entire data set for estimation
+
+\item<2-> In ML, we assess out-of-sample performance, so we should hold out some data
+
+\item<3-> Some held-out data is used for validating the model, and some to test the model
+
+\item<4-> Data used in estimation is referred to as \textcolor{navy}{training data} (60\%-70\% of sample)
+
+\item<5-> Data we use to test performance is called \textcolor{navy}{test data} (10\%-20\%)
+
+\item<6-> Data we use to cross-validate our model is called \textcolor{navy}{validation data} (10\%-20\%)
+
+\item<7-> Division of training/validation/test sets should be \textcolor{navy}{random}
+\end{itemize}
+
+\end{frame}
+
+\end{document}

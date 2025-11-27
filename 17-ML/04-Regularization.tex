@@ -1,0 +1,180 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> How do we ensure that our model is not overly complex (i.e. overfit)?
+\item<2-> The answer is to penalize complexity
+\item<3-> \textcolor{navy}{Regularization} is the way we penalize complexity
+\item<4-> \textcolor{navy}{Cross-validation} is the way that we choose the optimal level of regularization
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+How cross-validation works (Adams 2018):
+}
+
+\onslide<2->{
+\begin{center}
+\includegraphics[width=0.6\textwidth]{CVdiagram.jpg}
+\end{center}
+}
+
+\begin{itemize}
+\itemsep0.5em
+\item<3-> Blue is the data that we use to estimate the model's parameters
+\item<4-> We randomly hold out $K$ portions of this data one-at-a-time (Green)
+\item<5-> We assess the performance of the model in the Green data
+\item<6-> This tells us the optimal complexity (``hyperparameter'' values)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Regularization is algorithm-specific:
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> in tree models, complexity is the number of ``leaves'' on the tree
+\item<3-> in linear models, complexity is the number of covariates
+\item<4-> in neural networks, complexity is the number/mapping of hidden layers
+\item<5-> in Bayesian approaches, priors act as regularization
+\end{itemize}
+
+\bigskip
+
+\onslide<6->{
+Whatever our algorithm, we can tune the complexity parameters using CV
+}
+
+\end{frame}
+
+\begin{frame}
+
+There are three main types of regularization for linear-in-parameters models:
+
+\bigskip
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> $L_0$ regularization (Subset selection)
+\item<3-> $L_1$ regularization (LASSO)
+\item<4-> $L_2$ regularization (Ridge)
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+$L_0$ regularization:
+}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Suppose you have $L$ $X$'s you may want to include in your model
+\item<3-> Subset selection automatically chooses which ones to include
+\item<4-> This is an automated version of what is traditionally done in econometrics
+\item<5-> Can use Adjusted $R^2$ to penalize complexity (or AIC, BIC, or a penalized SSR)
+\item<6-> Algorithm either starts from 0 $X$'s and moves forward
+\item<7-> Or it starts from the full set of $X$'s and works backward
+\item<8-> But this won't work if $L>N$! (i.e. there are more $X$'s than observations)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Consider two different penalized versions of the OLS model:
+
+\bigskip
+
+\only<1-2>{
+\begin{align*}
+\min_{\beta} \sum_i \left(y_i - x_i'\beta\right)^2 + \lambda\sum_k \vert\beta_k\vert \quad \text{(LASSO)}
+\end{align*}
+}
+
+\only<3->{
+\begin{align*}
+\min_{\beta} \sum_i \left(y_i - x_i'\beta\right)^2 + \lambda\sum_k \vert\beta_k\vert \quad &\text{(LASSO)} \\
+\min_{\beta} \sum_i \left(y_i - x_i'\beta\right)^2 + \lambda\sum_k \beta_k^2 \quad &\text{(Ridge)} 
+\end{align*}
+}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{LASSO:} Least Absolute Shrinkage and Selection Operator --- sets some $\beta$'s to be 0, others to be attenuated in magnitude
+\item<3-> \textcolor{navy}{Ridge:} sets each $\beta$ to be attenuated in magnitude
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> We want to choose $\lambda$ to optimize the bias-variance tradeoff
+\item<2-> We choose $\lambda$ by $k$-fold Cross Validation
+\item<3-> We can also employ a weighted average of $L_1$ and $L_2$, known as \textcolor{navy}{elastic net}
+\end{itemize}
+
+\onslide<4->{
+\begin{align*}
+\min_{\beta} \sum_i \left(y_i - x_i'\beta\right)^2 + \lambda_1\sum_k \vert\beta_k\vert + \lambda_2\sum_k \beta_k^2
+\end{align*}
+}
+
+\onslide<5->{
+where we choose $(\lambda_1,\lambda_2)$ by cross-validation
+}
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<6-> We can apply $L_1$ and $L_2$ to anything linear-in-parameters (logit, neural net, ...)
+\item<7-> $L_1$ and $L_2$ are excellent for \textcolor{navy}{high-dimensional} problems ($L>N$)
+\end{itemize}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,173 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Heckman (1979) outlines the canonical \textcolor{navy}{sample selection problem}
+\item<2-> e.g. we only observe the earnings of individuals who are employed
+\item<3-> This might distort our estimates of wage returns to skill
+\item<4-> Can we improve on this by using machine learning?
+\bigskip\par
+\begin{itemize}
+\item<5-> Especially if the choice dimension is much larger than work/not work?
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+Heckman selection correction two-step procedure:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{Step 1:} Model the selection decision (e.g., work vs. not work)
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Estimate a probit model to get selection probabilities
+\item<4-> Compute the inverse Mills ratio $\lambda(\cdot)$
+\end{itemize}
+\item<5-> \textcolor{navy}{Step 2:} Include $\lambda(\cdot)$ as a regressor in the wage equation
+\begin{align*}
+\onslide<6->{\log wage &= X\beta + \highlight{\lambda(Z\gamma)} + u}
+\end{align*}
+\item<7-> The $\lambda(\cdot)$ term corrects for selection bias
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\textcolor{navy}{Limitations of the Heckman approach}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Requires \textcolor{navy}{normality assumption} for the error terms
+\item<3-> Need $Z$'s that affect selection but not the outcome (\textcolor{navy}{exclusion restriction})
+\item<4-> Difficult to extend to \textcolor{navy}{multinomial choice} settings
+\bigskip\par
+\begin{itemize}
+\item<5-> With many alternatives, the selection correction becomes intractable
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \centering
+    \includegraphics[width=0.48\textwidth]{ransom_2022_cover.jpg}
+\end{frame}
+
+
+\begin{frame}
+
+Geographic heterogeneity in wage returns to college major
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Individuals choose where they live based on wages and non-wage factors
+\item<3-> Problem: researcher only sees wages in \textcolor{navy}{chosen residence location}
+\item<4-> Thus, wage returns are potentially contaminated by selection bias
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Heckman model}: the inverse Mill's ratio $\lambda(\cdot)$ corrects for selection
+\onslide<2->{
+\begin{align*}
+\log wage &= X\beta + \lambda\left(Z\gamma\right) + u
+\end{align*}
+}
+\onslide<3->{
+One can generalize this approach to multinomial choice and non-normality
+}
+\onslide<4->{
+\begin{align*}
+\log wage &= X\beta + \sum_j d_j\widetilde{\lambda}\left(p_j(Z),p_k(Z)\right) + u
+\end{align*}
+}
+\onslide<5->{
+where
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<5-> $d_j$ is a dummy for living in location $j$
+\item<6-> $\widetilde{\lambda}$ is a flexible function
+\item<7-> $p_j$ and $p_k$ are probabilities of choosing $j$ or $k$ (as a function of $Z$)
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+The $p$'s on the previous slide are \textcolor{navy}{selection probabilities}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> $p_j$ is the probability of choosing the chosen alternative
+\item<3-> $p_k$ is the probability of choosing the next-preferred alternative
+\item<4-> Use a \textcolor{navy}{classification tree model} to obtain the $p$'s
+\item<5-> Assume that individuals with same values of $Z$ and similar $p$'s have identical tastes
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+This approach improves on a bin-estimation approach (see Dahl, 2002, \textit{Econometrica})
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Can include a higher dimension of $Z$ while limiting the curse of dimensionality
+\item<3-> Tree models adaptively partition the covariate space
+\item<4-> Avoids the need to manually specify bins or interactions
+\end{itemize}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,141 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.47\textwidth]{Belloni_al_2014_REStud_cover.jpg}
+\end{frame}
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Now let's consider a related idea to Double ML
+\item<2-> This is known as \textcolor{navy}{post double selection} (Belloni et al., 2014)
+\item<3-> It is a useful way to estimate treatment effects in linear models
+\item<4-> Same setup as Double ML, but here $g(\cdot)$ and $m(\cdot)$ are linear-in-parameters
+\end{itemize}
+
+\onslide<5->{
+\begin{align*}
+Y &= D\cdot\theta + g(X) + U, & \mathbb{E} \left[U | X, D \right] =0 \\
+D &= m(X) + V, & \mathbb{E} \left[V | X\right] =0
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}
+
+PDS steps:
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Use LASSO to separately select $X$
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> First on $Y = g(X) + \tilde U$
+\item<4-> Then on $D = m(X) + V$
+\end{itemize}
+\item<5-> Regress $Y$ on $D$ and the \textit{union} of the selected $X$'s from step 1
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Called ``post double selection'' because the final regression is on the set of $X$'s that have been doubly selected (first in the outcome equation, then in the selection equation)
+\item<2-> Key idea is that we avoid regularization bias by only looking at the selection part of LASSO (not the shrinkage part)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Usefulness of PDS
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> For an example, let's re-evaluate Donohue and Levitt (2001)
+\item<2-> Their claim: legalizing abortion reduces crime
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Intuition: unwanted children are most likely to become criminals
+\end{itemize}
+\item<4-> Use a ``two-way fixed effects'' model on state-level panel data:
+\end{itemize}
+
+\onslide<5->{
+\begin{align*}
+y_{st} &= \alpha a_{st} + \beta w_{st} + \delta_s + \gamma_t + \varepsilon_{st}
+\end{align*}
+}
+
+\onslide<6->{
+where $s$ is US state, $t$ is time, and $a_{st}$ is the abortion rate (15-25 years prior)
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> $y_{st}$ are various measures of crime (property, violent, murder, ...)
+\item<2-> $w_{st}$ are state-level controls (prisoners per capita, police per capita, ...)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Re-evaluating Donohue and Levitt (2001)
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> A potential issue with Donohue and Levitt (2001): specification of $w_{st}$
+\item<2-> We might think we should include highly flexible forms of elements of $w_{st}$
+\item<3-> Indeed, when Belloni et al. (2014) do this, the SE's get larger
+\item<4-> All previous results are diminished in magnitude and have 2x-3x larger SE's
+\item<5-> The PDS approach is also useful for other regression designs such as DiD
+\end{itemize}
+
+\end{frame}
+
+\end{document}

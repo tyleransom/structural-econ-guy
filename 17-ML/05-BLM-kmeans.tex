@@ -1,0 +1,236 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.5\textwidth]{bonhomme_al_2022_cover.jpg}
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Panel data model where unobserved heterogeneity is continuous in the population
+\item<2-> But approximated with a discrete distribution (Group Fixed Effects, GFE)
+\item<3-> Propose a 2-step estimation algorithm:
+\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<4-> Classify units into groups using $k$-means clustering
+\item<5-> Estimate the model using the groups from step 1
+\end{enumerate}
+\item<6-> This is different from finite mixture models: no joint estimation required!
+\item<7-> Handles both time-invariant and time-varying unobserved heterogeneity
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+
+GFE vs. Random Effects (EM) and Fixed Effects
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1em
+\item<2-> \textcolor{navy}{Random Effects (EM/MM):} Efficient but requires distributional assumptions
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Must specify type distribution (e.g., 3 discrete types, normal mixture)
+\item<4-> Misspecification can bias all estimates
+\end{itemize}
+
+\item<5-> \textcolor{navy}{Fixed Effects:} Flexible but suffers from incidental parameters
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<6-> In nonlinear models, can't eliminate $\alpha_i$ via transformation
+\item<7-> Estimating $N$ parameters with $T$ observations each leads to bias in $\theta$
+\end{itemize}
+
+\item<8-> \textcolor{navy}{GFE:} Fixed effects logic with dimension reduction
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<9-> Group similar individuals, estimate $K$ group parameters (where $K \ll N$)
+\item<10-> No distributional assumptions, but reduces incidental parameters problem
+\item<11-> Treats continuous heterogeneity as approximately discrete
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+% \begin{frame}
+
+% There are two main assumptions:
+
+% \bigskip{}
+
+% \begin{enumerate}
+% \itemsep1.5em
+% \item<2-> \textcolor{navy}{Low-dimensional heterogeneity:} Individual effects are driven by a small number of latent factors $\xi_{i0}$
+% \bigskip\par
+% \begin{itemize}
+% \itemsep1em
+% \item<3-> Works with time-invariant or time-varying heterogeneity
+% \item<4-> Key: dimension $d$ must be small (ideally $d=1$ or $d=2$)
+% \end{itemize}
+
+% \item<5-> \textcolor{navy}{Informative moments:} Can approximate types from individual-specific statistics
+% \bigskip\par
+% \begin{itemize}
+% \itemsep1em
+% \item<6-> Use averages, choice frequencies, or external measurements
+% \item<7-> Different types must have different moment values (injectivity)
+% \end{itemize}
+% \end{enumerate}
+
+% \end{frame}
+
+
+\begin{frame}
+
+There are two main assumptions:
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{Low-dimensional types:} All individual heterogeneity is driven by a small set of latent characteristics
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<3-> e.g. worker productivity and firm quality both depend on a single match type
+\item<4-> Can handle time-varying effects through nonlinear factor structures
+\end{itemize}
+
+\item<6-> \textcolor{navy}{Types are learnable:} We can distinguish individuals based on observable patterns
+\bigskip\par
+\begin{itemize}
+\itemsep1em
+\item<7-> e.g. wage histories reveal underlying productivity
+\item<8-> e.g. choice patterns reveal preferences
+\end{itemize}
+\end{enumerate}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+
+Consider the log likelihood of a dynamic discrete choice model:
+
+\onslide<2->{
+\begin{align*}
+\ell_i\left(\alpha_i,\theta; d_{it},X_{it},Y_{it}\right) &= \sum_t \underbrace{\log f\left(d_{it}\vert X_{it},\alpha_i,\theta\right)}_{\text{choices}} + \underbrace{\log f\left(X_{it}\vert d_{it-1},X_{it-1},\alpha_i,\theta\right)}_{\text{state transitions}} + \\
+&\phantom{=\sum_t} \underbrace{\log f\left(Y_{it}\vert d_{it},X_{it},\alpha_i,\theta\right)}_{\text{outcomes}}
+\end{align*}
+}
+
+\onslide<3->{
+\begin{itemize}
+\itemsep1.5em
+\item Likelihoods are assumed to be additively separable conditional on the FE $\alpha_i$
+\item<4-> Strict concavity of the log-likelihood in $\alpha$ is required
+\item<5-> This holds for many models: probit, logit, Poisson, tobit, etc.
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+
+\textcolor{navy}{Bias and Inference}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> GFE has two sources of bias:
+\bigskip\par
+\begin{enumerate}
+\itemsep1.5em
+\item<3-> Incidental parameter bias (like standard FE)
+\item<4-> Approximation error from discretizing continuous heterogeneity
+\end{enumerate}
+
+\item<5-> Use half-panel jackknife to correct bias
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<6-> Estimate on full sample, first half, and second half
+\item<7-> Combine: $\hat{\theta}_{BR} = 2\hat{\theta} - \frac{\hat{\theta}_1 + \hat{\theta}_2}{2}$
+\end{itemize}
+
+\item<8-> Choice of $K$: Data-driven rule controls approximation error
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\textcolor{navy}{Extensions to Improve Performance}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> \textcolor{navy}{Conditional moments:} Control for covariate heterogeneity in step 1
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item Example: group workers by wage residuals after controlling for education
+\end{itemize}
+
+\item<3-> \textcolor{navy}{Model-based iteration:} Refine groups using full model structure
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item Reassign individuals to best-fitting groups, then re-estimate
+\item Like EM algorithm but simpler (good starting point from step 1)
+\end{itemize}
+
+\item<4-> \textcolor{navy}{Two-way grouping:} Classify both individuals and time periods
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item When time effects also have low-dimensional structure
+\item Reduces parameters from $K \times T$ to $K \times p$ (e.g., 3 business cycle regimes)
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+\end{document}

@@ -1,0 +1,90 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+There is a trade-off between bias and variance
+
+\bigskip{}
+
+\begin{align*}
+\underbrace{\mathbb{E}\left(y-\hat{f}(x)\right)^2}_{\text{Expected }MSE\text{ in test set}} &= \underbrace{\mathbb{V}\left(\hat{f}(x)\right)}_{\text{Variance}} + \underbrace{\left[\text{Bias}\left(\hat{f}(x)\right)\right]^2}_{\text{Squared Bias}} + \underbrace{\mathbb{V}\left(\epsilon\right)}_{\text{Irreducible Error}}
+\end{align*}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> A model with high \textcolor{navy}{bias} is a poor approximation of reality
+\item<3-> A model with high \textcolor{navy}{variance} is one that does not generalize well to a new data set
+\item<4-> A model is \textcolor{navy}{overfit} if it has low bias and high variance
+\item<5-> A model is \textcolor{navy}{underfit} if it has high bias and low variance
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{BVtradeoff.png}
+\end{center}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep0.75em
+\item<2-> Optimal model complexity is at the minimum of the red line
+\item<3-> Irreducible error means that the red line can't go below a certain level
+\item<4-> Maybe at 0.3 in this picture?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+When the target variable is continuous, we use $MSE$ to measure fit
+
+\bigskip{}
+
+\onslide<2->{
+When it is categorical, we use \textcolor{navy}{accuracy} or similar measures
+}
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Or some combination of specificity and sensitivity
+\item<4-> Goal is to not have a good ``fit'' by randomly guessing
+\item<5-> So each potential metric penalizes random guessing
+\end{itemize}
+
+\end{frame}
+
+\end{document}

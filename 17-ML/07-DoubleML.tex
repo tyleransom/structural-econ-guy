@@ -1,0 +1,140 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+Can LASSO improve causal inference?
+
+\bigskip
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> How might model selection improve causal inference?
+\item<3-> Thought experiment:
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<4-> Methods such as matching and regression rely on unconfoundedness
+\item<5-> If we have high-dimensional data, we can ``control for everything''!
+\item<6-> This would give us a high $R^2$ and remove any omitted variable bias
+\item<7-> LASSO can potentially select only the most important variables
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> The problem with the above thought experiment is that LASSO only predicts
+\item<2-> If we took a slightly different sample, it might select different variables
+\item<3-> This is because LASSO doesn't care about inference, it cares only about prediction
+\item<4-> Mullainathan \& Spiess (2017, JEP) illustrate this in their Figure 2
+\item<5-> 2 functions with very different coefficients can produce the exact same prediction
+\item<6-> To use ML in econometrics, we need to be more principled about ML's role
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> In econometrics, we like our estimators to be CAN (Consistent \& Asym Normal)
+\item<2-> Suppose we want to estimate a treatment effect $\theta$ in a high-dimensional model
+\end{itemize}
+\onslide<3->{
+\begin{align*}
+Y &= D\cdot\theta + g(X) + U, & \mathbb{E} \left[U | X, D \right] =0
+\end{align*}
+}
+\begin{itemize}
+\itemsep1.5em
+\item<4-> We might want to use LASSO, ridge, random forest, etc. since $X$ is high-dim.
+\item<5-> This solves the bias/variance tradeoff, but introduces \textcolor{navy}{regularization} bias into $\hat\theta$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.4\textwidth]{doubleML_cover.jpg}
+\end{frame}
+
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> How do we solve the regularization bias problem? Add another equation
+\item<2-> Consider outcome and selection equations, respectively
+\end{itemize}
+\onslide<3->{
+\begin{align*}
+Y &= D\cdot\theta + g(X) + U, & \mathbb{E} \left[U | X, D \right] =0 \\
+D &= m(X) + V, & \mathbb{E} \left[V | X\right] =0
+\end{align*}
+}
+\begin{itemize}
+\itemsep1.5em
+\item<4-> We include the second equation to \textcolor{navy}{orthogonalize} $D$
+\item<5-> We also need to \textcolor{navy}{split our sample} to be able to estimate this 
+\item<6-> Use ML to estimate both $g(\cdot)$ and $m(\cdot)$ (hence ``double'' ML)
+\item<7-> Instead of using $D$, we use $\hat V = D - \hat{m}(X)$
+\item<8-> This idea is related to the concept of control functions
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Steps for Double ML
+
+\bigskip
+
+\begin{enumerate}
+\itemsep1.5em
+\item<2-> Divide the sample in half (or $K$ folds); call one subsample $I^C$ and the other $I$
+\item<3-> Estimate $\hat V = D - \hat{m}(X)$ in $I^C$
+\item<4-> Estimate $\hat U = Y - \hat{g}(X)$ in $I^C$
+\item<5-> Estimate $\check \theta = \left(\hat{V}'D\right)^{-1}\hat{V}'\hat{U}$ in $I$ (cf. biased $\hat \theta = \left(D'D\right)^{-1}D'\hat{U}$)
+\item<6-> Repeat steps 1-3, but switch $I^C$ and $I$ (this is known as \textcolor{navy}{cross-fitting})
+\item<7-> $\check \theta_{cf} = \frac{1}{2} \check \theta(I^C,I)+ \frac{1}{2} \check \theta(I,I^C)$
+\end{enumerate}
+
+\bigskip
+
+\onslide<8->{
+Now $\check \theta$ will be (approximately) unbiased and asymptotically efficient
+}
+
+\end{frame}
+
+\end{document}

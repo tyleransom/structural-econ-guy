@@ -1,0 +1,92 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.48\textwidth]{Athey_Imbens_cover.png}
+\end{frame}
+
+\begin{frame}
+
+ML can also help us with treatment effect heterogeneity
+
+\bigskip{}
+
+\onslide<2->{
+Use regression trees to partition units into groups with similar treatment effects
+
+\bigskip{}
+
+Estimation is ``honest'' because it uses sample splitting:
+\bigskip{}
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Split the sample in half
+\item<4-> Use one subsample to do the partitioning
+\item<5-> Use the other subsample to estimate the treatment effects
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\centering
+\includegraphics[width=0.5\textwidth]{Athey_al_2021_JASA_cover.png}
+\end{frame}
+
+
+\begin{frame}
+
+Causal inference is fundamentally a missing data problem
+
+\bigskip{}
+
+\onslide<2->{
+This is because we only ever observe $Y = D_0 Y_0 + D_1 Y_1$
+}
+
+\bigskip{}
+
+\onslide<3->{
+Athey et al. (2021) propose \textcolor{navy}{matrix completion} methods for panel data
+\bigskip
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<4-> This is a credible data imputation technique
+\item<5-> Estimate the ATT by imputing $Y_0$ for treated units
+\item<6-> Can be extended to take into account within-unit serial correlation
+\end{itemize}
+
+\end{frame}
+
+\end{document}

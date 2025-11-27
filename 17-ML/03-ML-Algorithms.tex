@@ -1,0 +1,190 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{enumerate item}{\color{navy}\arabic{enumi}.}
+\setbeamertemplate{itemize item}{\color{black}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{black}\textbullet}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\definecolor{navy}{RGB}{0, 0, 128}
+\definecolor{lightblue}{RGB}{230,240,250}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{lightgreen}{RGB}{230,250,230}
+\newcommand{\highlight}[1]{\colorbox{lightblue}{$\displaystyle\textcolor{navy}{#1}$}}
+\newcommand{\highlighttext}[1]{\colorbox{lightblue}{\textcolor{navy}{#1}}}
+\newcommand{\highlightgreen}[1]{\colorbox{lightgreen}{$\displaystyle\textcolor{darkgreen}{#1}$}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\begin{document}
+
+\begin{frame}
+
+\onslide<1->{
+Just like in econometrics, the most basic ``learning algorithm'' is OLS
+}
+
+\bigskip{}
+
+\onslide<2->{
+Or, if $Y$ is categorical, logistic regression
+}
+
+\bigskip{}
+
+\onslide<3->{
+But, we know there are many other ways to estimate models
+}
+
+\bigskip{}
+
+\onslide<4->{
+e.g. non-parametric, semi-parametric, Bayesian, ...
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> \textcolor{navy}{Supervised learning:} we predict $Y$ from a set of $X$'s
+\item<2-> \textcolor{navy}{Unsupervised learning:} we try to group observations by their $X$'s
+\item<3-> Most of econometrics is about supervised learning (i.e. estimate $\hat{\beta}$)
+\item<4-> But there are some elements of unsupervised learning
+\bigskip\par
+\begin{itemize}
+\itemsep1.5em
+\item<5-> Particularly with regards to detecting unobserved heterogeneity types
+\item<6-> e.g. factor analysis (detect types based on a set of measurements)
+\item<7-> e.g. the EM algorithm (detect types based on serial correlation of residuals)
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+Examples of supervised learning algorithms:
+
+\bigskip{}
+
+\begin{itemize}
+\itemsep1.5em
+\item<2-> Tree models
+\medskip\par
+\begin{itemize}
+\itemsep1em
+\item<3-> Basically a fully non-parametric bin estimator
+\item<4-> Can generalize to ``forests'' that average over many ``trees''
+\end{itemize}
+\item<5-> Neural networks
+\medskip\par
+\begin{itemize}
+\itemsep1em
+\item<6-> Model the human brain's system of axons and dendrites
+\item<7-> ``Input layer'' is the $X$'s, ``Output layer'' is $Y$
+\item<8-> ``Hidden layers'' nonlinearly map the input and output layers
+\item<9-> Mapping ends up looking like a logit of logit of logits
+\item<10-> Linear regression is a special case
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> Bayesian models
+\medskip\par
+\begin{itemize}
+\itemsep1em
+\item<2-> Bayes' rule can be thought of as a learning algorithm
+\item<3-> Use it to update one's prior
+\end{itemize}
+\item<4-> Support Vector Machine (SVM)
+\medskip\par
+\begin{itemize}
+\itemsep1em
+\item<5-> Originally developed for classification
+\item<6-> Tries to separate 0s and 1s by as large of a margin as possible
+\item<7-> Based on representing examples as points in space
+\item<8-> Generalization of the maximal margin classifier
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\onslide<1->{
+We covered the EM algorithm and PCA in previous videos
+}
+
+\bigskip{}
+
+\onslide<2->{
+$k$-means clustering
+\bigskip
+}
+
+\begin{itemize}
+\itemsep1.5em
+\item<3-> Attempts to group observations together based on the $X$'s
+\item<4-> Choose cluster labels to minimize difference in $X$'s among labeled observations
+\end{itemize}
+
+\onslide<5->{
+\begin{align*}
+\min_{C_1,\ldots,C_K} \sum_{k=1}^K \frac{1}{N_k}\sum_{i\in C_k}\sum_{\ell=1}^L\left(x_{i\ell}-\overline{x}_{\ell j}\right)^2
+\end{align*}
+}
+
+\onslide<6->{
+$N_k$ is the number of observations in cluster $k$, $L$ is number of $X$'s
+}
+
+\bigskip{}
+
+\onslide<7->{
+Can choose other metrics besides Euclidean distance
+}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\itemsep1.5em
+\item<1-> \textcolor{navy}{Active learning:} algorithm chooses the next example it wants a label for
+\item<2-> Balances ``exploration'' and ``exploitation''
+\item<3-> Two common examples of active learning:
+\end{itemize}
+
+\bigskip{}
+
+\begin{enumerate}
+\itemsep1.5em
+\item<4-> \textcolor{navy}{Reinforcement learning} powers the world-beating chess engines
+\bigskip
+\begin{itemize}
+\itemsep1.5em
+\item<5-> These algorithms use dynamic programming methods
+\item<6-> Use Conditional Choice Probabilities for computational gains
+\end{itemize}
+\item<7-> \textcolor{navy}{Recommender systems} power social networks, streaming services, etc.
+\end{enumerate}
+
+\end{frame}
+
+\end{document}
